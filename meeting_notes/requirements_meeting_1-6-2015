@@ -1,0 +1,62 @@
+Requirements:
+
+	1) Algorithm
+
+MUST
+
+- Use less than X (4?) inputs
+- Minimize program size to less than 64KB
+- Determine irrigation policy
+- 
+
+SHOULD
+
+- 
+
+MAY
+
+- 
+
+	2) BIB (Bluetooth integrated BIB)
+
+MUST
+
+- Receive watering instruction
+- Measure flow rate
+- Actuate
+- Report results to master
+
+SHOULD
+
+- 
+
+MAY
+
+- 
+
+	3) BLE/MPU
+
+MUST
+
+- Be able to acquire sensor data
+- Send water instructions to BIB
+- Ability to receive data from water valve
+- 
+
+SHOULD
+
+- Be reprogrammable while deployed
+- Wake up (every few hours), pull (sample data), sleep
+
+MAY
+
+- Transmit data to cloud
+
+How do we determine irrigation policy without using soil
+moisture sensors, using as few sensors as possible, in
+various locations and at various locales.
+
+Still need specification and timeline (GANTT).
+
+By monday have timeline, specification written.
+
