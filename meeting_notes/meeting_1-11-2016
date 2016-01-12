@@ -1,0 +1,31 @@
+Brass flow meter
+
+Brass solenoid to actuate
+
+Time to water (evening? morning?)
+
+Need to determine: rain event detection
+
+For initialization: date, time, latatude
+(given in degrees, convert in radians)
+
+If we have a rain pad to determine precipitation,
+we can't have our irrigation system accidentally
+spray water on the rain pad.
+
+After meeting resolutions:
+
+1) Figure out how to determine when a rain event occurs.
+2) Determine what the water proof case/enclosure will be.
+3) Determine power system for our device (if solar panels
+are used, need to know how this will effect enclosure).
+4) Need to interface with soil moisture sensor when testing
+begins (use the sensor data to test our device/algorithm).
+
+Shopping List:
+
+Solenoid &	(Brass, will likely use plastic
+Flow meter  	versions to cut costs when creating
+		multiple devices)
+Temperature sensor array
+Rain pad
