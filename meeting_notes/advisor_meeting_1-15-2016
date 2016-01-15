@@ -1,0 +1,44 @@
+Using Hardgreaves reduced set approximation for
+evapotranspiration.
+
+Idea to use a piezoelectric transducer to determine
+how frequent water is droping and at what intensity.
+
+If a precipitation event occurs, then we don't water.
+We may determine the intensity of the water in. 
+
+The P term in the Hargreaves equation is "nice to have"
+but not necessary (set to 0 if we're not looking into
+intensity of precipitation).
+
+Solar radiation determined by calendar day and degrees
+latitude.
+
+We may be able to autoconfigure the device. The device
+will be able to pull data from a mobile device (phone).
+
+Assumed that we use a solid state relay to trigger the
+actuator so we don't drive the actuator directly.
+
+Temperature needs need to at least 1 degree resolution
+otherwise the delta will be too small.
+
+Brass actuator will handle more pressure but requires
+much more energy than the plastic version.
+
+Need to determine the size of the field on initialization.
+
+Need a real time clock to keep track of how much time
+has passed (know what day of the year it is).
+
+We'll probably need a fairly rugged temperature sensor.
+
+	Post-Meeting:
+
+Requirements are essentially finished, try and get the
+specification finished. Beginning of next week, set up
+a meeting with Sandeep and show him our requirements and
+specification to make sure everything checks out.
+
+Project notebooks can be physical or electronic. They will
+be physically signed up at the end of the term.
