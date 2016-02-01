@@ -1,0 +1,19 @@
+Have the device compacted as one unit.
+
+Connection of the hose to the actuator should be outside of
+our device enclosure.
+
+Might need to use some external battery to power the
+actuator if there is no main power line to use.
+
+Run temperature on the inside of case and test with
+temperature outside case. Need to determine what kind
+of digital thermometer to use if not using the cheap
+analog temperture sensor.
+
+Acquire crystal and real-time clock to keep track of time.
+Need soil moisture sensors, temperature sensors and
+rain drop sensors.
+
+Plan to have design documentation done in next 2 weeks.
+Next milestone there should be a prototype.
