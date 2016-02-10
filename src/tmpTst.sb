@@ -1,0 +1,15 @@
+DIM state
+DIM degree
+state = 0
+degree = 0
+
+PRINT GpioSetFunc(2,3,0x11)
+
+WHILE 1
+ state = GPIOread(2)
+ INT(state, 0.5)
+ PRINT "Raw" ,state; "\n"
+ PRINT "Centigrade" ,degree; "\n"
+
+ENDWHILE
+
