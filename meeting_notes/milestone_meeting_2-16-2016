@@ -1,0 +1,54 @@
+February 16, 2016
+
+			Milestone Meeting
+
+Given to Sandeep: Project Design Specification, System
+Design Model, explaination of algorithm in Bryan's logbook,
+various research material
+
+Starting conditions - known condition that the field is
+already well watered. The algorithm will help with keeping
+the field watered in an efficient manner
+
+Latitude, day of the year, daily high/low temperature
+
+How will we come about initial conditions? When will we
+recalibrate? If we start at some initial state and
+continue on to another state, how might we go back to that
+initial state?
+
+Watering field to a known quantity
+
+Reconfigure and recalibrate variables
+
+Determine ideas for coming up with a recalibration algorithm
+
+Precipitation event detection via rain pad sensor
+
+Obtain data locally for humidity to determine irrigation
+needs?
+
+How do you make the amount of precipitation know to device?
+
+Sandeep will look into sensor information for next few weeks
+
+Change in requirements: Be re-programmable while deployed
+from a SHOULD to a MUST
+
+6 months battery life is good, quartly battery life might
+also be acceptable
+
+Auto configuration of device kept as a MAY, but this could
+change in the future to be more important
+
+What kind of impact will different types of irrigation
+systems have?
+
+We want by the end of February to get a prototype going.
+Sandeep wants to see some timeline/milestone information
+
+Team meeting in the near future for generating a more
+detailed timeline/milestone list
+
+Sandeep doing field testing on new device that could
+potentially be deployed with our algorithm
