@@ -15,5 +15,75 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Latitude:"
+        android:id="@+id/text_latitude"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/input_latitude"
+        android:layout_alignBottom="@+id/text_latitude"
+        android:layout_toEndOf="@+id/text_latitude" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get"
+        android:id="@+id/button_latitude_get"
+        android:layout_alignBottom="@+id/text_latitude"
+        android:layout_toEndOf="@+id/input_latitude"
+        android:onClick="onClickButtonLatitudeGet" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:id="@+id/text_date"
+        android:layout_below="@+id/text_latitude"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/input_date"
+        android:layout_alignBottom="@+id/text_date"
+        android:layout_toEndOf="@+id/text_latitude" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get"
+        android:id="@+id/button_date_get"
+        android:layout_alignBottom="@+id/text_date"
+        android:layout_toEndOf="@+id/input_date"
+        android:onClick="onClickButtonDateGet" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Area:"
+        android:id="@+id/text_area"
+        android:layout_below="@+id/input_date"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/input_area"
+        android:layout_alignBottom="@+id/text_area"
+        android:layout_toEndOf="@+id/text_latitude" />
+
 </RelativeLayout>
