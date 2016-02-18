@@ -15,11 +15,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Latitude:"
+        android:text="@string/string_latitude"
         android:id="@+id/text_latitude"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp"
+        android:textSize="20sp" />
 
     <EditText
         android:layout_width="110dp"
@@ -34,7 +35,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get"
+        android:text="@string/string_get"
         android:id="@+id/button_latitude_get"
         android:layout_alignBottom="@+id/text_latitude"
         android:layout_toEndOf="@+id/input_latitude"
@@ -43,11 +44,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date:"
+        android:text="@string/string_date"
         android:id="@+id/text_date"
         android:layout_below="@+id/text_latitude"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:textSize="20sp" />
 
     <EditText
         android:layout_width="110dp"
@@ -62,7 +64,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get"
+        android:text="@string/string_get"
         android:id="@+id/button_date_get"
         android:layout_alignBottom="@+id/text_date"
         android:layout_toEndOf="@+id/input_date"
@@ -71,11 +73,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Area:"
+        android:text="@string/string_area"
         android:id="@+id/text_area"
         android:layout_below="@+id/input_date"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:textSize="20sp" />
 
     <EditText
         android:layout_width="110dp"
