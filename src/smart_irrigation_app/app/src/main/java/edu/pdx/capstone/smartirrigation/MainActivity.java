@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +16,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
@@ -40,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .addApi(LocationServices.API)
                     .build();
         }
-
-
     }
 
     @Override
@@ -101,7 +101,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     public void onClickButtonDateGet(View view)
     {
+        EditText input_date = (EditText) findViewById(R.id.input_date);
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat date_format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        String date = date_format.format(calendar.getTime());
+
+        input_date.setText(date);
     }
 
     /* Permissions for API 23 + */
