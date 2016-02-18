@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .addApi(LocationServices.API)
                     .build();
         }
+
+
     }
 
     @Override
