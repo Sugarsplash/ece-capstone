@@ -22,7 +22,7 @@
         android:layout_marginTop="50dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
@@ -50,7 +50,7 @@
         android:layout_marginTop="50dp" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
@@ -78,12 +78,21 @@
         android:layout_marginTop="50dp" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/input_area"
         android:layout_alignBottom="@+id/text_area"
         android:layout_toEndOf="@+id/text_latitude" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_area"
+        android:spinnerMode="dropdown"
+        android:entries="@array/area_units"
+        android:layout_alignBottom="@+id/input_area"
+        android:layout_toEndOf="@+id/input_area" />
 
 </RelativeLayout>
