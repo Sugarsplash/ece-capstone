@@ -6,6 +6,8 @@
     <string name="string_date">Date:</string>
     <string name="string_area">Area:</string>
     <string name="string_get">GET</string>
+    <string name="string_configure">Configure</string>
+    <string name="string_receive">Receive</string>
 
     <string-array name="area_units">
         <item>sq. cm</item>
@@ -13,4 +15,7 @@
         <item>sq. in</item>
         <item>sq. mi</item>
     </string-array>
+
+    <string name="title_activity_config">Configuration</string>
+    <string name="title_activity_receive">Receive</string>
 </resources>
