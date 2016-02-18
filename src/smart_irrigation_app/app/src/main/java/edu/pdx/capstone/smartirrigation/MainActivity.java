@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -91,7 +92,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null)
         {
-            input_latitude.setText(String.valueOf(mLastLocation.getLatitude()));
+            double latitude = mLastLocation.getLatitude();
+            DecimalFormat decimal_format = new DecimalFormat("#.##");
+            latitude = Double.valueOf(decimal_format.format(latitude));
+
+            input_latitude.setText(String.valueOf(latitude));
         }
         else
         {
