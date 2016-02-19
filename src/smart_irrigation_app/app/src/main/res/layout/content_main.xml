@@ -30,5 +30,41 @@
         android:layout_centerHorizontal="true"
         android:onClick="onClickReceive" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/device_name"
+        android:id="@+id/text_device_name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/device_address"
+        android:id="@+id/text_device_address"
+        android:layout_below="@+id/text_device_name"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/info_device_name"
+        android:layout_alignBottom="@+id/text_device_name"
+        android:layout_toEndOf="@+id/text_device_name"
+        android:text="None" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/info_device_address"
+        android:layout_alignBottom="@+id/text_device_address"
+        android:layout_toEndOf="@+id/text_device_address"
+        android:text="None" />
+
 
 </RelativeLayout>

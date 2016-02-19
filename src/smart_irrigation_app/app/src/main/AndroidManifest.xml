@@ -3,6 +3,8 @@
     package="edu.pdx.capstone.smartirrigation">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,15 @@
         <activity
             android:name=".ReceiveActivity"
             android:label="@string/title_activity_receive"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.pdx.capstone.smartirrigation.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DeviceScanActivity"
+            android:label="@string/title_activity_device_scan"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

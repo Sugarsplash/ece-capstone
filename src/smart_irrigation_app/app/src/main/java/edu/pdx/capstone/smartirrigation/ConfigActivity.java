@@ -48,7 +48,6 @@ public class ConfigActivity extends AppCompatActivity implements ConnectionCallb
         }
     }
 
-
     @Override
     public void onConnected(Bundle connectionHint)
     {
