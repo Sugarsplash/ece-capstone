@@ -1,0 +1,26 @@
+				|
+	  Milestones		|	 Target Date
+				|
+--------------------------------|---------------------------
+     Build first prototype	|	  March 15th
+--------------------------------|---------------------------
+ Deploy prototype, collect data |	  March 15th
+--------------------------------|---------------------------
+Build & deploy 2 more prototypes|	  April 1st
+--------------------------------|---------------------------
+ Recover Data, Update algorithm |   Ongoing from April 1st
+--------------------------------|---------------------------
+
+Component datasheets:				Power:
+
+Temperature Sensor - TMP36			3.3V
+
+Real Time Clock (RTC) - DS1307+RTC		5V
+
+Soil Moisture Sensor - (website url)		3.3V
+
+Rain Drop Sensor - (website url)		3.3V
+
+Flow Sensor - (website url)			3.3V
+
+Solenoid - (website url)			9V
