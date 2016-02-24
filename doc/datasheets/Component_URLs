@@ -1,0 +1,21 @@
+Website URLs for components without datasheets:
+
+	Flow Sensor
+https://www.adafruit.com/products/828
+
+	Solenoid Valve
+https://www.adafruit.com/products/997
+
+	Soil Moisture Sensor
+https://www.sparkfun.com/products/13322
+
+	Rain Drop Sensor
+There doesn't appear to be much information on this product,
+at least nothing that appears to be reliable as there
+doesn't seem to be any known manufacturer.
+Various vendor websites say that the device has either a
+voltage range of 3.3V-to-5V or only 5V. If the sensor works
+at 3.3V then we'll keep it at that voltage, otherwise we'll
+need to use 5V.
+
+https://www.elabpeers.com/raindrop-sensor.html
