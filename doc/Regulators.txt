@@ -1,0 +1,6 @@
+5V Regulator
+LP2950-50LPRE3
+
+
+3.3V Regulator
+LP2950-33LPRE3
