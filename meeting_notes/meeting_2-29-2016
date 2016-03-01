@@ -1,0 +1,11 @@
+Needs:
+
+* Connect peripherals on schematic - Dylan
+
+* Add up all current drawn on sensors - Austin
+
+* Come up with GPIO power solution - Austin
+
+* Implement algorithm to SmartBasic from C - Bryan & Dylan
+
+* Intergrate the code (sensor to algorithm) - Everyone
