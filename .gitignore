@@ -1,0 +1,4 @@
+src/**/*.o
+src/**/*.elf
+src/**/*.hex
+src/**/*.uwc
