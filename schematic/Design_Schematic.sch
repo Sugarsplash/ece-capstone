@@ -5738,7 +5738,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
 <part name="P+1" library="supply1" deviceset="+5V" device=""/>
 <part name="Q1" library="crystal" deviceset="CRYSTAL" device="TC38H"/>
-<part name="P+3" library="supply1" deviceset="+5V" device=""/>
 <part name="GND15" library="supply1" deviceset="GND" device=""/>
 <part name="SUPPLY1" library="supply2" deviceset="+9V" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="+9V" device=""/>
@@ -5746,6 +5745,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
 <part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND17" library="supply1" deviceset="GND" device=""/>
+<part name="+3V6" library="supply1" deviceset="+3V3" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5960,7 +5960,6 @@ X2 = Internal Oscillator Output</text>
 <instance part="GND11" gate="1" x="175.26" y="40.64"/>
 <instance part="P+1" gate="1" x="182.88" y="86.36"/>
 <instance part="Q1" gate="G$1" x="172.72" y="88.9"/>
-<instance part="P+3" gate="1" x="370.84" y="116.84"/>
 <instance part="GND15" gate="1" x="386.08" y="106.68"/>
 <instance part="SUPPLY1" gate="G$1" x="304.8" y="119.38"/>
 <instance part="SUPPLY2" gate="G$1" x="83.82" y="243.84"/>
@@ -5968,6 +5967,7 @@ X2 = Internal Oscillator Output</text>
 <instance part="GND16" gate="1" x="330.2" y="99.06"/>
 <instance part="+3V5" gate="G$1" x="205.74" y="203.2"/>
 <instance part="GND17" gate="1" x="210.82" y="124.46"/>
+<instance part="+3V6" gate="G$1" x="370.84" y="116.84"/>
 </instances>
 <busses>
 </busses>
@@ -6166,10 +6166,10 @@ X2 = Internal Oscillator Output</text>
 <wire x1="190.5" y1="63.5" x2="195.58" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="264.16" y1="185.42" x2="264.16" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="264.16" y1="182.88" x2="264.16" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="264.16" y1="63.5" x2="195.58" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="SIO18"/>
-<wire x1="264.16" y1="185.42" x2="236.22" y2="185.42" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="SIO19"/>
+<wire x1="236.22" y1="182.88" x2="264.16" y2="182.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="X1" class="0">
@@ -6192,9 +6192,9 @@ X2 = Internal Oscillator Output</text>
 <wire x1="388.62" y1="116.84" x2="391.16" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="391.16" y1="116.84" x2="391.16" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="391.16" y1="83.82" x2="287.02" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="SIO16"/>
-<wire x1="287.02" y1="83.82" x2="287.02" y2="190.5" width="0.1524" layer="91"/>
-<wire x1="287.02" y1="190.5" x2="236.22" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="287.02" y1="83.82" x2="287.02" y2="185.42" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="SIO18"/>
+<wire x1="287.02" y1="185.42" x2="236.22" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="TRANSISTOR_DRAIN" class="0">
@@ -6228,13 +6228,6 @@ X2 = Internal Oscillator Output</text>
 <pinref part="P+1" gate="1" pin="+5V"/>
 <pinref part="IC1" gate="G$1" pin="VCC"/>
 <wire x1="182.88" y1="83.82" x2="182.88" y2="78.74" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="JP4" gate="A" pin="1"/>
-<wire x1="383.54" y1="124.46" x2="383.54" y2="111.76" width="0.1524" layer="91"/>
-<pinref part="P+3" gate="1" pin="+5V"/>
-<wire x1="383.54" y1="111.76" x2="370.84" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="370.84" y1="111.76" x2="370.84" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -6274,6 +6267,13 @@ X2 = Internal Oscillator Output</text>
 <pinref part="+3V5" gate="G$1" pin="+3V3"/>
 <pinref part="U$1" gate="G$1" pin="VCC"/>
 <wire x1="205.74" y1="200.66" x2="205.74" y2="198.12" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP4" gate="A" pin="1"/>
+<wire x1="383.54" y1="124.46" x2="383.54" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="383.54" y1="111.76" x2="370.84" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="370.84" y1="111.76" x2="370.84" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="+3V6" gate="G$1" pin="+3V3"/>
 </segment>
 </net>
 <net name="+9V" class="0">
