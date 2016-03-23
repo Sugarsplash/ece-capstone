@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -130,209 +130,6 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="library">
-<packages>
-<package name="TO252">
-<description>&lt;b&gt;SMALL OUTLINE TRANSISTOR&lt;/b&gt;&lt;p&gt;
-TS-003</description>
-<wire x1="3.2766" y1="3.8354" x2="3.277" y2="-2.159" width="0.2032" layer="21"/>
-<wire x1="3.277" y1="-2.159" x2="-3.277" y2="-2.159" width="0.2032" layer="21"/>
-<wire x1="-3.277" y1="-2.159" x2="-3.2766" y2="3.8354" width="0.2032" layer="21"/>
-<wire x1="-3.277" y1="3.835" x2="3.2774" y2="3.8346" width="0.2032" layer="51"/>
-<wire x1="-2.5654" y1="3.937" x2="-2.5654" y2="4.6482" width="0.2032" layer="51"/>
-<wire x1="-2.5654" y1="4.6482" x2="-2.1082" y2="5.1054" width="0.2032" layer="51"/>
-<wire x1="-2.1082" y1="5.1054" x2="2.1082" y2="5.1054" width="0.2032" layer="51"/>
-<wire x1="2.1082" y1="5.1054" x2="2.5654" y2="4.6482" width="0.2032" layer="51"/>
-<wire x1="2.5654" y1="4.6482" x2="2.5654" y2="3.937" width="0.2032" layer="51"/>
-<wire x1="2.5654" y1="3.937" x2="-2.5654" y2="3.937" width="0.2032" layer="51"/>
-<smd name="3" x="0" y="2.5" dx="5.4" dy="6.2" layer="1"/>
-<smd name="1" x="-2.28" y="-4.8" dx="1" dy="1.6" layer="1"/>
-<smd name="2" x="2.28" y="-4.8" dx="1" dy="1.6" layer="1"/>
-<text x="-3.81" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
-<rectangle x1="-2.7178" y1="-5.1562" x2="-1.8542" y2="-2.2606" layer="51"/>
-<rectangle x1="1.8542" y1="-5.1562" x2="2.7178" y2="-2.2606" layer="51"/>
-<rectangle x1="-0.4318" y1="-3.0226" x2="0.4318" y2="-2.2606" layer="21"/>
-<polygon width="0.1998" layer="51">
-<vertex x="-2.5654" y="3.937"/>
-<vertex x="-2.5654" y="4.6482"/>
-<vertex x="-2.1082" y="5.1054"/>
-<vertex x="2.1082" y="5.1054"/>
-<vertex x="2.5654" y="4.6482"/>
-<vertex x="2.5654" y="3.937"/>
-</polygon>
-</package>
-<package name="BOB">
-<wire x1="-10.16" y1="-16.51" x2="11.84" y2="-16.51" width="0.127" layer="21"/>
-<wire x1="11.84" y1="-16.51" x2="11.84" y2="16.49" width="0.127" layer="21"/>
-<wire x1="11.84" y1="16.49" x2="-10.16" y2="16.49" width="0.127" layer="21"/>
-<wire x1="-10.16" y1="16.49" x2="-10.16" y2="-16.51" width="0.127" layer="21"/>
-<text x="-10.16" y="-18.51" size="1.27" layer="25">&gt;NAME</text>
-<text x="-10.16" y="17.49" size="1.27" layer="28">&gt;VALUE</text>
-<pad name="28" x="10.86" y="11.54" drill="0.5"/>
-<pad name="27" x="10.86" y="10.27" drill="0.5"/>
-<pad name="26" x="10.86" y="9" drill="0.5"/>
-<pad name="25" x="10.86" y="7.73" drill="0.5"/>
-<pad name="24" x="10.86" y="6.46" drill="0.5"/>
-<pad name="22" x="10.86" y="5.19" drill="0.5"/>
-<pad name="21" x="10.86" y="3.92" drill="0.5"/>
-<pad name="20" x="10.86" y="2.65" drill="0.5"/>
-<pad name="19" x="10.86" y="1.38" drill="0.5"/>
-<pad name="18" x="10.86" y="0.11" drill="0.5"/>
-<pad name="16" x="10.86" y="-1.16" drill="0.5"/>
-<pad name="15" x="10.86" y="-2.43" drill="0.5"/>
-<pad name="14" x="10.86" y="-3.7" drill="0.5"/>
-<pad name="13" x="10.86" y="-4.97" drill="0.5"/>
-<pad name="12" x="10.86" y="-6.24" drill="0.5"/>
-<pad name="11" x="10.86" y="-7.51" drill="0.5"/>
-<pad name="36" x="-9.19" y="10.23" drill="0.5"/>
-<pad name="38" x="-9.19" y="8.96" drill="0.5"/>
-<pad name="39" x="-9.19" y="7.69" drill="0.5"/>
-<pad name="41" x="-9.19" y="6.42" drill="0.5"/>
-<pad name="42" x="-9.19" y="5.15" drill="0.5"/>
-<pad name="2" x="-9.19" y="3.88" drill="0.5"/>
-<pad name="4" x="-9.19" y="2.61" drill="0.5"/>
-<pad name="5" x="-9.19" y="1.34" drill="0.5"/>
-<pad name="6" x="-9.19" y="0.07" drill="0.5"/>
-<pad name="7" x="-9.19" y="-1.2" drill="0.5"/>
-<pad name="29" x="-9.19" y="11.5" drill="0.5"/>
-<pad name="8" x="-9.19" y="-2.47" drill="0.5"/>
-<pad name="J5_1" x="-9.16" y="-5.01" drill="1"/>
-<pad name="J5_2" x="-9.16" y="-7.01" drill="1"/>
-<pad name="J5_3" x="-9.16" y="-9.01" drill="1"/>
-<pad name="J5_4" x="-9.16" y="-11.01" drill="1"/>
-<pad name="J5_5" x="-9.16" y="-13.01" drill="1"/>
-<pad name="J5_6" x="-9.16" y="-15.01" drill="1"/>
-</package>
-</packages>
-<symbols>
-<symbol name="78">
-<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.4064" layer="94"/>
-<wire x1="7.62" y1="-5.08" x2="7.62" y2="2.54" width="0.4064" layer="94"/>
-<wire x1="7.62" y1="2.54" x2="-7.62" y2="2.54" width="0.4064" layer="94"/>
-<wire x1="-7.62" y1="2.54" x2="-7.62" y2="-5.08" width="0.4064" layer="94"/>
-<text x="-7.62" y="5.715" size="1.778" layer="95">&gt;NAME</text>
-<text x="-7.62" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-2.032" y="-4.318" size="1.524" layer="95">GND</text>
-<pin name="VI" x="-10.16" y="0" length="short" direction="in"/>
-<pin name="GND" x="0" y="-7.62" visible="pad" length="short" direction="pas" rot="R90"/>
-<pin name="VO" x="10.16" y="0" length="short" direction="pas" rot="R180"/>
-</symbol>
-<symbol name="BL600-BOB">
-<wire x1="-17.78" y1="-27.94" x2="20.32" y2="-27.94" width="0.254" layer="94"/>
-<wire x1="20.32" y1="-27.94" x2="20.32" y2="27.94" width="0.254" layer="94"/>
-<wire x1="20.32" y1="27.94" x2="-17.78" y2="27.94" width="0.254" layer="94"/>
-<wire x1="-17.78" y1="27.94" x2="-17.78" y2="-27.94" width="0.254" layer="94"/>
-<pin name="GND@3" x="-22.86" y="25.4" length="middle" direction="pwr"/>
-<pin name="SIO1/AIN" x="-22.86" y="22.86" length="middle"/>
-<pin name="SIO2/AIN" x="-22.86" y="20.32" length="middle"/>
-<pin name="SIO3/AIN" x="-22.86" y="17.78" length="middle"/>
-<pin name="SIO4/AIN" x="-22.86" y="15.24" length="middle"/>
-<pin name="SIO5/AIN" x="-22.86" y="12.7" length="middle"/>
-<pin name="SIO6/AIN" x="-22.86" y="10.16" length="middle"/>
-<pin name="SIO8/SDA" x="-22.86" y="7.62" length="middle"/>
-<pin name="SIO9/SCL" x="-22.86" y="5.08" length="middle"/>
-<pin name="SIO10/MOSI" x="-22.86" y="2.54" length="middle"/>
-<pin name="SIO11/MISO" x="-22.86" y="0" length="middle"/>
-<pin name="SIO12/SCK" x="-22.86" y="-2.54" length="middle"/>
-<pin name="SIO13" x="-22.86" y="-5.08" length="middle"/>
-<pin name="SIO14" x="-22.86" y="-7.62" length="middle"/>
-<pin name="SIO15" x="25.4" y="25.4" length="middle" rot="R180"/>
-<pin name="SIO16" x="25.4" y="22.86" length="middle" rot="R180"/>
-<pin name="SIO17" x="25.4" y="20.32" length="middle" rot="R180"/>
-<pin name="SIO18" x="25.4" y="17.78" length="middle" rot="R180"/>
-<pin name="SIO19" x="25.4" y="15.24" length="middle" rot="R180"/>
-<pin name="SIO20" x="25.4" y="12.7" length="middle" rot="R180"/>
-<pin name="SIO25" x="25.4" y="10.16" length="middle" rot="R180"/>
-<pin name="SIO26" x="25.4" y="7.62" length="middle" rot="R180"/>
-<pin name="SIO27" x="25.4" y="5.08" length="middle" rot="R180"/>
-<pin name="SIO29" x="25.4" y="2.54" length="middle" rot="R180"/>
-<pin name="SIO30" x="25.4" y="0" length="middle" rot="R180"/>
-<pin name="!RESET" x="25.4" y="-2.54" length="middle" rot="R180"/>
-<pin name="GND@4" x="25.4" y="-5.08" length="middle" direction="pwr" rot="R180"/>
-<pin name="GND@5" x="25.4" y="-7.62" length="middle" direction="pwr" rot="R180"/>
-<pin name="GND@1" x="-22.86" y="-12.7" length="middle" direction="pwr"/>
-<pin name="!AUTORUN" x="-22.86" y="-15.24" length="middle"/>
-<pin name="VCC@1" x="-22.86" y="-17.78" length="middle" direction="pwr"/>
-<pin name="GND@2" x="-22.86" y="-20.32" length="middle" direction="pwr"/>
-<pin name="SIO7" x="-22.86" y="-22.86" length="middle"/>
-<pin name="VCC@2" x="-22.86" y="-25.4" length="middle" direction="pwr"/>
-<text x="-17.78" y="-30.48" size="1.27" layer="95">&gt;NAME</text>
-<text x="-17.78" y="27.94" size="1.27" layer="96">&gt;VALUE</text>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="78" prefix="IC">
-<description>Positive &lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;&lt;p&gt;
-Source:&lt;br&gt;
-http://cache.national.com/ds/LM/LM78L05.pdf&lt;br&gt;
-http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
-<gates>
-<gate name="A1" symbol="78" x="0" y="0"/>
-</gates>
-<devices>
-<device name="DT" package="TO252">
-<connects>
-<connect gate="A1" pin="GND" pad="3"/>
-<connect gate="A1" pin="VI" pad="1"/>
-<connect gate="A1" pin="VO" pad="2"/>
-</connects>
-<technologies>
-<technology name="33"/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="BL600" prefix="U">
-<gates>
-<gate name="G$1" symbol="BL600-BOB" x="-17.78" y="-27.94"/>
-</gates>
-<devices>
-<device name="" package="BOB">
-<connects>
-<connect gate="G$1" pin="!AUTORUN" pad="J5_2"/>
-<connect gate="G$1" pin="!RESET" pad="22"/>
-<connect gate="G$1" pin="GND@1" pad="J5_1"/>
-<connect gate="G$1" pin="GND@2" pad="J5_4"/>
-<connect gate="G$1" pin="GND@3" pad="29"/>
-<connect gate="G$1" pin="GND@4" pad="28"/>
-<connect gate="G$1" pin="GND@5" pad="11"/>
-<connect gate="G$1" pin="SIO1/AIN" pad="2"/>
-<connect gate="G$1" pin="SIO10/MOSI" pad="14"/>
-<connect gate="G$1" pin="SIO11/MISO" pad="15"/>
-<connect gate="G$1" pin="SIO12/SCK" pad="16"/>
-<connect gate="G$1" pin="SIO13" pad="18"/>
-<connect gate="G$1" pin="SIO14" pad="19"/>
-<connect gate="G$1" pin="SIO15" pad="20"/>
-<connect gate="G$1" pin="SIO16" pad="21"/>
-<connect gate="G$1" pin="SIO17" pad="24"/>
-<connect gate="G$1" pin="SIO18" pad="25"/>
-<connect gate="G$1" pin="SIO19" pad="26"/>
-<connect gate="G$1" pin="SIO2/AIN" pad="4"/>
-<connect gate="G$1" pin="SIO20" pad="27"/>
-<connect gate="G$1" pin="SIO25" pad="36"/>
-<connect gate="G$1" pin="SIO26" pad="38"/>
-<connect gate="G$1" pin="SIO27" pad="39"/>
-<connect gate="G$1" pin="SIO29" pad="41"/>
-<connect gate="G$1" pin="SIO3/AIN" pad="5"/>
-<connect gate="G$1" pin="SIO30" pad="42"/>
-<connect gate="G$1" pin="SIO4/AIN" pad="6"/>
-<connect gate="G$1" pin="SIO5/AIN" pad="7"/>
-<connect gate="G$1" pin="SIO6/AIN" pad="8"/>
-<connect gate="G$1" pin="SIO7" pad="J5_5"/>
-<connect gate="G$1" pin="SIO8/SDA" pad="12"/>
-<connect gate="G$1" pin="SIO9/SCL" pad="13"/>
-<connect gate="G$1" pin="VCC@1" pad="J5_3"/>
-<connect gate="G$1" pin="VCC@2" pad="J5_6"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="linear">
 <description>&lt;b&gt;Linear Devices&lt;/b&gt;&lt;p&gt;
 Operational amplifiers,  comparators, voltage regulators, ADCs, DACs, etc.&lt;p&gt;
@@ -4292,6 +4089,209 @@ In this library the device names are the same as the pin names of the symbols, t
 </deviceset>
 </devicesets>
 </library>
+<library name="smart_irrigation">
+<packages>
+<package name="BOB">
+<wire x1="-10.16" y1="-16.51" x2="11.84" y2="-16.51" width="0.127" layer="21"/>
+<wire x1="11.84" y1="-16.51" x2="11.84" y2="16.49" width="0.127" layer="21"/>
+<wire x1="11.84" y1="16.49" x2="-10.16" y2="16.49" width="0.127" layer="21"/>
+<wire x1="-10.16" y1="16.49" x2="-10.16" y2="-16.51" width="0.127" layer="21"/>
+<text x="-10.16" y="-18.51" size="1.27" layer="25">&gt;NAME</text>
+<text x="-10.16" y="17.49" size="1.27" layer="28">&gt;VALUE</text>
+<pad name="28" x="10.86" y="11.54" drill="0.5"/>
+<pad name="27" x="10.86" y="10.27" drill="0.5"/>
+<pad name="26" x="10.86" y="9" drill="0.5"/>
+<pad name="25" x="10.86" y="7.73" drill="0.5"/>
+<pad name="24" x="10.86" y="6.46" drill="0.5"/>
+<pad name="22" x="10.86" y="5.19" drill="0.5"/>
+<pad name="21" x="10.86" y="3.92" drill="0.5"/>
+<pad name="20" x="10.86" y="2.65" drill="0.5"/>
+<pad name="19" x="10.86" y="1.38" drill="0.5"/>
+<pad name="18" x="10.86" y="0.11" drill="0.5"/>
+<pad name="16" x="10.86" y="-1.16" drill="0.5"/>
+<pad name="15" x="10.86" y="-2.43" drill="0.5"/>
+<pad name="14" x="10.86" y="-3.7" drill="0.5"/>
+<pad name="13" x="10.86" y="-4.97" drill="0.5"/>
+<pad name="12" x="10.86" y="-6.24" drill="0.5"/>
+<pad name="11" x="10.86" y="-7.51" drill="0.5"/>
+<pad name="36" x="-9.19" y="10.23" drill="0.5"/>
+<pad name="38" x="-9.19" y="8.96" drill="0.5"/>
+<pad name="39" x="-9.19" y="7.69" drill="0.5"/>
+<pad name="41" x="-9.19" y="6.42" drill="0.5"/>
+<pad name="42" x="-9.19" y="5.15" drill="0.5"/>
+<pad name="2" x="-9.19" y="3.88" drill="0.5"/>
+<pad name="4" x="-9.19" y="2.61" drill="0.5"/>
+<pad name="5" x="-9.19" y="1.34" drill="0.5"/>
+<pad name="6" x="-9.19" y="0.07" drill="0.5"/>
+<pad name="7" x="-9.19" y="-1.2" drill="0.5"/>
+<pad name="29" x="-9.19" y="11.5" drill="0.5"/>
+<pad name="8" x="-9.19" y="-2.47" drill="0.5"/>
+<pad name="J5_1" x="-9.16" y="-5.01" drill="1"/>
+<pad name="J5_2" x="-9.16" y="-7.01" drill="1"/>
+<pad name="J5_3" x="-9.16" y="-9.01" drill="1"/>
+<pad name="J5_4" x="-9.16" y="-11.01" drill="1"/>
+<pad name="J5_5" x="-9.16" y="-13.01" drill="1"/>
+<pad name="J5_6" x="-9.16" y="-15.01" drill="1"/>
+</package>
+<package name="TO252">
+<description>&lt;b&gt;SMALL OUTLINE TRANSISTOR&lt;/b&gt;&lt;p&gt;
+TS-003</description>
+<wire x1="3.2766" y1="3.8354" x2="3.277" y2="-2.159" width="0.2032" layer="21"/>
+<wire x1="3.277" y1="-2.159" x2="-3.277" y2="-2.159" width="0.2032" layer="21"/>
+<wire x1="-3.277" y1="-2.159" x2="-3.2766" y2="3.8354" width="0.2032" layer="21"/>
+<wire x1="-3.277" y1="3.835" x2="3.2774" y2="3.8346" width="0.2032" layer="51"/>
+<wire x1="-2.5654" y1="3.937" x2="-2.5654" y2="4.6482" width="0.2032" layer="51"/>
+<wire x1="-2.5654" y1="4.6482" x2="-2.1082" y2="5.1054" width="0.2032" layer="51"/>
+<wire x1="-2.1082" y1="5.1054" x2="2.1082" y2="5.1054" width="0.2032" layer="51"/>
+<wire x1="2.1082" y1="5.1054" x2="2.5654" y2="4.6482" width="0.2032" layer="51"/>
+<wire x1="2.5654" y1="4.6482" x2="2.5654" y2="3.937" width="0.2032" layer="51"/>
+<wire x1="2.5654" y1="3.937" x2="-2.5654" y2="3.937" width="0.2032" layer="51"/>
+<smd name="3" x="0" y="2.5" dx="5.4" dy="6.2" layer="1"/>
+<smd name="1" x="-2.28" y="-4.8" dx="1" dy="1.6" layer="1"/>
+<smd name="2" x="2.28" y="-4.8" dx="1" dy="1.6" layer="1"/>
+<text x="-3.81" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<rectangle x1="-2.7178" y1="-5.1562" x2="-1.8542" y2="-2.2606" layer="51"/>
+<rectangle x1="1.8542" y1="-5.1562" x2="2.7178" y2="-2.2606" layer="51"/>
+<rectangle x1="-0.4318" y1="-3.0226" x2="0.4318" y2="-2.2606" layer="21"/>
+<polygon width="0.1998" layer="51">
+<vertex x="-2.5654" y="3.937"/>
+<vertex x="-2.5654" y="4.6482"/>
+<vertex x="-2.1082" y="5.1054"/>
+<vertex x="2.1082" y="5.1054"/>
+<vertex x="2.5654" y="4.6482"/>
+<vertex x="2.5654" y="3.937"/>
+</polygon>
+</package>
+</packages>
+<symbols>
+<symbol name="BL600-BOB">
+<wire x1="-17.78" y1="-27.94" x2="20.32" y2="-27.94" width="0.254" layer="94"/>
+<wire x1="20.32" y1="-27.94" x2="20.32" y2="27.94" width="0.254" layer="94"/>
+<wire x1="20.32" y1="27.94" x2="-17.78" y2="27.94" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="27.94" x2="-17.78" y2="-27.94" width="0.254" layer="94"/>
+<pin name="GND@3" x="-22.86" y="25.4" length="middle" direction="pwr"/>
+<pin name="SIO1/AIN" x="-22.86" y="22.86" length="middle"/>
+<pin name="SIO2/AIN" x="-22.86" y="20.32" length="middle"/>
+<pin name="SIO3/AIN" x="-22.86" y="17.78" length="middle"/>
+<pin name="SIO4/AIN" x="-22.86" y="15.24" length="middle"/>
+<pin name="SIO5/AIN" x="-22.86" y="12.7" length="middle"/>
+<pin name="SIO6/AIN" x="-22.86" y="10.16" length="middle"/>
+<pin name="SIO8/SDA" x="-22.86" y="7.62" length="middle"/>
+<pin name="SIO9/SCL" x="-22.86" y="5.08" length="middle"/>
+<pin name="SIO10/MOSI" x="-22.86" y="2.54" length="middle"/>
+<pin name="SIO11/MISO" x="-22.86" y="0" length="middle"/>
+<pin name="SIO12/SCK" x="-22.86" y="-2.54" length="middle"/>
+<pin name="SIO13" x="-22.86" y="-5.08" length="middle"/>
+<pin name="SIO14" x="-22.86" y="-7.62" length="middle"/>
+<pin name="SIO15" x="25.4" y="25.4" length="middle" rot="R180"/>
+<pin name="SIO16" x="25.4" y="22.86" length="middle" rot="R180"/>
+<pin name="SIO17" x="25.4" y="20.32" length="middle" rot="R180"/>
+<pin name="SIO18" x="25.4" y="17.78" length="middle" rot="R180"/>
+<pin name="SIO19" x="25.4" y="15.24" length="middle" rot="R180"/>
+<pin name="SIO20" x="25.4" y="12.7" length="middle" rot="R180"/>
+<pin name="SIO25" x="25.4" y="10.16" length="middle" rot="R180"/>
+<pin name="SIO26" x="25.4" y="7.62" length="middle" rot="R180"/>
+<pin name="SIO27" x="25.4" y="5.08" length="middle" rot="R180"/>
+<pin name="SIO29" x="25.4" y="2.54" length="middle" rot="R180"/>
+<pin name="SIO30" x="25.4" y="0" length="middle" rot="R180"/>
+<pin name="!RESET" x="25.4" y="-2.54" length="middle" rot="R180"/>
+<pin name="GND@4" x="25.4" y="-5.08" length="middle" direction="pwr" rot="R180"/>
+<pin name="GND@5" x="25.4" y="-7.62" length="middle" direction="pwr" rot="R180"/>
+<pin name="GND@1" x="-22.86" y="-12.7" length="middle" direction="pwr"/>
+<pin name="!AUTORUN" x="-22.86" y="-15.24" length="middle"/>
+<pin name="VCC@1" x="-22.86" y="-17.78" length="middle" direction="pwr"/>
+<pin name="GND@2" x="-22.86" y="-20.32" length="middle" direction="pwr"/>
+<pin name="SIO7" x="-22.86" y="-22.86" length="middle"/>
+<pin name="VCC@2" x="-22.86" y="-25.4" length="middle" direction="pwr"/>
+<text x="-17.78" y="-30.48" size="1.27" layer="95">&gt;NAME</text>
+<text x="-17.78" y="27.94" size="1.27" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="78">
+<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.4064" layer="94"/>
+<wire x1="7.62" y1="-5.08" x2="7.62" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="7.62" y1="2.54" x2="-7.62" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="-7.62" y1="2.54" x2="-7.62" y2="-5.08" width="0.4064" layer="94"/>
+<text x="-7.62" y="5.715" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.032" y="-4.318" size="1.524" layer="95">GND</text>
+<pin name="VI" x="-10.16" y="0" length="short" direction="in"/>
+<pin name="GND" x="0" y="-7.62" visible="pad" length="short" direction="pas" rot="R90"/>
+<pin name="VO" x="10.16" y="0" length="short" direction="pas" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="BL600" prefix="U">
+<gates>
+<gate name="G$1" symbol="BL600-BOB" x="-17.78" y="-27.94"/>
+</gates>
+<devices>
+<device name="" package="BOB">
+<connects>
+<connect gate="G$1" pin="!AUTORUN" pad="J5_2"/>
+<connect gate="G$1" pin="!RESET" pad="22"/>
+<connect gate="G$1" pin="GND@1" pad="J5_1"/>
+<connect gate="G$1" pin="GND@2" pad="J5_4"/>
+<connect gate="G$1" pin="GND@3" pad="29"/>
+<connect gate="G$1" pin="GND@4" pad="28"/>
+<connect gate="G$1" pin="GND@5" pad="11"/>
+<connect gate="G$1" pin="SIO1/AIN" pad="2"/>
+<connect gate="G$1" pin="SIO10/MOSI" pad="14"/>
+<connect gate="G$1" pin="SIO11/MISO" pad="15"/>
+<connect gate="G$1" pin="SIO12/SCK" pad="16"/>
+<connect gate="G$1" pin="SIO13" pad="18"/>
+<connect gate="G$1" pin="SIO14" pad="19"/>
+<connect gate="G$1" pin="SIO15" pad="20"/>
+<connect gate="G$1" pin="SIO16" pad="21"/>
+<connect gate="G$1" pin="SIO17" pad="24"/>
+<connect gate="G$1" pin="SIO18" pad="25"/>
+<connect gate="G$1" pin="SIO19" pad="26"/>
+<connect gate="G$1" pin="SIO2/AIN" pad="4"/>
+<connect gate="G$1" pin="SIO20" pad="27"/>
+<connect gate="G$1" pin="SIO25" pad="36"/>
+<connect gate="G$1" pin="SIO26" pad="38"/>
+<connect gate="G$1" pin="SIO27" pad="39"/>
+<connect gate="G$1" pin="SIO29" pad="41"/>
+<connect gate="G$1" pin="SIO3/AIN" pad="5"/>
+<connect gate="G$1" pin="SIO30" pad="42"/>
+<connect gate="G$1" pin="SIO4/AIN" pad="6"/>
+<connect gate="G$1" pin="SIO5/AIN" pad="7"/>
+<connect gate="G$1" pin="SIO6/AIN" pad="8"/>
+<connect gate="G$1" pin="SIO7" pad="J5_5"/>
+<connect gate="G$1" pin="SIO8/SDA" pad="12"/>
+<connect gate="G$1" pin="SIO9/SCL" pad="13"/>
+<connect gate="G$1" pin="VCC@1" pad="J5_3"/>
+<connect gate="G$1" pin="VCC@2" pad="J5_6"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="78" prefix="IC">
+<description>Positive &lt;b&gt;VOLTAGE REGULATOR&lt;/b&gt;&lt;p&gt;
+Source:&lt;br&gt;
+http://cache.national.com/ds/LM/LM78L05.pdf&lt;br&gt;
+http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
+<gates>
+<gate name="A1" symbol="78" x="0" y="0"/>
+</gates>
+<devices>
+<device name="DT" package="TO252">
+<connects>
+<connect gate="A1" pin="GND" pad="3"/>
+<connect gate="A1" pin="VI" pad="1"/>
+<connect gate="A1" pin="VO" pad="2"/>
+</connects>
+<technologies>
+<technology name="33"/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -4316,7 +4316,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY10" library="supply2" deviceset="GND" device=""/>
-<part name="IC2" library="library" deviceset="78" device="DT" technology="33"/>
+<part name="IC2" library="smart_irrigation" deviceset="78" device="DT" technology="33"/>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
@@ -4331,7 +4331,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="SUPPLY14" library="supply2" deviceset="+9V" device=""/>
 <part name="SUPPLY15" library="supply2" deviceset="+9V" device=""/>
 <part name="SUPPLY16" library="supply2" deviceset="+9V" device=""/>
-<part name="U$1" library="library" deviceset="BL600" device=""/>
+<part name="U$1" library="smart_irrigation" deviceset="BL600" device=""/>
 <part name="FRAME1" library="frames" deviceset="FRAME_A_L" device=""/>
 <part name="SUPPLY17" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY18" library="supply2" deviceset="GND" device=""/>
