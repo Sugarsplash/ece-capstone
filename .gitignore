@@ -2,3 +2,5 @@ src/**/*.o
 src/**/*.elf
 src/**/*.hex
 src/**/*.uwc
+pcb/*.*#*
+pcb/*.*.lck
