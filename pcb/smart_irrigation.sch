@@ -7193,6 +7193,23 @@ TS-003</description>
 <vertex x="2.5654" y="3.937"/>
 </polygon>
 </package>
+<package name="TO92">
+<description>&lt;b&gt;TO-92&lt;/b&gt;</description>
+<wire x1="-2.095" y1="-1.651" x2="-0.7869" y2="2.5484" width="0.1524" layer="21" curve="-111.097684" cap="flat"/>
+<wire x1="0.7869" y1="2.5484" x2="2.095" y2="-1.651" width="0.1524" layer="21" curve="-111.097684" cap="flat"/>
+<wire x1="-2.095" y1="-1.651" x2="2.095" y2="-1.651" width="0.1524" layer="21"/>
+<wire x1="-2.254" y1="-0.254" x2="-0.286" y2="-0.254" width="0.1524" layer="51"/>
+<wire x1="-2.655" y1="-0.254" x2="-2.254" y2="-0.254" width="0.1524" layer="21"/>
+<wire x1="-0.286" y1="-0.254" x2="0.286" y2="-0.254" width="0.1524" layer="21"/>
+<wire x1="2.254" y1="-0.254" x2="2.655" y2="-0.254" width="0.1524" layer="21"/>
+<wire x1="0.286" y1="-0.254" x2="2.254" y2="-0.254" width="0.1524" layer="51"/>
+<wire x1="-0.7864" y1="2.5484" x2="0.7864" y2="2.5484" width="0.1524" layer="51" curve="-34.298964" cap="flat"/>
+<pad name="1" x="-1.27" y="0" drill="0.8128" diameter="1.6764" shape="octagon"/>
+<pad name="2" x="0" y="1.905" drill="0.8128" diameter="1.6764" shape="octagon"/>
+<pad name="3" x="1.27" y="0" drill="0.8128" diameter="1.6764" shape="octagon"/>
+<text x="2.413" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="2.921" y="-1.27" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
 </packages>
 <symbols>
 <symbol name="BL600-BOB">
@@ -7248,6 +7265,18 @@ TS-003</description>
 <pin name="VI" x="-10.16" y="0" length="short" direction="in"/>
 <pin name="GND" x="0" y="-7.62" visible="pad" length="short" direction="pas" rot="R90"/>
 <pin name="VO" x="10.16" y="0" length="short" direction="pas" rot="R180"/>
+</symbol>
+<symbol name="TMP36">
+<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.4064" layer="94"/>
+<wire x1="7.62" y1="-5.08" x2="7.62" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="7.62" y1="2.54" x2="-7.62" y2="2.54" width="0.4064" layer="94"/>
+<wire x1="-7.62" y1="2.54" x2="-7.62" y2="-5.08" width="0.4064" layer="94"/>
+<text x="-7.62" y="5.715" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="3.175" size="1.778" layer="96">&gt;VALUE</text>
+<text x="-2.032" y="-4.318" size="1.524" layer="95">GND</text>
+<pin name="VS" x="-10.16" y="0" length="short" direction="in"/>
+<pin name="GND" x="0" y="-7.62" visible="pad" length="short" direction="pas" rot="R90"/>
+<pin name="VOUT" x="10.16" y="0" length="short" direction="pas" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -7316,6 +7345,23 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 </connects>
 <technologies>
 <technology name="33"/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="TMP36" prefix="IC">
+<gates>
+<gate name="A1" symbol="TMP36" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TO92">
+<connects>
+<connect gate="A1" pin="GND" pad="3"/>
+<connect gate="A1" pin="VOUT" pad="2"/>
+<connect gate="A1" pin="VS" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -8516,6 +8562,9 @@ Source: 008-0260-0_E.pdf</description>
 <part name="R2" library="rcl" deviceset="R-US_" device="M0805" value="2.2k"/>
 <part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
 <part name="+3V4" library="supply1" deviceset="+3V3" device=""/>
+<part name="IC3" library="smart_irrigation" deviceset="TMP36" device=""/>
+<part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
+<part name="SUPPLY18" library="supply2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -8539,6 +8588,11 @@ Disable: Jump 2, 3</text>
 <wire x1="254" y1="121.92" x2="210.82" y2="121.92" width="0.1524" layer="97"/>
 <wire x1="210.82" y1="121.92" x2="210.82" y2="71.12" width="0.1524" layer="97"/>
 <text x="210.82" y="68.58" size="1.778" layer="97">RTC</text>
+<wire x1="12.7" y1="127" x2="45.72" y2="127" width="0.1524" layer="97"/>
+<wire x1="45.72" y1="127" x2="45.72" y2="96.52" width="0.1524" layer="97"/>
+<wire x1="45.72" y1="96.52" x2="12.7" y2="96.52" width="0.1524" layer="97"/>
+<wire x1="12.7" y1="96.52" x2="12.7" y2="127" width="0.1524" layer="97"/>
+<text x="12.7" y="93.98" size="1.778" layer="97">TEMP SENSOR</text>
 </plain>
 <instances>
 <instance part="IC1" gate="A1" x="71.12" y="193.04"/>
@@ -8627,6 +8681,9 @@ Disable: Jump 2, 3</text>
 <instance part="R2" gate="G$1" x="190.5" y="109.22" rot="R90"/>
 <instance part="+3V3" gate="G$1" x="190.5" y="119.38"/>
 <instance part="+3V4" gate="G$1" x="198.12" y="119.38"/>
+<instance part="IC3" gate="A1" x="30.48" y="116.84"/>
+<instance part="+3V5" gate="G$1" x="17.78" y="121.92"/>
+<instance part="SUPPLY18" gate="GND" x="30.48" y="104.14"/>
 </instances>
 <busses>
 </busses>
@@ -8742,6 +8799,11 @@ Disable: Jump 2, 3</text>
 <pinref part="SDANET" gate="G$1" pin="GND"/>
 <wire x1="231.14" y1="78.74" x2="231.14" y2="81.28" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="IC3" gate="A1" pin="GND"/>
+<pinref part="SUPPLY18" gate="GND" pin="GND"/>
+<wire x1="30.48" y1="109.22" x2="30.48" y2="106.68" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="+5V" class="0">
 <segment>
@@ -8845,6 +8907,12 @@ Disable: Jump 2, 3</text>
 <pinref part="R1" gate="G$1" pin="2"/>
 <wire x1="198.12" y1="116.84" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="+3V5" gate="G$1" pin="+3V3"/>
+<wire x1="17.78" y1="119.38" x2="17.78" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="A1" pin="VS"/>
+<wire x1="17.78" y1="116.84" x2="20.32" y2="116.84" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
@@ -8895,11 +8963,15 @@ Disable: Jump 2, 3</text>
 <wire x1="76.2" y1="119.38" x2="99.06" y2="119.38" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$9" class="0">
+<net name="TEMP_OUT" class="0">
 <segment>
 <pinref part="JP2" gate="G$1" pin="7"/>
 <pinref part="U$1" gate="G$1" pin="SIO_1/AIN"/>
 <wire x1="76.2" y1="116.84" x2="99.06" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="A1" pin="VOUT"/>
+<wire x1="40.64" y1="116.84" x2="76.2" y2="116.84" width="0.1524" layer="91"/>
+<junction x="76.2" y="116.84"/>
+<label x="50.8" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$10" class="0">
