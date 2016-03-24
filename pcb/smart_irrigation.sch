@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9064,7 +9064,7 @@ solenoid on -&gt; water flow</text>
 <wire x1="48.26" y1="22.86" x2="10.16" y2="22.86" width="0.1524" layer="97"/>
 <wire x1="10.16" y1="22.86" x2="10.16" y2="50.8" width="0.1524" layer="97"/>
 <text x="10.16" y="20.32" size="1.778" layer="97">SENSORS ENABLE</text>
-<text x="12.7" y="25.4" size="0.762" layer="97">GPIO High -&gt; Transistor On -&gt;
+<text x="12.7" y="25.4" size="1.27" layer="97">GPIO High -&gt; Transistor On -&gt;
 Sensors On</text>
 </plain>
 <instances>
@@ -9451,11 +9451,8 @@ Sensors On</text>
 <pinref part="+3V34" gate="G$1" pin="+3V3"/>
 <wire x1="60.96" y1="91.44" x2="66.04" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="91.44" x2="66.04" y2="93.98" width="0.1524" layer="91"/>
-<pinref part="C3" gate="G$1" pin="1"/>
-<wire x1="71.12" y1="88.9" x2="71.12" y2="91.44" width="0.1524" layer="91"/>
 <junction x="66.04" y="91.44"/>
 <pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="71.12" y1="91.44" x2="66.04" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="91.44" x2="66.04" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="JP4" gate="A" pin="6"/>
 <pinref part="U1" gate="G$1" pin="VCC@2"/>
@@ -9467,10 +9464,14 @@ Sensors On</text>
 <wire x1="76.2" y1="91.44" x2="71.12" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="JP4" gate="A" pin="3"/>
 <pinref part="U1" gate="G$1" pin="VCC@1"/>
+<wire x1="71.12" y1="91.44" x2="66.04" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="88.9" x2="88.9" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="88.9" x2="76.2" y2="88.9" width="0.1524" layer="91"/>
 <junction x="88.9" y="88.9"/>
 <junction x="76.2" y="88.9"/>
+<pinref part="C3" gate="G$1" pin="1"/>
+<wire x1="71.12" y1="91.44" x2="71.12" y2="88.9" width="0.1524" layer="91"/>
+<junction x="71.12" y="91.44"/>
 </segment>
 <segment>
 <pinref part="+3V35" gate="G$1" pin="+3V3"/>
@@ -9774,6 +9775,23 @@ Sensors On</text>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,99.06,88.9,U1,VCC,+3V3,,,"/>
+<approved hash="104,1,99.06,81.28,U1,VCC,+3V3,,,"/>
+<approved hash="204,1,266.7,93.98,IC4,VBAT,,,,"/>
+<approved hash="104,1,259.08,114.3,IC4,VCC,+5V,,,"/>
+<approved hash="104,1,38.1,71.12,JP1,VCC,+3V3,,,"/>
+<approved hash="104,1,38.1,68.58,JP1,GND,3V3_TRAN_COL,,,"/>
+<approved hash="104,1,193.04,55.88,JP7,VCC,+3V3,,,"/>
+<approved hash="113,1,139.596,107.846,FRAME1,,,,,"/>
+<approved hash="113,1,88.6206,86.2288,JP4,,,,,"/>
+<approved hash="113,1,88.6629,119.511,JP3,,,,,"/>
+<approved hash="113,1,170.417,114.431,JP6,,,,,"/>
+<approved hash="113,1,35.3229,105.541,JP2,,,,,"/>
+<approved hash="113,1,33.6127,68.3937,JP1,,,,,"/>
+<approved hash="113,1,198.797,54.4237,JP7,,,,,"/>
+<approved hash="113,1,157.243,63.6312,JP5,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
