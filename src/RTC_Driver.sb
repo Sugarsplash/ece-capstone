@@ -1,0 +1,79 @@
+//Smart Basic Magic RTC
+
+DIM Handle, slave, regadd, regval
+
+slave = B'1101000
+
+DIM rc : rc=I2cOpen(100000,1,Handle)
+
+IF rc!= 0 Then
+	PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
+ELSE
+	PRINT "\nI2C open success \nHandle is: ";handle
+ENDIF
+
+
+//Minutes
+regadd = 0x01 : regval = B'00111001
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Hours
+regadd = 0x02 : regval = B'01010110
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Day
+regadd = 0x03 : regval = 0x02
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Date
+regadd = 0x04 : regval = B'00101001
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Month
+regadd = 0x05 : regval = 0x11
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Year
+regadd = 0x06 : regval = 0x16
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+//Seconds
+regadd = 0x0 : regval = 0x10010000
+rc = I2cWriteReg8(slave, regadd, regval)
+IF rc!= 0 THEN
+	PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+ELSE
+	PRINT "\n";regval;" written successfully to register "; regadd
+ENDIF
+
+I2cClose(Handle)

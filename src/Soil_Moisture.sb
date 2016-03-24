@@ -1,0 +1,11 @@
+DIM rc
+rc = GpioSetFunc(3, 3, 0)
+PRINT "\n GPIO set code: ";rc
+
+DIM read
+read = GpioRead(3)
+PRINT "\n Value read: ";read
+
+//console reset commands
+//atz
+//at&f 1
