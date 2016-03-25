@@ -1,0 +1,18 @@
+DIM rc
+rc = GpioSetFunc(3, 3, 0x11)
+PRINT "\n GPIO set code: ";rc
+
+DIM read
+read = GpioRead(3)
+PRINT "\n Value read: ";read
+
+DIM temp
+
+temp = ((read*115) / 1000) - 50
+PRINT "\nCurrent Temp: "; temp
+PRINT " Celsius"
+
+
+//console reset commands
+//atz
+//at&f 1
