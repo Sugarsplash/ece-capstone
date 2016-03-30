@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -6105,18 +6105,6 @@ In this library the device names are the same as the pin names of the symbols, t
 </library>
 <library name="adafruit">
 <packages>
-<package name="1X2-3.5MM">
-<wire x1="-3.4" y1="3.4" x2="-3.4" y2="-2.2" width="0.127" layer="21"/>
-<wire x1="-3.4" y1="-2.2" x2="-3.4" y2="-3.6" width="0.127" layer="21"/>
-<wire x1="-3.4" y1="-3.6" x2="3.6" y2="-3.6" width="0.127" layer="21"/>
-<wire x1="3.6" y1="-3.6" x2="3.6" y2="-2.2" width="0.127" layer="21"/>
-<wire x1="3.6" y1="-2.2" x2="3.6" y2="3.4" width="0.127" layer="21"/>
-<wire x1="3.6" y1="3.4" x2="-3.4" y2="3.4" width="0.127" layer="21"/>
-<wire x1="-3.4" y1="-2.2" x2="3.6" y2="-2.2" width="0.127" layer="21"/>
-<pad name="1" x="1.8" y="0" drill="1" diameter="2.1844"/>
-<pad name="2" x="-1.7" y="0" drill="1" diameter="2.1844"/>
-<text x="3" y="5" size="1.27" layer="25" rot="R180">&gt;NAME</text>
-</package>
 <package name="DIL08">
 <description>&lt;b&gt;Dual In Line Package&lt;/b&gt;</description>
 <wire x1="5.08" y1="2.921" x2="-5.08" y2="2.921" width="0.1524" layer="21"/>
@@ -6138,14 +6126,6 @@ In this library the device names are the same as the pin names of the symbols, t
 </package>
 </packages>
 <symbols>
-<symbol name="1X2">
-<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="5.08" y1="-2.54" x2="5.08" y2="5.08" width="0.254" layer="94"/>
-<wire x1="5.08" y1="5.08" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
-<pin name="1" x="-5.08" y="2.54" visible="pin" length="middle" direction="pas"/>
-<pin name="2" x="-5.08" y="0" visible="pin" length="middle" direction="pas"/>
-</symbol>
 <symbol name="DS1307">
 <wire x1="-10.16" y1="12.7" x2="10.16" y2="12.7" width="0.254" layer="94"/>
 <wire x1="10.16" y1="12.7" x2="10.16" y2="-10.16" width="0.254" layer="94"/>
@@ -6164,24 +6144,6 @@ In this library the device names are the same as the pin names of the symbols, t
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="1X2" prefix="J">
-<description>3.5mm Terminal block
-&lt;p&gt;http://www.ladyada.net/library/pcb/eaglelibrary.html&lt;p&gt;</description>
-<gates>
-<gate name="G$1" symbol="1X2" x="0" y="0"/>
-</gates>
-<devices>
-<device name="-3.5MM" package="1X2-3.5MM">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="DS1307" prefix="IC">
 <description>&lt;b&gt;DS1307&lt;/b&gt;
 &lt;p&gt;
@@ -7299,46 +7261,46 @@ Real time clock (RTC) with battery backup ability. Talk to it via i2c</descripti
 <library name="smart_irrigation">
 <packages>
 <package name="BOB">
-<wire x1="-10.16" y1="-16.51" x2="11.84" y2="-16.51" width="0.127" layer="21"/>
-<wire x1="11.84" y1="-16.51" x2="11.84" y2="16.49" width="0.127" layer="21"/>
-<wire x1="11.84" y1="16.49" x2="-10.16" y2="16.49" width="0.127" layer="21"/>
-<wire x1="-10.16" y1="16.49" x2="-10.16" y2="-16.51" width="0.127" layer="21"/>
-<text x="-10.16" y="-18.51" size="1.27" layer="25">&gt;NAME</text>
-<text x="-10.16" y="17.49" size="1.27" layer="28">&gt;VALUE</text>
-<pad name="28" x="10.86" y="11.54" drill="0.5" shape="long"/>
-<pad name="27" x="10.86" y="10.27" drill="0.5" shape="long"/>
-<pad name="26" x="10.86" y="9" drill="0.5" shape="long"/>
-<pad name="25" x="10.86" y="7.73" drill="0.5" shape="long"/>
-<pad name="24" x="10.86" y="6.46" drill="0.5" shape="long"/>
-<pad name="22" x="10.86" y="5.19" drill="0.5" shape="long"/>
-<pad name="21" x="10.86" y="3.92" drill="0.5" shape="long"/>
-<pad name="20" x="10.86" y="2.65" drill="0.5" shape="long"/>
-<pad name="19" x="10.86" y="1.38" drill="0.5" shape="long"/>
-<pad name="18" x="10.86" y="0.11" drill="0.5" shape="long"/>
-<pad name="16" x="10.86" y="-1.16" drill="0.5" shape="long"/>
-<pad name="15" x="10.86" y="-2.43" drill="0.5" shape="long"/>
-<pad name="14" x="10.86" y="-3.7" drill="0.5" shape="long"/>
-<pad name="13" x="10.86" y="-4.97" drill="0.5" shape="long"/>
-<pad name="12" x="10.86" y="-6.24" drill="0.5" shape="long"/>
-<pad name="11" x="10.86" y="-7.51" drill="0.5" shape="long"/>
-<pad name="36" x="-9.19" y="10.23" drill="0.5" shape="long"/>
-<pad name="38" x="-9.19" y="8.96" drill="0.5" shape="long"/>
-<pad name="39" x="-9.19" y="7.69" drill="0.5" shape="long"/>
-<pad name="41" x="-9.19" y="6.42" drill="0.5" shape="long"/>
-<pad name="42" x="-9.19" y="5.15" drill="0.5" shape="long"/>
-<pad name="2" x="-9.19" y="3.88" drill="0.5" shape="long"/>
-<pad name="4" x="-9.19" y="2.61" drill="0.5" shape="long"/>
-<pad name="5" x="-9.19" y="1.34" drill="0.5" shape="long"/>
-<pad name="6" x="-9.19" y="0.07" drill="0.5" shape="long"/>
-<pad name="7" x="-9.19" y="-1.2" drill="0.5" shape="long"/>
-<pad name="29" x="-9.19" y="11.5" drill="0.5" shape="long"/>
-<pad name="8" x="-9.19" y="-2.47" drill="0.5" shape="long"/>
-<pad name="J5_1" x="-9.16" y="-5.01" drill="1" shape="long"/>
-<pad name="J5_2" x="-9.16" y="-7.01" drill="1" shape="long"/>
-<pad name="J5_3" x="-9.16" y="-9.01" drill="1" shape="long"/>
-<pad name="J5_4" x="-9.16" y="-11.01" drill="1" shape="long"/>
-<pad name="J5_5" x="-9.16" y="-13.01" drill="1" shape="long"/>
-<pad name="J5_6" x="-9.16" y="-15.01" drill="1" shape="long"/>
+<wire x1="-11" y1="-17" x2="11" y2="-17" width="0.127" layer="21"/>
+<wire x1="11" y1="-17" x2="11" y2="16" width="0.127" layer="21"/>
+<wire x1="11" y1="16" x2="-11" y2="16" width="0.127" layer="21"/>
+<wire x1="-11" y1="16" x2="-11" y2="-17" width="0.127" layer="21"/>
+<text x="-11.06" y="-18.7" size="1.27" layer="25">&gt;NAME</text>
+<text x="-11.06" y="17.3" size="1.27" layer="28">&gt;VALUE</text>
+<pad name="28" x="10" y="12" drill="0.5" shape="long"/>
+<pad name="27" x="10" y="10.73" drill="0.5" shape="long"/>
+<pad name="26" x="10" y="9.46" drill="0.5" shape="long"/>
+<pad name="25" x="10" y="8.19" drill="0.5" shape="long"/>
+<pad name="24" x="10" y="6.92" drill="0.5" shape="long"/>
+<pad name="22" x="10" y="5.65" drill="0.5" shape="long"/>
+<pad name="21" x="10" y="4.38" drill="0.5" shape="long"/>
+<pad name="20" x="10" y="3.11" drill="0.5" shape="long"/>
+<pad name="19" x="10" y="1.84" drill="0.5" shape="long"/>
+<pad name="18" x="10" y="0.57" drill="0.5" shape="long"/>
+<pad name="16" x="10" y="-0.7" drill="0.5" shape="long"/>
+<pad name="15" x="10" y="-1.97" drill="0.5" shape="long"/>
+<pad name="14" x="10" y="-3.24" drill="0.5" shape="long"/>
+<pad name="13" x="10" y="-4.51" drill="0.5" shape="long"/>
+<pad name="12" x="10" y="-5.78" drill="0.5" shape="long"/>
+<pad name="11" x="10" y="-7.05" drill="0.5" shape="long"/>
+<pad name="36" x="-10" y="10.73" drill="0.5" shape="long"/>
+<pad name="38" x="-10" y="9.46" drill="0.5" shape="long"/>
+<pad name="39" x="-10" y="8.19" drill="0.5" shape="long"/>
+<pad name="41" x="-10" y="6.92" drill="0.5" shape="long"/>
+<pad name="42" x="-10" y="5.65" drill="0.5" shape="long"/>
+<pad name="2" x="-10" y="4.38" drill="0.5" shape="long"/>
+<pad name="4" x="-10" y="3.11" drill="0.5" shape="long"/>
+<pad name="5" x="-10" y="1.84" drill="0.5" shape="long"/>
+<pad name="6" x="-10" y="0.57" drill="0.5" shape="long"/>
+<pad name="7" x="-10" y="-0.7" drill="0.5" shape="long"/>
+<pad name="29" x="-10" y="12" drill="0.5" shape="long"/>
+<pad name="8" x="-10" y="-1.97" drill="0.5" shape="long"/>
+<pad name="J5_1" x="-10" y="-5" drill="1" shape="long"/>
+<pad name="J5_2" x="-10" y="-7" drill="1" shape="long"/>
+<pad name="J5_3" x="-10" y="-9" drill="1" shape="long"/>
+<pad name="J5_4" x="-10" y="-11" drill="1" shape="long"/>
+<pad name="J5_5" x="-10" y="-13" drill="1" shape="long"/>
+<pad name="J5_6" x="-10" y="-15" drill="1" shape="long"/>
 </package>
 <package name="TO252">
 <description>&lt;b&gt;SMALL OUTLINE TRANSISTOR&lt;/b&gt;&lt;p&gt;
@@ -8949,7 +8911,7 @@ Source: 008-0260-0_E.pdf</description>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="GND13" library="supply1" deviceset="GND" device=""/>
-<part name="J1" library="adafruit" deviceset="1X2" device="-3.5MM"/>
+<part name="J1" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="C8" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0805" value="0.1uF"/>
@@ -9213,7 +9175,7 @@ Sensors On</text>
 <segment>
 <pinref part="J1" gate="G$1" pin="1"/>
 <pinref part="GND4" gate="1" pin="GND"/>
-<wire x1="124.46" y1="185.42" x2="129.54" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="185.42" x2="129.54" y2="185.42" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="185.42" x2="129.54" y2="177.8" width="0.1524" layer="91"/>
 </segment>
 <segment>
@@ -9377,7 +9339,7 @@ Sensors On</text>
 </segment>
 <segment>
 <pinref part="J1" gate="G$1" pin="2"/>
-<wire x1="124.46" y1="187.96" x2="129.54" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="187.96" x2="129.54" y2="187.96" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="187.96" x2="129.54" y2="198.12" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="G$1" pin="+9V"/>
 </segment>
@@ -9786,10 +9748,11 @@ Sensors On</text>
 <approved hash="104,1,38.1,71.12,JP1,VCC,+3V3,,,"/>
 <approved hash="104,1,38.1,68.58,JP1,GND,3V3_TRAN_COL,,,"/>
 <approved hash="104,1,193.04,55.88,JP7,VCC,+3V3,,,"/>
+<approved hash="113,1,121.683,185.289,J1,,,,,"/>
 <approved hash="113,1,139.596,107.846,FRAME1,,,,,"/>
 <approved hash="113,1,88.6206,86.2288,JP4,,,,,"/>
 <approved hash="113,1,88.6629,119.511,JP3,,,,,"/>
-<approved hash="113,1,170.417,114.431,JP6,,,,,"/>
+<approved hash="113,1,157.717,114.431,JP6,,,,,"/>
 <approved hash="113,1,35.3229,105.541,JP2,,,,,"/>
 <approved hash="113,1,33.6127,68.3937,JP1,,,,,"/>
 <approved hash="113,1,198.797,54.4237,JP7,,,,,"/>
