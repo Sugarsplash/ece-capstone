@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9013,13 +9013,12 @@ SENSOR</text>
 <wire x1="93.98" y1="99.06" x2="93.98" y2="68.58" width="0.1524" layer="97"/>
 <wire x1="93.98" y1="68.58" x2="55.88" y2="68.58" width="0.1524" layer="97"/>
 <wire x1="55.88" y1="68.58" x2="55.88" y2="99.06" width="0.1524" layer="97"/>
-<wire x1="144.78" y1="38.1" x2="144.78" y2="76.2" width="0.1524" layer="97"/>
-<wire x1="144.78" y1="76.2" x2="210.82" y2="76.2" width="0.1524" layer="97"/>
-<wire x1="210.82" y1="76.2" x2="210.82" y2="38.1" width="0.1524" layer="97"/>
-<wire x1="210.82" y1="38.1" x2="144.78" y2="38.1" width="0.1524" layer="97"/>
-<text x="144.78" y="33.02" size="1.778" layer="97">SOLENOID &amp;
-FLOW SENSOR</text>
-<text x="147.32" y="43.18" size="0.762" layer="97">GPIO high -&gt; transistor on -&gt;
+<wire x1="180.34" y1="48.26" x2="180.34" y2="86.36" width="0.1524" layer="97"/>
+<wire x1="180.34" y1="86.36" x2="205.74" y2="86.36" width="0.1524" layer="97"/>
+<wire x1="205.74" y1="86.36" x2="205.74" y2="48.26" width="0.1524" layer="97"/>
+<wire x1="205.74" y1="48.26" x2="180.34" y2="48.26" width="0.1524" layer="97"/>
+<text x="180.34" y="45.72" size="1.778" layer="97">SOLENOID</text>
+<text x="185.42" y="50.8" size="0.762" layer="97">GPIO high -&gt; transistor on -&gt;
 solenoid on -&gt; water flow</text>
 <wire x1="10.16" y1="50.8" x2="48.26" y2="50.8" width="0.1524" layer="97"/>
 <wire x1="48.26" y1="50.8" x2="48.26" y2="22.86" width="0.1524" layer="97"/>
@@ -9028,6 +9027,11 @@ solenoid on -&gt; water flow</text>
 <text x="10.16" y="20.32" size="1.778" layer="97">SENSORS ENABLE</text>
 <text x="12.7" y="25.4" size="1.27" layer="97">GPIO High -&gt; Transistor On -&gt;
 Sensors On</text>
+<wire x1="22.86" y1="193.04" x2="50.8" y2="193.04" width="0.1524" layer="97"/>
+<wire x1="50.8" y1="193.04" x2="50.8" y2="167.64" width="0.1524" layer="97"/>
+<wire x1="50.8" y1="167.64" x2="22.86" y2="167.64" width="0.1524" layer="97"/>
+<wire x1="22.86" y1="167.64" x2="22.86" y2="193.04" width="0.1524" layer="97"/>
+<text x="22.86" y="165.1" size="1.778" layer="97">FLOW SENSOR</text>
 </plain>
 <instances>
 <instance part="IC2" gate="A1" x="170.18" y="190.5"/>
@@ -9138,15 +9142,15 @@ Sensors On</text>
 <attribute name="NAME" x="68.58" y="86.36" size="0.762" layer="95"/>
 <attribute name="VALUE" x="68.58" y="81.28" size="0.762" layer="96"/>
 </instance>
-<instance part="JP7" gate="A" x="200.66" y="53.34" rot="MR0"/>
-<instance part="+3V35" gate="G$1" x="190.5" y="63.5" smashed="yes">
-<attribute name="VALUE" x="190.5" y="63.5" size="1.778" layer="96"/>
+<instance part="JP7" gate="A" x="33.02" y="180.34"/>
+<instance part="+3V35" gate="G$1" x="43.18" y="187.96" smashed="yes">
+<attribute name="VALUE" x="43.18" y="187.96" size="1.778" layer="96"/>
 </instance>
-<instance part="GND14" gate="1" x="190.5" y="43.18"/>
-<instance part="Q1" gate="G$1" x="167.64" y="53.34"/>
-<instance part="JP5" gate="G$1" x="154.94" y="60.96" rot="MR0"/>
-<instance part="SUPPLY3" gate="G$1" x="162.56" y="68.58"/>
-<instance part="GND9" gate="1" x="170.18" y="43.18"/>
+<instance part="GND14" gate="1" x="43.18" y="172.72"/>
+<instance part="Q1" gate="G$1" x="187.96" y="66.04"/>
+<instance part="JP5" gate="G$1" x="195.58" y="73.66" rot="MR0"/>
+<instance part="SUPPLY3" gate="G$1" x="190.5" y="81.28"/>
+<instance part="GND9" gate="1" x="190.5" y="58.42"/>
 <instance part="Q3" gate="G1" x="15.24" y="43.18" smashed="yes">
 <attribute name="NAME" x="20.32" y="43.18" size="1.778" layer="95"/>
 <attribute name="VALUE" x="20.32" y="40.64" size="1.778" layer="96"/>
@@ -9285,13 +9289,12 @@ Sensors On</text>
 <segment>
 <pinref part="JP7" gate="A" pin="GND"/>
 <pinref part="GND14" gate="1" pin="GND"/>
-<wire x1="193.04" y1="50.8" x2="190.5" y2="50.8" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="50.8" x2="190.5" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="177.8" x2="43.18" y2="177.8" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="177.8" x2="43.18" y2="175.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND9" gate="1" pin="GND"/>
 <pinref part="Q1" gate="G$1" pin="S"/>
-<wire x1="170.18" y1="45.72" x2="170.18" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="Q3" gate="G1" pin="E"/>
@@ -9362,9 +9365,9 @@ Sensors On</text>
 </segment>
 <segment>
 <pinref part="SUPPLY3" gate="G$1" pin="+9V"/>
-<wire x1="162.56" y1="66.04" x2="162.56" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="78.74" x2="190.5" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="JP5" gate="G$1" pin="1"/>
-<wire x1="162.56" y1="63.5" x2="157.48" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="76.2" x2="198.12" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -9439,9 +9442,9 @@ Sensors On</text>
 </segment>
 <segment>
 <pinref part="+3V35" gate="G$1" pin="+3V3"/>
-<wire x1="190.5" y1="60.96" x2="190.5" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="185.42" x2="43.18" y2="182.88" width="0.1524" layer="91"/>
 <pinref part="JP7" gate="A" pin="VCC"/>
-<wire x1="190.5" y1="55.88" x2="193.04" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="182.88" x2="40.64" y2="182.88" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="NAUTORUN" class="0">
@@ -9479,11 +9482,17 @@ Sensors On</text>
 <wire x1="88.9" y1="124.46" x2="99.06" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="SIO_29" class="0">
+<net name="FLOW_DATA" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="SIO_29"/>
 <pinref part="JP3" gate="G$1" pin="5"/>
 <wire x1="99.06" y1="121.92" x2="88.9" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="JP7" gate="A" pin="PULSE"/>
+<wire x1="40.64" y1="180.34" x2="58.42" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="180.34" x2="58.42" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="121.92" x2="88.9" y2="121.92" width="0.1524" layer="91"/>
+<junction x="88.9" y="121.92"/>
+<label x="60.96" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SENSORS_ENABLE" class="0">
@@ -9579,31 +9588,15 @@ Sensors On</text>
 <label x="167.64" y="127" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="FLOW_DATA" class="0">
-<segment>
-<pinref part="JP6" gate="A" pin="4"/>
-<pinref part="U1" gate="G$1" pin="SIO_18"/>
-<wire x1="157.48" y1="124.46" x2="147.32" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="JP7" gate="A" pin="PULSE"/>
-<wire x1="193.04" y1="53.34" x2="187.96" y2="53.34" width="0.1524" layer="91"/>
-<wire x1="187.96" y1="53.34" x2="187.96" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="187.96" y1="124.46" x2="157.48" y2="124.46" width="0.1524" layer="91"/>
-<junction x="157.48" y="124.46"/>
-<label x="167.64" y="124.46" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="SOL_ENABLE" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="SIO_17"/>
 <pinref part="JP6" gate="A" pin="5"/>
 <wire x1="147.32" y1="121.92" x2="157.48" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="157.48" y1="121.92" x2="182.88" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="182.88" y1="121.92" x2="182.88" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="121.92" x2="185.42" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="121.92" x2="185.42" y2="63.5" width="0.1524" layer="91"/>
 <junction x="157.48" y="121.92"/>
-<wire x1="182.88" y1="81.28" x2="149.86" y2="81.28" width="0.1524" layer="91"/>
-<wire x1="149.86" y1="81.28" x2="149.86" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="Q1" gate="G$1" pin="G"/>
-<wire x1="149.86" y1="50.8" x2="165.1" y2="50.8" width="0.1524" layer="91"/>
 <label x="167.64" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
@@ -9699,9 +9692,8 @@ Sensors On</text>
 <segment>
 <pinref part="JP5" gate="G$1" pin="2"/>
 <pinref part="Q1" gate="G$1" pin="D"/>
-<wire x1="157.48" y1="60.96" x2="170.18" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="170.18" y1="60.96" x2="170.18" y2="58.42" width="0.1524" layer="91"/>
-<label x="165.1" y="60.96" size="1.778" layer="95"/>
+<wire x1="198.12" y1="73.66" x2="190.5" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="73.66" x2="190.5" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3V3_TRAN_COL" class="0">
@@ -9737,6 +9729,13 @@ Sensors On</text>
 <wire x1="251.46" y1="116.84" x2="251.46" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 </net>
+<net name="SIO_18" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="SIO_18"/>
+<pinref part="JP6" gate="A" pin="4"/>
+<wire x1="157.48" y1="124.46" x2="147.32" y2="124.46" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
@@ -9747,7 +9746,7 @@ Sensors On</text>
 <approved hash="104,1,259.08,114.3,IC4,VCC,+5V,,,"/>
 <approved hash="104,1,38.1,71.12,JP1,VCC,+3V3,,,"/>
 <approved hash="104,1,38.1,68.58,JP1,GND,3V3_TRAN_COL,,,"/>
-<approved hash="104,1,193.04,55.88,JP7,VCC,+3V3,,,"/>
+<approved hash="104,1,40.64,182.88,JP7,VCC,+3V3,,,"/>
 <approved hash="113,1,121.683,185.289,J1,,,,,"/>
 <approved hash="113,1,139.596,107.846,FRAME1,,,,,"/>
 <approved hash="113,1,88.6206,86.2288,JP4,,,,,"/>
@@ -9755,8 +9754,8 @@ Sensors On</text>
 <approved hash="113,1,157.717,114.431,JP6,,,,,"/>
 <approved hash="113,1,35.3229,105.541,JP2,,,,,"/>
 <approved hash="113,1,33.6127,68.3937,JP1,,,,,"/>
-<approved hash="113,1,198.797,54.4237,JP7,,,,,"/>
-<approved hash="113,1,157.243,63.6312,JP5,,,,,"/>
+<approved hash="113,1,34.8827,181.424,JP7,,,,,"/>
+<approved hash="113,1,197.883,76.3312,JP5,,,,,"/>
 </errors>
 </schematic>
 </drawing>
