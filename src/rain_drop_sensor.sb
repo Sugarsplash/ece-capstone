@@ -1,0 +1,22 @@
+' Using both analog and digital outputs of rain drop sensor
+DIM RDS_Analog
+DIM RDS_Digital
+RDS_Analog = 0
+RDS_Digital = 0
+
+
+' Analog input, pin 5
+GpioSetFunc(5,3,0)
+
+' Digital input, pin 42
+GpioSetFunc(42,1,0)
+
+' Read GPIO, print results
+WHILE 1
+    RDS_Analog = GPIOread(5)
+    RDS_Digital = GPIOread(42)
+    PRINT "\nAnalog = " ,RDS_Analog; "\n"
+    PRINT "Digital = " ,RDS_Digital; "\n"
+    delay(1000)
+
+ENDWHILE
