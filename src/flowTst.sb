@@ -8,8 +8,11 @@ count = 0
 last = 0
 state = 0
 
+' Digital input, pin 41
+GpioSetFunc(41,1,0)
+
 WHILE 1
- state = GPIOread(12)
+ state = GPIOread(41)
  IF state==1 THEN
   IF last==0 THEN
    count = count + 1
