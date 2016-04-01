@@ -1,9 +1,11 @@
+#include "pin_defs.sblib"
+
 DIM rc
-rc = GpioSetFunc(2, 3, 0x11)
+rc = GpioSetFunc(TEMP_DATA, 3, 0x11)
 PRINT "\n GPIO set code: ";rc
 
 DIM read
-read = GpioRead(2)
+read = GpioRead(TEMP_DATA)
 PRINT "\n Value read: ";read
 
 DIM temp

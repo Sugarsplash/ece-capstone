@@ -5,16 +5,16 @@ RDS_Analog = 0
 RDS_Digital = 0
 
 
-' Analog input, pin 5
-GpioSetFunc(5,3,0)
+' Analog input
+GpioSetFunc(RAIN_DATA_A,3,0)
 
-' Digital input, pin 42
-GpioSetFunc(42,1,0)
+' Digital input
+GpioSetFunc(RAIN_DATA_D,1,0)
 
 ' Read GPIO, print results
 WHILE 1
-    RDS_Analog = GPIOread(5)
-    RDS_Digital = GPIOread(42)
+    RDS_Analog = GPIOread(RAIN_DATA_A)
+    RDS_Digital = GPIOread(RAIN_DATA_D)
     PRINT "\nAnalog = " ,RDS_Analog; "\n"
     PRINT "Digital = " ,RDS_Digital; "\n"
     delay(1000)

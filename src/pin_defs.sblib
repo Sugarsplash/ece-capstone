@@ -1,0 +1,13 @@
+' SENSORS
+#define TEMP_DATA       1
+#define SOIL_DATA       2
+#define FLOW_DATA       29
+#define RAIN_DATA_D     30
+#define RAIN_DATA_A     3
+
+' RTC
+#define RTC_DATA        19
+
+' ENABLE SIGNALS
+#define SENSORS_ENABLE  27
+#define SOL_ENABLE      17
