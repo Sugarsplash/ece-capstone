@@ -1,10 +1,15 @@
 #include "lib/pin_defs.sblib"
 #include "lib/gpio.sblib"
 
-DIM rc
-rc = GpioSetFunc(SOIL_DATA, ANALOG_IN, ADC_10BIT)
-PRINT "\n GPIO set code: ";rc
+FUNCTION soil_read()
 
-DIM read
-read = GpioRead(SOIL_DATA)
-PRINT "\n Value read: ";read
+    DIM result : result = GpioSetFunc(SOIL_DATA, ANALOG_IN, ADC_10BIT)
+
+    ' GPIO not set correctly, return nonsensical value
+    IF result != 0 THEN
+        EXITFUNC -1
+    ENDIF
+
+    DIM moisture : moisture = GpioRead(SOIL_DATA)
+    
+ENDFUNC moisture
