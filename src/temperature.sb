@@ -1,16 +1,16 @@
 #include "lib/pin_defs.sblib"
 #include "lib/gpio.sblib"
 
-DIM rc
-rc = GpioSetFunc(TEMP_DATA, ANALOG_IN, ADC_10BIT)
-PRINT "\n GPIO set code: ";rc
+FUNCTION temp_read()
 
-DIM read
-read = GpioRead(TEMP_DATA)
-PRINT "\n Value read: ";read
-
-DIM temp
-
-temp = ((read*115) / 1000) - 50
-PRINT "\nCurrent Temp: "; temp
-PRINT " Celsius"
+    DIM result : result = GpioSetFunc(TEMP_DATA, ANALOG_IN, ADC_10BIT)
+    
+    ' GPIO not set correctly, return value outside of range of temp sensor
+    IF result != 0 THEN
+        EXITFUNC -100
+    ENDIF
+    
+    DIM read : read = GpioRead(TEMP_DATA)
+    DIM temp_celsius : temp_celsius = ((read*115) / 1000) - 50
+    
+ENDFUNC temp_celsius
