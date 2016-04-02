@@ -1,26 +1,34 @@
 #include "lib/pin_defs.sblib"
 #include "lib/gpio.sblib"
 
-' Using both analog and digital outputs of rain drop sensor
-DIM RDS_Analog
-DIM RDS_Digital
-RDS_Analog = 0
-RDS_Digital = 0
+FUNCTION rain__digital_read()
 
+    DIM rain_digital : rain_digital = 0
 
-' Analog input
-DIM rc
-rc = GpioSetFunc(RAIN_DATA_A, ANALOG_IN, ADC_10BIT)
-PRINT "\n GPIO set code: ";rc
+    ' Digital input
+    DIM result : result = GpioSetFunc(RAIN_DATA_D, DIGITAL_IN, NO_PULL)
+    
+    ' GPIO not set correctly, return nonsensical value
+    IF result != 0 THEN
+        EXITFUNC -1
+    ENDIF
 
-' Digital input
-rc = GpioSetFunc(RAIN_DATA_D, DIGITAL_IN, NO_PULL)
-PRINT "\n GPIO set code: ";rc
+    rain_digital = GPIOread(RAIN_DATA_D)
 
-' Read GPIO, print results
-WHILE 1
-    RDS_Analog = GPIOread(RAIN_DATA_A)
-    RDS_Digital = GPIOread(RAIN_DATA_D)
-    PRINT "\nAnalog = " ,RDS_Analog; "\n"
-    PRINT "Digital = " ,RDS_Digital; "\n"
-ENDWHILE
+ENDFUNC rain_digital
+
+FUNCTION rain_analog_read()
+
+    DIM rain_analog : rain_analog = 0
+
+    ' Analog input
+    DIM result : result = GpioSetFunc(RAIN_DATA_A, ANALOG_IN, ADC_10BIT)
+    
+    ' GPIO not set correctly, return nonsensical value
+    IF result != 0 THEN
+        EXITFUNC -1
+    ENDIF
+
+    rain_analog = GPIOread(RAIN_DATA_A)
+
+ENDFUNC rain_analog
