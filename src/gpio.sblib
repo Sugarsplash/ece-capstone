@@ -1,0 +1,22 @@
+' D/A DIRECTION
+#define DIGITAL_IN          1
+#define DIGITAL_OUT         2
+#define ANALOG_IN           3
+
+' DIGITAL_IN SUB FUNCTIONS
+#define PULL_UP_WEAK        0x01
+#define PULL_UP_STRONG      0x02
+#define PULL_DOWN_WEAK      0x03
+#define PULL_DOWN_STRONG    0x04
+#define NO_PULL             0x00
+
+' DIGITAL_OUT SUB FUNCTIONS
+#define INIT_LOW            0
+#define INIT_HIGH           1
+#define OUTPUT_PWM          2
+#define OUTPUT_FREQ         3
+
+' ANALOG_IN SUB FUNCTIONS
+#define ADC_10BIT_2_3       0x00
+#define ADC_10BIT_1_3       0x13
+#define ADC_10BIT           0x11
