@@ -1,5 +1,5 @@
-#include "pin_defs.sblib"
-#include "gpio.sblib"
+#include "lib/pin_defs.sblib"
+#include "lib/gpio.sblib"
 
 ' Using both analog and digital outputs of rain drop sensor
 DIM RDS_Analog
@@ -23,5 +23,4 @@ WHILE 1
     RDS_Digital = GPIOread(RAIN_DATA_D)
     PRINT "\nAnalog = " ,RDS_Analog; "\n"
     PRINT "Digital = " ,RDS_Digital; "\n"
-
 ENDWHILE

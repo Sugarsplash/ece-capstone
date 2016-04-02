@@ -1,5 +1,5 @@
-#include "pin_defs.sblib"
-#include "gpio.sblib"
+#include "lib/pin_defs.sblib"
+#include "lib/gpio.sblib"
 
 DIM last
 DIM count
@@ -14,16 +14,16 @@ rc = GpioSetFunc(FLOW_DATA, DIGITAL_IN, NO_PULL)
 PRINT "\n GPIO set code: ";rc
 
 WHILE 1
- state = GPIOread(FLOW_DATA)
- IF state==1 THEN
-  IF last==0 THEN
-   count = count + 1
-   last = 1
-   PRINT "COUNT " ;count; "\n"
-  ENDIF
- ELSE
-  last = 0
- ENDIF
+    state = GPIOread(FLOW_DATA)
+    IF state==1 THEN
+        IF last==0 THEN
+            count = count + 1
+            last = 1
+            PRINT "COUNT " ;count; "\n"
+        ENDIF
+    ELSE
+        last = 0
+    ENDIF
 ENDWHILE
 
 PRINT "\nFinished\n"

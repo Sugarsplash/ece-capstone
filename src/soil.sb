@@ -1,5 +1,5 @@
-#include "pin_defs.sblib"
-#include "gpio.sblib"
+#include "lib/pin_defs.sblib"
+#include "lib/gpio.sblib"
 
 DIM rc
 rc = GpioSetFunc(SOIL_DATA, ANALOG_IN, ADC_10BIT)
@@ -8,7 +8,3 @@ PRINT "\n GPIO set code: ";rc
 DIM read
 read = GpioRead(SOIL_DATA)
 PRINT "\n Value read: ";read
-
-//console reset commands
-//atz
-//at&f 1

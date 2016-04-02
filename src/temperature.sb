@@ -1,5 +1,5 @@
-#include "pin_defs.sblib"
-#include "gpio.sblib"
+#include "lib/pin_defs.sblib"
+#include "lib/gpio.sblib"
 
 DIM rc
 rc = GpioSetFunc(TEMP_DATA, ANALOG_IN, ADC_10BIT)
@@ -14,8 +14,3 @@ DIM temp
 temp = ((read*115) / 1000) - 50
 PRINT "\nCurrent Temp: "; temp
 PRINT " Celsius"
-
-
-//console reset commands
-//atz
-//at&f 1
