@@ -1,52 +1,4 @@
 DIM lut [91]
-DIM degree
-DIM temp
-DIM ret
-
-//Trigonomic functions
-FUNCTION sin(BYVAL degree AS INTEGER)
-
-IF degree < 91 THEN
-    ret = lut[degree]
-ELSEIF degree < 181 THEN
-    temp = degree - 90
-    temp = ABS(temp - 90)
-    ret = temp
-ELSEIF degree < 271 THEN
-    ret = -1 * lut[degree]
-ELSE //degree > 271
-    temp = degree - 270
-    temp = ABS(temp - 90)
-    ret = temp
-ENDIF
-
-ret = lut[temp]
-
-ENDFUNC ret
-
-//***************************************
-
-FUNCTION cos(BYVAL degree AS INTEGER)
-
-degree = degree + 90
-IF degree > 360 THEN
-    degree = degree - 360
-ENDIF
-
-ret = sin(degree)
-
-ENDFUNC ret
-
-//***************************************
-
-FUNCTION tan(BYVAL degree AS INTEGER)
-
-ret = sin(degree)/cos(degree)
-
-ENDFUNC ret
-
-//***************************************
-
 //Look up table for values of sine
 //All values are implicitly multiplied by 10000
 lut[0]=0
@@ -140,3 +92,115 @@ lut[87]=9986	//0.9986
 lut[88]=9994	//0.9994
 lut[89]=9998	//0.9998
 lut[90]=10000
+
+DIM degree
+DIM value
+DIM temp
+DIM ret
+DIM i
+DIM negativeFlag
+
+//Trigonomic functions
+FUNCTION sin(BYVAL degree AS INTEGER)
+
+IF degree < 91 THEN
+    ret = lut[degree]
+ELSEIF degree < 181 THEN
+    temp = degree - 90
+    temp = ABS(temp - 90)
+    ret = lut[temp]
+ELSEIF degree < 271 THEN
+    temp = degree - 180
+    ret = -1 * lut[temp]
+ELSEIF 270 < degree < 361 THEN
+    temp = degree - 270
+    temp = ABS(temp - 90)
+    ret = -1 * lut[temp]
+ELSE
+    //Invalid value?
+ENDIF
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION cos(BYVAL degree AS INTEGER)
+
+degree = degree + 90
+IF degree > 360 THEN
+    degree = degree - 360
+ENDIF
+
+ret = sin(degree)
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION tan(BYVAL degree AS INTEGER)
+
+IF (degree == 90) || (degree == 270) THEN
+    ret = 0
+ELSE
+    ret = (10000 * sin(degree)) / cos(degree)
+ENDIF
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION invcos(BYVAL value AS INTEGER)
+
+IF (value > 10000) || (value < -10000) THEN
+    value = value / 10000
+ENDIF
+
+IF value < 0 THEN 
+    value = value * -1
+    negativeFlag = 1
+ELSE
+    negativeFlag = 0
+ENDIF
+
+temp = 0 //Use temp as a "done" flag
+i = 0
+DO
+    IF value > lut[i] THEN
+	i = i + 1
+    ELSEIF value <= lut[i] THEN
+	ret = i
+	IF negativeFlag == 1 THEN
+	    ret = ret * -1
+	ENDIF
+	ret = ret - 90
+	temp = 1
+    ENDIF
+DOWHILE (temp == 0)
+
+ENDFUNC ret
+
+//***************************************
+
+print "sin(30): ";sin(30);"\n"
+print "sin(120): ";sin(120);"\n"
+print "sin(220): ";sin(220);"\n"
+print "sin(320): ";sin(320);"\n"
+
+print "cos(30): ";cos(30);"\n"
+print "cos(120): ";cos(120);"\n"
+print "cos(220): ";cos(220);"\n"
+print "cos(320): ";cos(320);"\n"
+
+print "tan(30): ";tan(30);"\n"
+print "tan(120): ";tan(120);"\n"
+print "tan(220): ";tan(220);"\n"
+print "tan(320): ";tan(320);"\n"
+
+print "invcos(-1): ";invcos(-10000);"\n"
+print "invcos(-.5): ";invcos(-5000);"\n"
+print "invcos(0): ";invcos(0);"\n"
+print "invcos(.5): ";invcos(5000);"\n"
+print "invcos(1): ";invcos(10000);"\n"
+
+print "Total: ";SYSINFO(601);"\n"
+print "Free: ";SYSINFO(602);"\n"
