@@ -1,0 +1,22 @@
+Informed advisor, Roy, about:
+
+Finals to Spring break transition
+-New breakout board as we needed more I/O (BB600)
+-Perf board complications changed prototype creation
+-Ordered custom PCB (expected arrival next week)
+-Android functions (scan for device, get info from device)
+
+Spring break to first week of class
+-Talked about BLE connection
+-Code arithmetic functions in algorithm from C to smartBASIC
+-Configuration mode and operation mode
+
+Need enclosure design created
+-Rubber gasket a possibility for closing/opening
+-Wall wort near plug, extension cord into enclosure
+-Need a place to mount the rain drop sensor
+-Will probably bundle cables to two different holes in
+ enclosure, one for power and one for sensors
+Need to know more about when to sleep/wake up
+Need to know when to advertise connection
+Need to get transmit/receive going soon with connected device
