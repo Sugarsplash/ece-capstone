@@ -93,114 +93,260 @@ lut[88]=9994	//0.9994
 lut[89]=9998	//0.9998
 lut[90]=10000
 
+DIM cel [15]
+//Look up table for degrees Celsius
+//Used in place of the following power function:
+//
+//    #DEFINE HE 4240		//0.4240
+//
+//    pow((T_max-T_min),HE)
+//
+//All values are implicitly multiplied by 10000
+cel[0]=0	//0
+cel[1]=10000	//1
+cel[2]=13426	//1.3416
+cel[3]=15933	//1.5933
+cel[4]=18000	//1.8000
+cel[5]=19586	//1.9586
+cel[6]=21376	//2.1376
+cel[7]=22820	//2.2820
+cel[8]=24150	//2.4150
+cel[9]=25386	//2.5386
+cel[10]=26546	//2.6546
+cel[11]=27641	//2.7641
+cel[12]=28680	//2.8680
+cel[13]=29667	//2.9667
+cel[14]=30617	//3.0617
+
+//Constants
+#DEFINE HC 23		//0.0023
+#DEFINE PI 31416	//3.1416
+#DEFINE HT 18		//17.8 (Needs less resolution
+			//      to prevent overflow)
+
+#DEFINE K_s 1		//1
+#DEFINE K_c 1		//1
+
+
+////////////////////////////////
+//Passed in values for functions
+#DEFINE D_y	349
+#DEFINE j	45
+
+#DEFINE T_max	7
+#DEFINE T_min	2
+////////////////////////////////
+
+//Terms for constants in functions
+#DEFINE DR_term1 172	//0.0172
+
+#DEFINE D_term1 172	//0.0172
+
+#DEFINE RA_term1 153351	//15.3351
+
+#DEFINE TO_DEG 573	//Remember: Divide by 100000
+#DEFINE TO_RAD 175	//This only needs 10000
+
+//Variables
 DIM degree
 DIM value
-DIM temp
-DIM ret
-DIM i
-DIM negativeFlag
 
-//Trigonomic functions
+	//Trigonomic functions
+
 FUNCTION sin(BYVAL degree AS INTEGER)
+    DIM ret
+    DIM temp
 
-IF degree < 91 THEN
-    ret = lut[degree]
-ELSEIF degree < 181 THEN
-    temp = degree - 90
-    temp = ABS(temp - 90)
-    ret = lut[temp]
-ELSEIF degree < 271 THEN
-    temp = degree - 180
-    ret = -1 * lut[temp]
-ELSEIF 270 < degree < 361 THEN
-    temp = degree - 270
-    temp = ABS(temp - 90)
-    ret = -1 * lut[temp]
-ELSE
-    //Invalid value?
-ENDIF
+    IF (degree > 360) || (degree < -360) THEN
+	degree = degree % 360
+    ENDIF
+
+    IF degree < 0 THEN
+	degree = degree + 360
+    ENDIF
+
+    IF degree < 91 THEN
+	ret = lut[degree]
+    ELSEIF degree < 181 THEN
+	temp = degree - 90
+	temp = ABS(temp - 90)
+	ret = lut[temp]
+    ELSEIF degree < 271 THEN
+	temp = degree - 180
+	ret = -1 * lut[temp]
+    ELSEIF 270 < degree < 361 THEN
+	temp = degree - 270
+	temp = ABS(temp - 90)
+	ret = -1 * lut[temp]
+    ELSE
+	//Invalid number?
+    ENDIF
 
 ENDFUNC ret
 
 //***************************************
 
 FUNCTION cos(BYVAL degree AS INTEGER)
+    DIM ret
 
-degree = degree + 90
-IF degree > 360 THEN
-    degree = degree - 360
-ENDIF
+    degree = degree + 90
 
-ret = sin(degree)
+    ret = sin(degree)
 
 ENDFUNC ret
 
 //***************************************
 
 FUNCTION tan(BYVAL degree AS INTEGER)
+    DIM ret
 
-IF (degree == 90) || (degree == 270) THEN
-    ret = 0
-ELSE
-    ret = (10000 * sin(degree)) / cos(degree)
-ENDIF
+    IF (degree == 90) || (degree == 270) THEN
+	ret = 0
+    ELSE
+	ret = (10000 * sin(degree)) / cos(degree)
+    ENDIF
 
 ENDFUNC ret
 
 //***************************************
 
 FUNCTION invcos(BYVAL value AS INTEGER)
+    DIM ret
+    DIM negativeFlag
+    DIM done
+    DIM i
 
-IF (value > 10000) || (value < -10000) THEN
-    value = value / 10000
-ENDIF
+    //Note: value can't be greater than 10000 and
+    //it can't be less than -10000 (out of bounds)
 
-IF value < 0 THEN 
-    value = value * -1
-    negativeFlag = 1
-ELSE
-    negativeFlag = 0
-ENDIF
-
-temp = 0 //Use temp as a "done" flag
-i = 0
-DO
-    IF value > lut[i] THEN
-	i = i + 1
-    ELSEIF value <= lut[i] THEN
-	ret = i
-	IF negativeFlag == 1 THEN
-	    ret = ret * -1
+    IF (value > 10000) || (value < -10000) THEN
+	print "\n","invcos: out-of-bounds";"\n"
+	ret = 0
+    ELSE
+	IF value < 0 THEN 
+	    value = -1 * value
+	    negativeFlag = 1
+	ELSE
+	    negativeFlag = 0
 	ENDIF
-	ret = ret - 90
-	temp = 1
+
+	done = 0
+	i = 0
+	DO
+	    IF value > lut[i] THEN
+		i = i + 1
+	    ELSEIF value <= lut[i] THEN
+		ret = i
+		IF negativeFlag == 1 THEN
+		    ret = -1 * ret
+		ENDIF
+		    ret = -1 * (ret - 90)
+		    done = 1
+	    ENDIF
+	DOWHILE (done == 0)
     ENDIF
-DOWHILE (temp == 0)
 
 ENDFUNC ret
 
 //***************************************
 
-print "sin(30): ";sin(30);"\n"
-print "sin(120): ";sin(120);"\n"
-print "sin(220): ";sin(220);"\n"
-print "sin(320): ";sin(320);"\n"
+	//Implementation of C functions to smartBASIC
 
-print "cos(30): ";cos(30);"\n"
-print "cos(120): ";cos(120);"\n"
-print "cos(220): ";cos(220);"\n"
-print "cos(320): ";cos(320);"\n"
+//Pass in day of the year
+FUNCTION d_r()
+    DIM ret
+    DIM temp
 
-print "tan(30): ";tan(30);"\n"
-print "tan(120): ";tan(120);"\n"
-print "tan(220): ";tan(220);"\n"
-print "tan(320): ";tan(320);"\n"
+	//divide by 10000 to remove added resolution from
+	//two numbers with already increased resolution
+    temp = DR_term1 * D_y * TO_DEG
 
-print "invcos(-1): ";invcos(-10000);"\n"
-print "invcos(-.5): ";invcos(-5000);"\n"
-print "invcos(0): ";invcos(0);"\n"
-print "invcos(.5): ";invcos(5000);"\n"
-print "invcos(1): ";invcos(10000);"\n"
+    temp = cos(temp / 100000)
+
+    ret = 10000 + (330 * temp / 10000)
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION d()
+    DIM ret
+    DIM temp
+
+	//divide by 10000 to remove added resolution from
+	//two numbers with already increased resolution
+    temp = ((D_term1 * D_y) - 13900) * TO_DEG
+
+    temp = sin(temp / 100000)
+
+    ret = 4090 * temp / 10000
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION omega_s()
+    DIM ret
+    DIM temp
+
+	//divide by 10000 to remove added resolution from
+	//two numbers with already increased resolution
+    temp = tan(d() * TO_DEG / 100000)
+
+    ret = invcos(-1 * (tan(j) * temp / 10000))
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION R_a() //Currently overflows too often
+    DIM ret
+    DIM temp1
+    DIM temp2
+    DIM deg
+    DIM temp3
+
+	//divide by 10000 to remove added resolution from
+	//two numbers with already increased resolution
+
+    deg = cos(d() * TO_DEG / 100000)
+
+    temp1 = cos(j) * deg / 10000
+
+    temp1 = temp1 * sin(omega_s()) / 10000
+
+    deg = sin(d() * TO_DEG / 100000)
+
+    temp2 = (omega_s() * TO_RAD) * (sin(j) * deg / 10000) / 10000
+
+    temp3 = (temp1 + temp2) / 10
+
+    ret = (RA_term1 * d_r() / 100000) * temp3 / 100
+
+ENDFUNC ret
+
+//***************************************
+
+FUNCTION E_to()
+    DIM ret
+    DIM pow
+    DIM temp
+
+    pow = cel[(T_max - T_min)]
+
+    temp = (((T_max + T_min) / 2) + HT)
+
+    ret = (R_a() * HC / 10000) * (pow * temp) / 10000
+
+ENDFUNC ret
+
+//***************************************
+
+print "d_r(): ";d_r();"\n"
+print "d(): ";d();"\n"
+print "omega_s(): ";omega_s();"\n"
+print "R_a(): ";R_a();"\n"
+print "E_to(): ";E_to();"\n"
 
 print "Total: ";SYSINFO(601);"\n"
 print "Free: ";SYSINFO(602);"\n"
