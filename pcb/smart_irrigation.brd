@@ -154,7 +154,7 @@
 <text x="69.85" y="52.07" size="0.635" layer="25" font="vector" ratio="20" rot="R90">+9V</text>
 <text x="25.654" y="74.676" size="0.635" layer="25" font="vector" ratio="20">+3V3</text>
 <text x="51.816" y="74.676" size="0.635" layer="25" font="vector" ratio="20">+5V</text>
-<text x="37.338" y="74.676" size="0.635" layer="25" font="vector" ratio="20">+</text>
+<text x="41.402" y="74.422" size="0.635" layer="25" font="vector" ratio="20">+</text>
 <text x="14.478" y="40.64" size="0.635" layer="25" font="vector" ratio="20" rot="R180">TEMP</text>
 <text x="6.604" y="42.926" size="0.635" layer="25" font="vector" ratio="20">+</text>
 </plain>
