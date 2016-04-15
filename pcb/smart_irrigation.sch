@@ -9286,7 +9286,7 @@ Sensors On</text>
 <instance part="P+2" gate="1" x="259.08" y="119.38" smashed="yes">
 <attribute name="VALUE" x="261.62" y="119.38" size="1.778" layer="96"/>
 </instance>
-<instance part="GND21" gate="1" x="251.46" y="76.2"/>
+<instance part="GND21" gate="1" x="251.46" y="73.66"/>
 <instance part="Q2" gate="G$1" x="248.92" y="116.84" smashed="yes" rot="R180">
 <attribute name="NAME" x="246.38" y="115.824" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="251.46" y="114.3" size="1.016" layer="96"/>
@@ -9421,7 +9421,13 @@ Sensors On</text>
 <segment>
 <pinref part="GND21" gate="1" pin="GND"/>
 <pinref part="IC4" gate="G$1" pin="GND"/>
+<wire x1="251.46" y1="76.2" x2="251.46" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="IC4" gate="G$1" pin="VBAT"/>
 <wire x1="251.46" y1="78.74" x2="251.46" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="266.7" y1="93.98" x2="271.78" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="271.78" y1="93.98" x2="271.78" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="251.46" y1="78.74" x2="271.78" y2="78.74" width="0.1524" layer="91"/>
+<junction x="251.46" y="78.74"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="G$1" pin="1"/>

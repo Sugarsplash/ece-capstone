@@ -2303,6 +2303,7 @@ Please make sure your boards conform to these design rules.</description>
 <via x="60.96" y="37.592" extent="1-16" drill="0.6"/>
 <contactref element="SW1" pad="P$2"/>
 <via x="59.436" y="45.212" extent="1-16" drill="0.6"/>
+<contactref element="IC4" pad="3"/>
 </signal>
 <signal name="+9V">
 <contactref element="IC2" pad="1"/>
@@ -2676,9 +2677,6 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="51.308" y1="27.686" x2="51.308" y2="20.32" width="0.254" layer="16"/>
 <wire x1="51.308" y1="20.32" x2="54.102" y2="17.526" width="0.254" layer="16"/>
 <wire x1="54.102" y1="17.526" x2="56.134" y2="17.526" width="0.254" layer="16"/>
-</signal>
-<signal name="VBAT">
-<contactref element="IC4" pad="3"/>
 </signal>
 <signal name="SOL_DRAIN">
 <contactref element="JP8" pad="2"/>
