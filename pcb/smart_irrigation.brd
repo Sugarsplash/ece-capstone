@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.3.0">
+<eagle version="7.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -2220,10 +2220,10 @@ Please make sure your boards conform to these design rules.</description>
 <element name="JP1" library="smart_irrigation" package="1X04" value="" x="15.24" y="8.382" smashed="yes" rot="R180">
 <attribute name="VALUE" x="30.24" y="17.382" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="C1" library="rcl" package="C0805" value="10uF" x="40.386" y="11.684" smashed="yes" rot="R180">
+<element name="C1" library="rcl" package="C0805" value="0.1uF" x="40.386" y="11.684" smashed="yes" rot="R180">
 <attribute name="NAME" x="38.354" y="11.176" size="0.635" layer="25" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="C2" library="rcl" package="C0805" value="10uF" x="40.386" y="9.398" smashed="yes" rot="R180">
+<element name="C2" library="rcl" package="C0805" value="0.1uF" x="40.386" y="9.398" smashed="yes" rot="R180">
 <attribute name="NAME" x="38.354" y="8.89" size="0.635" layer="25" font="vector" ratio="20" rot="R90"/>
 </element>
 <element name="C3" library="rcl" package="C0805" value="10uF" x="40.386" y="7.112" smashed="yes" rot="R180">
@@ -2446,19 +2446,6 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="36.322" y1="15.748" x2="31.288" y2="20.782" width="0.254" layer="16"/>
 <wire x1="31.288" y1="20.782" x2="29.624" y2="20.782" width="0.254" layer="16"/>
 </signal>
-<signal name="SIO_25">
-<contactref element="JP4" pad="2"/>
-<contactref element="U1" pad="36"/>
-<wire x1="29.624" y1="44.512" x2="28.132" y2="44.512" width="0.254" layer="16"/>
-<wire x1="28.132" y1="44.512" x2="26.924" y2="45.72" width="0.254" layer="16"/>
-<wire x1="26.924" y1="45.72" x2="20.828" y2="45.72" width="0.254" layer="16"/>
-</signal>
-<signal name="SIO_26">
-<contactref element="U1" pad="38"/>
-<contactref element="JP4" pad="3"/>
-<wire x1="29.624" y1="43.242" x2="20.89" y2="43.242" width="0.254" layer="16"/>
-<wire x1="20.89" y1="43.242" x2="20.828" y2="43.18" width="0.254" layer="16"/>
-</signal>
 <signal name="FLOW_DATA">
 <contactref element="JP2" pad="2"/>
 <wire x1="5.334" y1="46.99" x2="7.874" y2="46.99" width="0.254" layer="16"/>
@@ -2466,7 +2453,6 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="8.89" y1="46.228" x2="15.748" y2="46.228" width="0.254" layer="16"/>
 <contactref element="JP4" pad="5"/>
 <contactref element="U1" pad="41"/>
-<wire x1="15.748" y1="46.228" x2="16.002" y2="46.228" width="0.254" layer="16"/>
 <wire x1="29.624" y1="40.702" x2="24.192" y2="40.702" width="0.254" layer="16"/>
 <wire x1="24.192" y1="40.702" x2="21.59" y2="38.1" width="0.254" layer="16"/>
 <wire x1="21.59" y1="38.1" x2="20.828" y2="38.1" width="0.254" layer="16"/>
@@ -2476,17 +2462,17 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="16.51" y1="45.466" x2="15.748" y2="46.228" width="0.254" layer="16"/>
 </signal>
 <signal name="SENSORS_ENABLE">
-<contactref element="U1" pad="39"/>
-<contactref element="JP4" pad="4"/>
 <contactref element="T1" pad="2"/>
-<wire x1="29.624" y1="41.972" x2="23.43" y2="41.972" width="0.254" layer="16"/>
-<wire x1="23.43" y1="41.972" x2="22.098" y2="40.64" width="0.254" layer="16"/>
-<wire x1="22.098" y1="40.64" x2="20.828" y2="40.64" width="0.254" layer="16"/>
 <wire x1="13.462" y1="50.419" x2="15.875" y2="50.419" width="0.254" layer="16"/>
-<wire x1="15.875" y1="50.419" x2="17.78" y2="48.514" width="0.254" layer="16"/>
-<wire x1="17.78" y1="48.514" x2="17.78" y2="41.91" width="0.254" layer="16"/>
-<wire x1="17.78" y1="41.91" x2="19.05" y2="40.64" width="0.254" layer="16"/>
-<wire x1="19.05" y1="40.64" x2="20.828" y2="40.64" width="0.254" layer="16"/>
+<contactref element="JP4" pad="2"/>
+<contactref element="U1" pad="36"/>
+<wire x1="29.624" y1="44.512" x2="28.132" y2="44.512" width="0.254" layer="16"/>
+<wire x1="28.132" y1="44.512" x2="26.924" y2="45.72" width="0.254" layer="16"/>
+<wire x1="26.924" y1="45.72" x2="20.828" y2="45.72" width="0.254" layer="16"/>
+<wire x1="15.875" y1="50.419" x2="18.542" y2="47.752" width="0.254" layer="16"/>
+<wire x1="18.542" y1="47.752" x2="18.542" y2="46.228" width="0.254" layer="16"/>
+<wire x1="18.542" y1="46.228" x2="19.05" y2="45.72" width="0.254" layer="16"/>
+<wire x1="19.05" y1="45.72" x2="20.828" y2="45.72" width="0.254" layer="16"/>
 </signal>
 <signal name="SOIL_DATA">
 <contactref element="JP3" pad="3"/>

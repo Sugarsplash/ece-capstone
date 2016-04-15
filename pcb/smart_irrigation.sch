@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.3.0">
+<eagle version="7.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -9128,8 +9128,8 @@ Source: 008-0260-0_E.pdf</description>
 <part name="+3V34" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="GND9" library="supply1" deviceset="GND" device=""/>
-<part name="C1" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
-<part name="C2" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
+<part name="C1" library="rcl" deviceset="C-EU" device="C0805" value="0.1uF"/>
+<part name="C2" library="rcl" deviceset="C-EU" device="C0805" value="0.1uF"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="JP2" library="smart_irrigation" deviceset="FLOW" device=""/>
 <part name="+3V33" library="supply1" deviceset="+3V3" device=""/>
@@ -9301,7 +9301,7 @@ Sensors On</text>
 <instance part="+3V32" gate="G$1" x="20.32" y="111.76"/>
 <instance part="JP1" gate="A" x="20.32" y="66.04"/>
 <instance part="+3V34" gate="G$1" x="35.56" y="76.2"/>
-<instance part="GND4" gate="1" x="81.28" y="129.54"/>
+<instance part="GND4" gate="1" x="76.2" y="129.54"/>
 <instance part="GND9" gate="1" x="165.1" y="129.54" smashed="yes">
 <attribute name="VALUE" x="167.64" y="129.54" size="1.27" layer="96"/>
 </instance>
@@ -9428,7 +9428,7 @@ Sensors On</text>
 <pinref part="U1" gate="G$1" pin="GND@3"/>
 <wire x1="99.06" y1="132.08" x2="88.9" y2="132.08" width="0.1524" layer="91"/>
 <junction x="88.9" y="132.08"/>
-<wire x1="81.28" y1="132.08" x2="88.9" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="132.08" x2="88.9" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -9652,20 +9652,6 @@ Sensors On</text>
 <wire x1="99.06" y1="83.82" x2="88.9" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="SIO_25" class="0">
-<segment>
-<pinref part="JP4" gate="G$1" pin="2"/>
-<pinref part="U1" gate="G$1" pin="SIO_25"/>
-<wire x1="88.9" y1="129.54" x2="99.06" y2="129.54" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="SIO_26" class="0">
-<segment>
-<pinref part="U1" gate="G$1" pin="SIO_26"/>
-<pinref part="JP4" gate="G$1" pin="3"/>
-<wire x1="99.06" y1="127" x2="88.9" y2="127" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="FLOW_DATA" class="0">
 <segment>
 <pinref part="JP2" gate="A" pin="PULSE"/>
@@ -9682,16 +9668,18 @@ Sensors On</text>
 <net name="SENSORS_ENABLE" class="0">
 <segment>
 <wire x1="48.26" y1="157.48" x2="5.08" y2="157.48" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="157.48" x2="48.26" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="124.46" x2="88.9" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="JP4" gate="G$1" pin="4"/>
-<pinref part="U1" gate="G$1" pin="SIO_27"/>
-<wire x1="88.9" y1="124.46" x2="99.06" y2="124.46" width="0.1524" layer="91"/>
-<junction x="88.9" y="124.46"/>
-<label x="53.34" y="124.46" size="1.778" layer="95"/>
 <wire x1="5.08" y1="157.48" x2="5.08" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="T1" gate="G1" pin="B"/>
 <wire x1="5.08" y1="43.18" x2="7.62" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="157.48" x2="48.26" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="124.46" x2="81.28" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="SIO_25"/>
+<pinref part="JP4" gate="G$1" pin="2"/>
+<wire x1="88.9" y1="129.54" x2="99.06" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="129.54" x2="88.9" y2="129.54" width="0.1524" layer="91"/>
+<junction x="88.9" y="129.54"/>
+<label x="53.34" y="124.46" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SOIL_DATA" class="0">
