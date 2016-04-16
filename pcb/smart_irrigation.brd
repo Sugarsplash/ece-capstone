@@ -2539,7 +2539,7 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="51.054" y1="48.006" x2="53.594" y2="50.546" width="0.254" layer="16"/>
 <wire x1="53.594" y1="50.546" x2="56.134" y2="50.546" width="0.254" layer="16"/>
 </signal>
-<signal name="RTC_DATA">
+<signal name="RTC_SQW">
 <contactref element="U1" pad="26"/>
 <contactref element="JP7" pad="3"/>
 <contactref element="IC4" pad="7"/>

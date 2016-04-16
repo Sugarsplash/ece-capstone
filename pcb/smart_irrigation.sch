@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -9748,7 +9748,7 @@ Sensors On</text>
 <wire x1="157.48" y1="129.54" x2="147.32" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="RTC_DATA" class="0">
+<net name="RTC_SQW" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="SIO_19"/>
 <pinref part="JP7" gate="A" pin="3"/>
@@ -9943,7 +9943,7 @@ Sensors On</text>
 <errors>
 <approved hash="104,1,99.06,88.9,U1,VCC,+3V3,,,"/>
 <approved hash="104,1,99.06,81.28,U1,VCC,+3V3,,,"/>
-<approved hash="204,1,266.7,93.98,IC4,VBAT,,,,"/>
+<approved hash="104,1,266.7,93.98,IC4,VBAT,GND,,,"/>
 <approved hash="104,1,259.08,114.3,IC4,VCC,+5V,,,"/>
 <approved hash="104,1,30.48,71.12,JP1,VCC,+3V3,,,"/>
 <approved hash="104,1,30.48,68.58,JP1,GND,3V3_TRAN_COL,,,"/>
