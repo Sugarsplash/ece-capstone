@@ -1,100 +1,225 @@
-/*main.sb
-State machine for in field operation of device. 
-	Consists of:
-		Config,
-		Advertise,
-		Active Sense,
-		Schedule,
-		Irrigate
+//main.sb
+//State machine for in field operation of device. 
+//	Consists of:
+//		Config,
+//		Advertise,
+//		Active Sense,
+//		Schedule,
+//		Irrigate
+//
+//Functions for each State:
+//	Config:
+//		-Receive control packet from Android device.
+//		-Parse packet(latitude, area, time and date, flood signal, calibrate temp?)
+//		-Execute action sequence for each data member of control packet.
+//		-Return success or error string
+//
+//	Advertise:
+//		-Advertise BLE.
+//		-Return connection status
+//
+//	Active Sense:
+//		-Read sensors.
+//		-Store data packet.
+//		-Return success or error string
+//
+//	Schedule:
+//		-Access SENSES_PER_IRRIGATE data packets
+//		-Compute Eto
+//		-Compute Irrigation need
+//		-Update Flow Value
+//		-Return success or error string
+//
+//	Irrigate:
+//		-Activate Mosfet.
+//		-For every flow sense, decrement flow value.
+//		-When flow value = 0, deactivate mosfet.
+//		-Return success or error string
+//
+//
+//Additional functions:
+//	init()
+//		-Configure RTC square wave for 1Hz signal.
+//		-Set GPIOs
+//	disconnect()
+//	purgeSenseData()
+//	reportError()
+//		-Implement LUT for error lookup
+//	readRTC()
+//		-Set SQUARE_WAVE
+//
+//Defines:
+//	SENSE_PERIOD 
+//	SENSES_PER_IRRIGATE
+//
+//Globals:
+//
+//	SQUARE_WAVE
+//	SENSE_COUNTER
+//	IRRIGATE_COUNTER
+//	FLOW_COUNTER
+//
+//	dataPacketArray[dataPacketLength][SENSES_PER_IRRIGATE]
+//
+//main()
+//	init()
+//
+//	while(1)
+//		readRTC()
+//		if(SQUARE_WAVE)
+//			connected = advertise()
+//			--SENSE_COUNTER
+//		if(connected)
+//			configStatus = config()
+//			if(configStatus != success)
+//				reportError(configStatus)
+//			disconnect()
+//		if(SENSE_COUNTER == 0)
+//			senseStatus = activeSense()
+//			if(senseStatus != success)
+//				reportError(senseStatus)
+//				//try to sense again next round
+//				SENSE_COUNTER = 0
+//			else()
+//				SENSE_COUNTER = SENSE_PERIOD
+//				++IRRIGATE_COUNTER
+//		if(IRRIGATE_COUNTER == SENSES_PER_IRRIGATE)
+//			scheduleStatus = schedule()
+//			if(scheduleStatus != success)
+//				reportError(scheduleStatus)
+//			else()
+//				IRRIGATE_COUNTER = 0
+//		if(FLOW_COUNTER != 0)
+//			irrigateStatus = irrigate()
+//			if(irrigateStatus != success)
+//				reportError(irrigateStatus)
+//				//try again, schedule irrigation next round
+//				IRRIGATE_COUNTER = SENSES_PER_IRRIGATE
+//			else()
+//				purgeSenseData()
+//				//should be redundant
+//				FLOW_COUNTER = 0
+	//
+//	return NEVA
+//
 
-Functions for each State:
-	Config:
-		-Receive control packet from Android device.
-		-Parse packet(latitude, area, time and date, flood signal, calibrate temp?)
-		-Execute action sequence for each data member of control packet.
-		-Return success or error string
 
-	Advertise:
-		-Advertise BLE.
-		-Return connection status
+//Code Start
 
-	Active Sense:
-		-Read sensors.
-		-Store data packet.
-		-Return success or error string
+//Defines
+#DEFINE SENSE_PERIOD 3600
+#DEFINE SENSES_PER_IRRIGATE 24
+#DEFINE CONNECTED 10
+#DEFINE SUCCESS 1
 
-	Schedule:
-		-Access SENSES_PER_IRRIGATE data packets
-		-Compute Eto
-		-Compute Irrigation need
-		-Update Flow Value
-		-Return success or error string
+//Globals
+DIM SQUARE_WAVE
+DIM SENSE_COUNTER
+DIM IRRIGATE_COUNTER
+DIM FLOW_COUNTER
 
-	Irrigate:
-		-Activate Mosfet.
-		-For every flow sense, decrement flow value.
-		-When flow value = 0, deactivate mosfet.
-		-Return success or error string
+//Guessing for now(SMS, temp, rain)
+//SmartBasic does not support 2d arrays, does have tables tho...
+//DIM dataArray [3] [SENSES_PER_IRRIGATE]
+
+FUNCTION init()
+
+ENDFUNC 1
+
+FUNCTION readRTC()
+
+ENDFUNC 1
+
+FUNCTION advertise()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION config()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION disconnect()
+
+ENDFUNC 1
+
+FUNCTION activeSense()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION schedule()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION irrigate()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION purgeSenseData()
+	DIM ret
+	ret = 1
+ENDFUNC ret
+
+FUNCTION reportError(BYVAL value AS INTEGER)
+	DIM ret
+	ret = 1
+ENDFUNC ret
 
 
-Additional functions:
-	init()
-		-Configure RTC square wave for 1Hz signal.
-		-Set GPIOs
-	disconnect()
-	purgeSenseData()
+//main
 
-Defines:
-	SENSE_PERIOD 
-	SENSES_PER_IRRIGATE
+WHILE(1)
+	DIM status
+	DIM errorStatus
 	
-Globals:
-
-	SQUARE_WAVE
-	SENSE_COUNTER
-	IRRIGATE_COUNTER
-	FLOW_COUNTER
-
-	dataPacketArray[dataPacketLength][SENSES_PER_IRRIGATE]
-
-main()
-	init()
-
-	while(1)
-		if(SQUARE_WAVE)
-			connected = Advertise()
-			--SENSE_COUNTER
-		if(connected)
-			configStatus = config()
-			if(configStatus != success)
-				reportError(configStatus)
-			disconnect()
-		if(SENSE_COUNTER == 0)
-			senseStatus = activeSense()
-			if(senseStatus != success)
-				reportError(senseStatus)
-				//try to sense again next round
-				SENSE_COUNTER = 0
-			else()
-				SENSE_COUNTER = SENSE_PERIOD
-				++IRRIGATE_COUNTER
-		if(IRRIGATE_COUNTER == SENSES_PER_IRRIGATE)
-			scheduleStatus = schedule()
-			if(scheduleStatus != success)
-				reportError(scheduleStatus)
-			else()
-				IRRIGATE_COUNTER = 0
-		if(FLOW_COUNTER != 0)
-			irrigateStatus = irrigate()
-			if(irrigateStatus != success)
-				reportError(irrigateStatus)
-				//try again, schedule irrigation next round
-				IRRIGATE_COUNTER == SENSES_PER_IRRIGATE
-			else()
-				purgeSenseData()
-				//should be redundant
-				FLOW_COUNTER = 0
+	status = readRTC()
 	
-	return NEVA
+	IF SQUARE_WAVE == 1 THEN
+		status = advertise()
+		SENSE_COUNTER = SENSE_COUNTER - 1
+	ENDIF
 
-*/
+	IF status == CONNECTED THEN
+		status = config()
+		IF status != SUCCESS THEN
+			errorStatus = reportError(status)
+		ENDIF
+		status = disconnect()
+	ENDIF
+
+	IF SENSE_COUNTER == 0 THEN
+		status = activeSense()
+		IF status != SUCCESS THEN
+			errorStatus = reportError(status)
+			SENSE_COUNTER = 0
+		ELSE
+			SENSE_COUNTER = SENSE_PERIOD
+			IRRIGATE_COUNTER = IRRIGATE_COUNTER + 1
+		ENDIF	
+	ENDIF
+
+	IF IRRIGATE_COUNTER == SENSES_PER_IRRIGATE THEN
+		status = schedule()
+		IF status != SUCCESS THEN
+			errorStatus = reportError(status)
+		ELSE
+			IRRIGATE_COUNTER = 0
+		ENDIF
+	ENDIF
+	
+	IF FLOW_COUNTER != 0 THEN
+		status = irrigate()
+		IF status != SUCCESS THEN 
+			errorStatus = reportError(status)
+			IRRIGATE_COUNTER = SENSES_PER_IRRIGATE
+		ELSE
+			status = purgeSenseData()
+			FLOW_COUNTER = 0
+		ENDIF
+	ENDIF
+
+ENDWHILE
