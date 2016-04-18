@@ -1,0 +1,100 @@
+/*main.sb
+State machine for in field operation of device. 
+	Consists of:
+		Config,
+		Advertise,
+		Active Sense,
+		Schedule,
+		Irrigate
+
+Functions for each State:
+	Config:
+		-Receive control packet from Android device.
+		-Parse packet(latitude, area, time and date, flood signal, calibrate temp?)
+		-Execute action sequence for each data member of control packet.
+		-Return success or error string
+
+	Advertise:
+		-Advertise BLE.
+		-Return connection status
+
+	Active Sense:
+		-Read sensors.
+		-Store data packet.
+		-Return success or error string
+
+	Schedule:
+		-Access SENSES_PER_IRRIGATE data packets
+		-Compute Eto
+		-Compute Irrigation need
+		-Update Flow Value
+		-Return success or error string
+
+	Irrigate:
+		-Activate Mosfet.
+		-For every flow sense, decrement flow value.
+		-When flow value = 0, deactivate mosfet.
+		-Return success or error string
+
+
+Additional functions:
+	init()
+		-Configure RTC square wave for 1Hz signal.
+		-Set GPIOs
+	disconnect()
+	purgeSenseData()
+
+Defines:
+	SENSE_PERIOD 
+	SENSES_PER_IRRIGATE
+	
+Globals:
+
+	SQUARE_WAVE
+	SENSE_COUNTER
+	IRRIGATE_COUNTER
+	FLOW_COUNTER
+
+	dataPacketArray[dataPacketLength][SENSES_PER_IRRIGATE]
+
+main()
+	init()
+
+	while(1)
+		if(SQUARE_WAVE)
+			connected = Advertise()
+			--SENSE_COUNTER
+		if(connected)
+			configStatus = config()
+			if(configStatus != success)
+				reportError(configStatus)
+			disconnect()
+		if(SENSE_COUNTER == 0)
+			senseStatus = activeSense()
+			if(senseStatus != success)
+				reportError(senseStatus)
+				//try to sense again next round
+				SENSE_COUNTER = 0
+			else()
+				SENSE_COUNTER = SENSE_PERIOD
+				++IRRIGATE_COUNTER
+		if(IRRIGATE_COUNTER == SENSES_PER_IRRIGATE)
+			scheduleStatus = schedule()
+			if(scheduleStatus != success)
+				reportError(scheduleStatus)
+			else()
+				IRRIGATE_COUNTER = 0
+		if(FLOW_COUNTER != 0)
+			irrigateStatus = irrigate()
+			if(irrigateStatus != success)
+				reportError(irrigateStatus)
+				//try again, schedule irrigation next round
+				IRRIGATE_COUNTER == SENSES_PER_IRRIGATE
+			else()
+				purgeSenseData()
+				//should be redundant
+				FLOW_COUNTER = 0
+	
+	return NEVA
+
+*/
