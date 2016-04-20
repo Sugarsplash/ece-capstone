@@ -20,3 +20,7 @@
 #define ADC_10BIT_2_3       0x00
 #define ADC_10BIT_1_3       0x13
 #define ADC_10BIT           0x11
+
+' DIGITAL_OUT STATES
+#define LOW 0
+#define HIGH 1
