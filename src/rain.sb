@@ -1,7 +1,7 @@
 #include "lib/pin_defs.sblib"
 #include "lib/gpio.sblib"
 
-FUNCTION rain__digital_read()
+FUNCTION rain_digital_read()
 
     DIM rain_digital : rain_digital = 0
 
