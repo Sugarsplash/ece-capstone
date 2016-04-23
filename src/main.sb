@@ -56,13 +56,13 @@ ble_init()
 ' and write to the sensor characteristic
 ' Frequency: 1/hour
 FUNCTION timer_sample()
-	
-	' ** Sample sensors
-	
-	' ** Write to characteristic
-	
-	TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
-	
+    
+    ' ** Sample sensors
+    
+    ' ** Write to characteristic
+    
+    TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
+    
 ENDFUNC 1
 
 
@@ -70,8 +70,8 @@ ENDFUNC 1
 ' Frequency: 1/day
 FUNCTION timer_calculate()
     
-	' ** Get config data from config characteristic
-	
+    ' ** Get config data from config characteristic
+    
     ' ** Do calculations
     
     DIM water_needed

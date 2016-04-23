@@ -6,11 +6,11 @@ SUB irrigate(water_amount)
 
     DIM last : last = 0
     DIM state : state = 0
-	
-	' Turn on water
-	GpioWrite(SOL_ENABLE, HIGH)
+    
+    ' Turn on water
+    GpioWrite(SOL_ENABLE, HIGH)
 
-	' Leave it on for specified period
+    ' Leave it on for specified period
     WHILE (count != 0)
         state = flow_read()
         IF (state == 1) THEN
@@ -22,8 +22,8 @@ SUB irrigate(water_amount)
             last = 0
         ENDIF
     ENDWHILE
-	
-	' Turn off water
-	GpioWrite(SOL_ENABLE, LOW)
+    
+    ' Turn off water
+    GpioWrite(SOL_ENABLE, LOW)
 
 ENDSUB

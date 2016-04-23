@@ -3,7 +3,7 @@
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
 #define UUID_SERVICE            0xBEEF
-#define UUID_CONFIG		        0x000A
+#define UUID_CONFIG                0x000A
 
 ' Device Info for BLE
 #define DEVICE_NAME             "Smart Irrigation"
@@ -24,7 +24,7 @@
 dim ble_result
 dim device_name$
 dim handle_service          ' Handle for service
-dim handle_config	        ' Handle for config characteristic
+dim handle_config           ' Handle for config characteristic
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME

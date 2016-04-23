@@ -10,17 +10,17 @@ slave = B'1101000
 DIM rc : rc=I2cOpen(100000,1,Handle)
 
 IF rc!= 0 Then
-	PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
+    PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
 ELSE
-	PRINT "\nI2C open success \nHandle is: ";handle
+    PRINT "\nI2C open success \nHandle is: ";handle
 ENDIF
 
 //Read
 rc = I2cReadReg8(slave, 0x0, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 secten = regval >> 4
@@ -29,9 +29,9 @@ sec = regval & 0x0F
 //Read
 rc = I2cReadReg8(slave, 0x1, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 minten = regval >> 4
@@ -40,9 +40,9 @@ minutes = regval & 0x0F
 //Read
 rc = I2cReadReg8(slave, 0x2, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 tenhour = (regval >> 4) & 0x3
@@ -51,9 +51,9 @@ hour = regval & 0x0F
 //Read
 rc = I2cReadReg8(slave, 0x3, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 DIM day
@@ -62,9 +62,9 @@ day = regval
 //Read
 rc = I2cReadReg8(slave, 0x4, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 DIM dateten, date
@@ -74,9 +74,9 @@ date = regval & 0xF
 //Read
 rc = I2cReadReg8(slave, 0x5, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 DIM monthten, month
@@ -86,9 +86,9 @@ month = regval & 0xF
 //Read
 rc = I2cReadReg8(slave, 0x6, regval)
 IF rc!= 0 THEN
-	PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+    PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
 ELSE
-	PRINT "\nValue read from register is: "; regval
+    PRINT "\nValue read from register is: "; regval
 ENDIF
 
 DIM yearten, year

@@ -2,184 +2,184 @@ DIM lut [91]
 //Look up table for values of sine
 //All values are implicitly multiplied by 10000
 lut[0]=0
-lut[1]=174	//0.0174
-lut[2]=349	//0.0349
-lut[3]=523	//0.0523
-lut[4]=698	//0.0698
-lut[5]=872	//0.0872
-lut[6]=1045	//0.1045
-lut[7]=1219	//0.1219
-lut[8]=1392	//0.1392
-lut[9]=1564	//0.1564
-lut[10]=1737	//0.1737
-lut[11]=1908	//0.1908
-lut[12]=2079	//0.2079
-lut[13]=2250	//0.2250
-lut[14]=2419	//0.2419
-lut[15]=2588	//0.2588
-lut[16]=2756	//0.2756
-lut[17]=2924	//0.2924
-lut[18]=3090	//0.3090
-lut[19]=3256	//0.3256
-lut[20]=3420	//0.3420
-lut[21]=3584	//0.3584
-lut[22]=3746	//0.3746
-lut[23]=3907	//0.3907
-lut[24]=4067	//0.4067
-lut[25]=4226	//0.4226
-lut[26]=4384	//0.4384
-lut[27]=4540	//0.4540
-lut[28]=4695	//0.4695
-lut[29]=4848	//0.4848
-lut[30]=5000	//0.5
-lut[31]=5150	//0.5150
-lut[32]=5299	//0.5299
-lut[33]=5446	//0.5446
-lut[34]=5592	//0.5592
-lut[35]=5736	//0.5736
-lut[36]=5878	//0.5878
-lut[37]=6018	//0.6018
-lut[38]=6157	//0.6157
-lut[39]=6293	//0.6293
-lut[40]=6428	//0.6428
-lut[41]=6561	//0.6561
-lut[42]=6691	//0.6691
-lut[43]=6820	//0.6820
-lut[44]=6947	//0.6947
-lut[45]=7071	//0.7071
-lut[46]=7193	//0.7193
-lut[47]=7314	//0.7314
-lut[48]=7431	//0.7431
-lut[49]=7547	//0.7547
-lut[50]=7660	//0.7660
-lut[51]=7771	//0.7771
-lut[52]=7880	//0.7880
-lut[53]=7986	//0.7986
-lut[54]=8090	//0.8090
-lut[55]=8192	//0.8192
-lut[56]=8290	//0.8290
-lut[57]=8387	//0.8387
-lut[58]=8480	//0.8480
-lut[59]=8572	//0.8572
-lut[60]=8660	//0.8660
-lut[61]=8746	//0.8746
-lut[62]=8829	//0.8829
-lut[63]=8910	//0.8910
-lut[64]=8988	//0.8988
-lut[65]=9063	//0.9063
-lut[66]=9135	//0.9135
-lut[67]=9205	//0.9205
-lut[68]=9272	//0.9272
-lut[69]=9336	//0.9336
-lut[70]=9397	//0.9397
-lut[71]=9455	//0.9455
-lut[72]=9510	//0.9510
-lut[73]=9563	//0.9563
-lut[74]=9613	//0.9613
-lut[75]=9659	//0.9659
-lut[76]=9703	//0.9703
-lut[77]=9744	//0.9744
-lut[78]=9781	//0.9781
-lut[79]=9816	//0.9816
-lut[80]=9848	//0.9848
-lut[81]=9877	//0.9877
-lut[82]=9903	//0.9903
-lut[83]=9925	//0.9925
-lut[84]=9945	//0.9945
-lut[85]=9962	//0.9962
-lut[86]=9976	//0.9976
-lut[87]=9986	//0.9986
-lut[88]=9994	//0.9994
-lut[89]=9998	//0.9998
+lut[1]=174    //0.0174
+lut[2]=349    //0.0349
+lut[3]=523    //0.0523
+lut[4]=698    //0.0698
+lut[5]=872    //0.0872
+lut[6]=1045    //0.1045
+lut[7]=1219    //0.1219
+lut[8]=1392    //0.1392
+lut[9]=1564    //0.1564
+lut[10]=1737    //0.1737
+lut[11]=1908    //0.1908
+lut[12]=2079    //0.2079
+lut[13]=2250    //0.2250
+lut[14]=2419    //0.2419
+lut[15]=2588    //0.2588
+lut[16]=2756    //0.2756
+lut[17]=2924    //0.2924
+lut[18]=3090    //0.3090
+lut[19]=3256    //0.3256
+lut[20]=3420    //0.3420
+lut[21]=3584    //0.3584
+lut[22]=3746    //0.3746
+lut[23]=3907    //0.3907
+lut[24]=4067    //0.4067
+lut[25]=4226    //0.4226
+lut[26]=4384    //0.4384
+lut[27]=4540    //0.4540
+lut[28]=4695    //0.4695
+lut[29]=4848    //0.4848
+lut[30]=5000    //0.5
+lut[31]=5150    //0.5150
+lut[32]=5299    //0.5299
+lut[33]=5446    //0.5446
+lut[34]=5592    //0.5592
+lut[35]=5736    //0.5736
+lut[36]=5878    //0.5878
+lut[37]=6018    //0.6018
+lut[38]=6157    //0.6157
+lut[39]=6293    //0.6293
+lut[40]=6428    //0.6428
+lut[41]=6561    //0.6561
+lut[42]=6691    //0.6691
+lut[43]=6820    //0.6820
+lut[44]=6947    //0.6947
+lut[45]=7071    //0.7071
+lut[46]=7193    //0.7193
+lut[47]=7314    //0.7314
+lut[48]=7431    //0.7431
+lut[49]=7547    //0.7547
+lut[50]=7660    //0.7660
+lut[51]=7771    //0.7771
+lut[52]=7880    //0.7880
+lut[53]=7986    //0.7986
+lut[54]=8090    //0.8090
+lut[55]=8192    //0.8192
+lut[56]=8290    //0.8290
+lut[57]=8387    //0.8387
+lut[58]=8480    //0.8480
+lut[59]=8572    //0.8572
+lut[60]=8660    //0.8660
+lut[61]=8746    //0.8746
+lut[62]=8829    //0.8829
+lut[63]=8910    //0.8910
+lut[64]=8988    //0.8988
+lut[65]=9063    //0.9063
+lut[66]=9135    //0.9135
+lut[67]=9205    //0.9205
+lut[68]=9272    //0.9272
+lut[69]=9336    //0.9336
+lut[70]=9397    //0.9397
+lut[71]=9455    //0.9455
+lut[72]=9510    //0.9510
+lut[73]=9563    //0.9563
+lut[74]=9613    //0.9613
+lut[75]=9659    //0.9659
+lut[76]=9703    //0.9703
+lut[77]=9744    //0.9744
+lut[78]=9781    //0.9781
+lut[79]=9816    //0.9816
+lut[80]=9848    //0.9848
+lut[81]=9877    //0.9877
+lut[82]=9903    //0.9903
+lut[83]=9925    //0.9925
+lut[84]=9945    //0.9945
+lut[85]=9962    //0.9962
+lut[86]=9976    //0.9976
+lut[87]=9986    //0.9986
+lut[88]=9994    //0.9994
+lut[89]=9998    //0.9998
 lut[90]=10000
 
 DIM cel [15]
 //Look up table for degrees Celsius
 //Used in place of the following power function:
 //
-//    #DEFINE HE 4240		//0.4240
+//    #DEFINE HE 4240        //0.4240
 //
 //    pow((T_max-T_min),HE)
 //
 //All values are implicitly multiplied by 10000
-cel[0]=0	//0
-cel[1]=10000	//1
-cel[2]=13426	//1.3416
-cel[3]=15933	//1.5933
-cel[4]=18000	//1.8000
-cel[5]=19586	//1.9586
-cel[6]=21376	//2.1376
-cel[7]=22820	//2.2820
-cel[8]=24150	//2.4150
-cel[9]=25386	//2.5386
-cel[10]=26546	//2.6546
-cel[11]=27641	//2.7641
-cel[12]=28680	//2.8680
-cel[13]=29667	//2.9667
-cel[14]=30617	//3.0617
+cel[0]=0    //0
+cel[1]=10000    //1
+cel[2]=13426    //1.3416
+cel[3]=15933    //1.5933
+cel[4]=18000    //1.8000
+cel[5]=19586    //1.9586
+cel[6]=21376    //2.1376
+cel[7]=22820    //2.2820
+cel[8]=24150    //2.4150
+cel[9]=25386    //2.5386
+cel[10]=26546    //2.6546
+cel[11]=27641    //2.7641
+cel[12]=28680    //2.8680
+cel[13]=29667    //2.9667
+cel[14]=30617    //3.0617
 
 //Constants
-#DEFINE HC 23		//0.0023
-#DEFINE PI 31416	//3.1416
-#DEFINE HT 18		//17.8 (Needs less resolution
-			//      to prevent overflow)
+#DEFINE HC 23        //0.0023
+#DEFINE PI 31416    //3.1416
+#DEFINE HT 18        //17.8 (Needs less resolution
+            //      to prevent overflow)
 
-#DEFINE K_s 1		//1
-#DEFINE K_c 1		//1
+#DEFINE K_s 1        //1
+#DEFINE K_c 1        //1
 
 
 ////////////////////////////////
 //Passed in values for functions
-#DEFINE D_y	349
-#DEFINE j	45
+#DEFINE D_y    349
+#DEFINE j    45
 
-#DEFINE T_max	7
-#DEFINE T_min	2
+#DEFINE T_max    7
+#DEFINE T_min    2
 ////////////////////////////////
 
 //Terms for constants in functions
-#DEFINE DR_term1 172	//0.0172
+#DEFINE DR_term1 172    //0.0172
 
-#DEFINE D_term1 172	//0.0172
+#DEFINE D_term1 172    //0.0172
 
-#DEFINE RA_term1 153351	//15.3351
+#DEFINE RA_term1 153351    //15.3351
 
-#DEFINE TO_DEG 573	//Remember: Divide by 100000
-#DEFINE TO_RAD 175	//This only needs 10000
+#DEFINE TO_DEG 573    //Remember: Divide by 100000
+#DEFINE TO_RAD 175    //This only needs 10000
 
 //Variables
 DIM degree
 DIM value
 
-	//Trigonomic functions
+    //Trigonomic functions
 
 FUNCTION sin(BYVAL degree AS INTEGER)
     DIM ret
     DIM temp
 
     IF (degree > 360) || (degree < -360) THEN
-	degree = degree % 360
+    degree = degree % 360
     ENDIF
 
     IF degree < 0 THEN
-	degree = degree + 360
+    degree = degree + 360
     ENDIF
 
     IF degree < 91 THEN
-	ret = lut[degree]
+    ret = lut[degree]
     ELSEIF degree < 181 THEN
-	temp = degree - 90
-	temp = ABS(temp - 90)
-	ret = lut[temp]
+    temp = degree - 90
+    temp = ABS(temp - 90)
+    ret = lut[temp]
     ELSEIF degree < 271 THEN
-	temp = degree - 180
-	ret = -1 * lut[temp]
+    temp = degree - 180
+    ret = -1 * lut[temp]
     ELSEIF 270 < degree < 361 THEN
-	temp = degree - 270
-	temp = ABS(temp - 90)
-	ret = -1 * lut[temp]
+    temp = degree - 270
+    temp = ABS(temp - 90)
+    ret = -1 * lut[temp]
     ELSE
-	//Invalid number?
+    //Invalid number?
     ENDIF
 
 ENDFUNC ret
@@ -201,9 +201,9 @@ FUNCTION tan(BYVAL degree AS INTEGER)
     DIM ret
 
     IF (degree == 90) || (degree == 270) THEN
-	ret = 0
+    ret = 0
     ELSE
-	ret = (10000 * sin(degree)) / cos(degree)
+    ret = (10000 * sin(degree)) / cos(degree)
     ENDIF
 
 ENDFUNC ret
@@ -220,45 +220,45 @@ FUNCTION invcos(BYVAL value AS INTEGER)
     //it can't be less than -10000 (out of bounds)
 
     IF (value > 10000) || (value < -10000) THEN
-	print "\n","invcos: out-of-bounds";"\n"
-	ret = 0
+    print "\n","invcos: out-of-bounds";"\n"
+    ret = 0
     ELSE
-	IF value < 0 THEN 
-	    value = -1 * value
-	    negativeFlag = 1
-	ELSE
-	    negativeFlag = 0
-	ENDIF
+    IF value < 0 THEN 
+        value = -1 * value
+        negativeFlag = 1
+    ELSE
+        negativeFlag = 0
+    ENDIF
 
-	done = 0
-	i = 0
-	DO
-	    IF value > lut[i] THEN
-		i = i + 1
-	    ELSEIF value <= lut[i] THEN
-		ret = i
-		IF negativeFlag == 1 THEN
-		    ret = -1 * ret
-		ENDIF
-		    ret = -1 * (ret - 90)
-		    done = 1
-	    ENDIF
-	DOWHILE (done == 0)
+    done = 0
+    i = 0
+    DO
+        IF value > lut[i] THEN
+        i = i + 1
+        ELSEIF value <= lut[i] THEN
+        ret = i
+        IF negativeFlag == 1 THEN
+            ret = -1 * ret
+        ENDIF
+            ret = -1 * (ret - 90)
+            done = 1
+        ENDIF
+    DOWHILE (done == 0)
     ENDIF
 
 ENDFUNC ret
 
 //***************************************
 
-	//Implementation of C functions to smartBASIC
+    //Implementation of C functions to smartBASIC
 
 //Pass in day of the year
 FUNCTION d_r()
     DIM ret
     DIM temp
 
-	//divide by 10000 to remove added resolution from
-	//two numbers with already increased resolution
+    //divide by 10000 to remove added resolution from
+    //two numbers with already increased resolution
     temp = DR_term1 * D_y * TO_DEG
 
     temp = cos(temp / 100000)
@@ -273,8 +273,8 @@ FUNCTION d()
     DIM ret
     DIM temp
 
-	//divide by 10000 to remove added resolution from
-	//two numbers with already increased resolution
+    //divide by 10000 to remove added resolution from
+    //two numbers with already increased resolution
     temp = ((D_term1 * D_y) - 13900) * TO_DEG
 
     temp = sin(temp / 100000)
@@ -289,8 +289,8 @@ FUNCTION omega_s()
     DIM ret
     DIM temp
 
-	//divide by 10000 to remove added resolution from
-	//two numbers with already increased resolution
+    //divide by 10000 to remove added resolution from
+    //two numbers with already increased resolution
     temp = tan(d() * TO_DEG / 100000)
 
     ret = invcos(-1 * (tan(j) * temp / 10000))
@@ -306,8 +306,8 @@ FUNCTION R_a() //Currently overflows too often
     DIM deg
     DIM temp3
 
-	//divide by 10000 to remove added resolution from
-	//two numbers with already increased resolution
+    //divide by 10000 to remove added resolution from
+    //two numbers with already increased resolution
 
     deg = cos(d() * TO_DEG / 100000)
 
