@@ -1,0 +1,29 @@
+#include "flow.sb"
+
+SUB irrigate(water_amount)
+
+    DIM count : count = water_amount
+
+    DIM last : last = 0
+    DIM state : state = 0
+	
+	' Turn on water
+	GpioWrite(SOL_ENABLE, HIGH)
+
+	' Leave it on for specified period
+    WHILE (count != 0)
+        state = flow_read()
+        IF (state == 1) THEN
+            IF (last == 0) THEN
+                count = count - 1
+                last = 1
+            ENDIF
+        ELSE
+            last = 0
+        ENDIF
+    ENDWHILE
+	
+	' Turn off water
+	GpioWrite(SOL_ENABLE, LOW)
+
+ENDSUB

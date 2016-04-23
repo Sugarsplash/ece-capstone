@@ -5,9 +5,6 @@
 #define RAIN_DATA_D     30
 #define RAIN_DATA_A     3
 
-' RTC
-#define RTC_DATA        19
-
 ' ENABLE SIGNALS
-#define SENSORS_ENABLE  27
+#define SENSORS_ENABLE  25
 #define SOL_ENABLE      17

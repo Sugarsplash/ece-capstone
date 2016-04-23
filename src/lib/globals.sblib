@@ -1,0 +1,7 @@
+' Bool
+#define TRUE    1
+#define FALSE   0
+
+
+' Configuration values from phone
+DIM config$

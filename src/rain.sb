@@ -1,34 +1,15 @@
 #include "lib/pin_defs.sblib"
-#include "lib/gpio.sblib"
+
 
 FUNCTION rain_digital_read()
 
-    DIM rain_digital : rain_digital = 0
-
-    ' Digital input
-    DIM result : result = GpioSetFunc(RAIN_DATA_D, DIGITAL_IN, NO_PULL)
-    
-    ' GPIO not set correctly, return nonsensical value
-    IF result != 0 THEN
-        EXITFUNC -1
-    ENDIF
-
-    rain_digital = GPIOread(RAIN_DATA_D)
+    DIM rain_digital : rain_digital = GPIOread(RAIN_DATA_D)
 
 ENDFUNC rain_digital
 
+
 FUNCTION rain_analog_read()
 
-    DIM rain_analog : rain_analog = 0
-
-    ' Analog input
-    DIM result : result = GpioSetFunc(RAIN_DATA_A, ANALOG_IN, ADC_10BIT)
-    
-    ' GPIO not set correctly, return nonsensical value
-    IF result != 0 THEN
-        EXITFUNC -1
-    ENDIF
-
-    rain_analog = GPIOread(RAIN_DATA_A)
+    DIM rain_analog : rain_analog = GPIOread(RAIN_DATA_A)
 
 ENDFUNC rain_analog

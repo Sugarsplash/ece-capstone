@@ -1,0 +1,11 @@
+' Timer numbers
+#define TIMER_SAMPLE	0
+#define TIMER_CALCULATE	1
+
+' Timers are configured in terms of milliseconds
+#define ONE_HOUR	3600000
+#define ONE_DAY     86400000
+
+' Timer modes
+#define ONESHOT	0
+#define RELOADING 	1

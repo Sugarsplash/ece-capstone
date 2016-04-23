@@ -1,16 +1,9 @@
 #include "lib/pin_defs.sblib"
-#include "lib/gpio.sblib"
 
 FUNCTION temp_read()
 
-    DIM result : result = GpioSetFunc(TEMP_DATA, ANALOG_IN, ADC_10BIT)
+    DIM temp_raw : temp_raw = GpioRead(TEMP_DATA)
     
-    ' GPIO not set correctly, return value outside of range of temp sensor
-    IF result != 0 THEN
-        EXITFUNC -100
-    ENDIF
-    
-    DIM read : read = GpioRead(TEMP_DATA)
-    DIM temp_celsius : temp_celsius = ((read*115) / 1000) - 50
+    DIM temp_celsius : temp_celsius = ((temp_raw*115) / 1000) - 50
     
 ENDFUNC temp_celsius
