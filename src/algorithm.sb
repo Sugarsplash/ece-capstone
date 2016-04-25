@@ -127,16 +127,6 @@ cel[14]=30617    //3.0617
 #DEFINE K_s 1        //1
 #DEFINE K_c 1        //1
 
-
-////////////////////////////////
-//Passed in values for functions
-#DEFINE D_y    349
-#DEFINE j    45
-
-#DEFINE T_max    7
-#DEFINE T_min    2
-////////////////////////////////
-
 //Terms for constants in functions
 #DEFINE DR_term1 172    //0.0172
 
@@ -253,7 +243,7 @@ ENDFUNC ret
     //Implementation of C functions to smartBASIC
 
 //Pass in day of the year
-FUNCTION d_r()
+FUNCTION d_r(BYVAL D_y AS INTEGER)
     DIM ret
     DIM temp
 
@@ -269,7 +259,7 @@ ENDFUNC ret
 
 //***************************************
 
-FUNCTION d()
+FUNCTION d(BYVAL D_y AS INTEGER)
     DIM ret
     DIM temp
 
@@ -285,13 +275,13 @@ ENDFUNC ret
 
 //***************************************
 
-FUNCTION omega_s()
+FUNCTION omega_s(BYVAL D_y AS INTEGER, BYVAL j AS INTEGER)
     DIM ret
     DIM temp
 
     //divide by 10000 to remove added resolution from
     //two numbers with already increased resolution
-    temp = tan(d() * TO_DEG / 100000)
+    temp = tan(d(D_y) * TO_DEG / 100000)
 
     ret = invcos(-1 * (tan(j) * temp / 10000))
 
@@ -299,7 +289,7 @@ ENDFUNC ret
 
 //***************************************
 
-FUNCTION R_a() //Currently overflows too often
+FUNCTION R_a(BYVAL D_y AS INTEGER, BYVAL j AS INTEGER) //Currently overflows too often
     DIM ret
     DIM temp1
     DIM temp2
@@ -309,25 +299,25 @@ FUNCTION R_a() //Currently overflows too often
     //divide by 10000 to remove added resolution from
     //two numbers with already increased resolution
 
-    deg = cos(d() * TO_DEG / 100000)
+    deg = cos(d(D_y) * TO_DEG / 100000)
 
     temp1 = cos(j) * deg / 10000
 
-    temp1 = temp1 * sin(omega_s()) / 10000
+    temp1 = temp1 * sin(omega_s(D_y, j)) / 10000
 
-    deg = sin(d() * TO_DEG / 100000)
+    deg = sin(d(D_y) * TO_DEG / 100000)
 
-    temp2 = (omega_s() * TO_RAD) * (sin(j) * deg / 10000) / 10000
+    temp2 = (omega_s(D_y, j) * TO_RAD) * (sin(j) * deg / 10000) / 10000
 
     temp3 = (temp1 + temp2) / 10
 
-    ret = (RA_term1 * d_r() / 100000) * temp3 / 100
+    ret = (RA_term1 * d_r(D_y) / 100000) * temp3 / 100
 
 ENDFUNC ret
 
 //***************************************
 
-FUNCTION E_to()
+FUNCTION E_to(BYVAL T_max AS INTEGER, BYVAL T_min AS INTEGER, BYVAL D_y AS INTEGER, BYVAL j AS INTEGER)
     DIM ret
     DIM pow
     DIM temp
@@ -336,17 +326,30 @@ FUNCTION E_to()
 
     temp = (((T_max + T_min) / 2) + HT)
 
-    ret = (R_a() * HC / 10000) * (pow * temp) / 10000
+    ret = (R_a(D_y, j) * HC / 10000) * (pow * temp) / 10000
 
 ENDFUNC ret
 
 //***************************************
 
-print "d_r(): ";d_r();"\n"
-print "d(): ";d();"\n"
-print "omega_s(): ";omega_s();"\n"
-print "R_a(): ";R_a();"\n"
-print "E_to(): ";E_to();"\n"
 
-print "Total: ";SYSINFO(601);"\n"
-print "Free: ";SYSINFO(602);"\n"
+
+//*******Debugging:**********************
+//DIM D_y
+//DIM j 
+//DIM T_max
+//DIM T_min
+//
+//D_y = 349
+//j = 45
+//T_max = 7
+//T_min = 2
+//
+//print "d_r(): ";d_r(D_y);"\n"
+//print "d(): ";d(D_y);"\n"
+//print "omega_s(): ";omega_s(D_y, j);"\n"
+//print "R_a(): ";R_a(D_y, j);"\n"
+//print "E_to(): ";E_to(T_max, T_min, D_y, j);"\n"
+//
+//print "Total: ";SYSINFO(601);"\n"
+//print "Free: ";SYSINFO(602);"\n"

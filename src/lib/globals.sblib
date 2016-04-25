@@ -2,6 +2,8 @@
 #define TRUE    1
 #define FALSE   0
 
+#define LitersToRotations = 25
+
 
 ' Configuration values from phone
 DIM config$

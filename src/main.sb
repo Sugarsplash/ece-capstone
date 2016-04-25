@@ -6,6 +6,7 @@
 #include "rain.sb"
 #include "soil.sb"
 #include "temperature.sb"
+#include "algorithm.sb"
 
 DIM result
 
@@ -73,12 +74,31 @@ FUNCTION timer_calculate()
     ' ** Get config data from config characteristic
     
     ' ** Do calculations
-    
-    DIM water_needed
-    DIM water_amount
-    
-    IF (water_needed) THEN
-        irrigate(water_amount)
+    DIM Tmax
+    DIM Tmin
+    DIM DayOfYear
+    DIM latitude
+    DIM area //in square meters
+
+    DIM mm
+    DIM volumeLiters
+    DIM volumePrecision
+
+    DIM Rotations_needed
+
+    mm = E_to(Tmax, Tmin, DayOfYear, latitude)
+
+    volumeLiters = mm * area * 1000
+
+    volumePrecision = volumeLiters * 10000
+
+    Rotations_needed = volumePrecision / LitersToRotations
+
+    //Do not bother watering until a gallon or more of water is necessary
+    IF (Rotations_needed > 1200) THEN
+        irrigate(Rotations_needed)
+    ELSE
+        ' ** Save the Rotations_needed (Global var?)
     ENDIF 
     
     TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
