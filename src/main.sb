@@ -71,19 +71,40 @@ ENDFUNC 1
 ' Frequency: 1/day
 FUNCTION timer_calculate()
     
-    ' ** Get config data from config characteristic
+    // Get strings from config characteristics and convert to integer
+    DIM hour_string$ : hour_string$ = MID$(config_time$, 0, 2)
+    hours = STRVALDEC(hour_string$)
     
-    ' ** Do calculations
-    DIM Tmax
-    DIM Tmin
-    DIM DayOfYear
-    DIM latitude
-    DIM area //in square meters
+    DIM min_string$ : min_string$ = MID$(config_time$, 2, 2)
+    minutes = STRVALDEC(min_string$)
+    
+    DIM sec_string$ : sec_string$ = MID$(config_time$, 4, 2)
+    seconds = STRVALDEC(sec_string$)
+    
+    DIM month_string$ : month_string$ = MID$(config_date$, 0, 2)
+    month = STRVALDEC(month_string$)
+    
+    DIM day_string$ : day_string$ = MID$(config_date$, 2, 2)
+    day = STRVALDEC(day_string$)
+     
+    DIM year_string$ : year_string$ = MID$(config_date$, 4, 2)
+    year = STRVALDEC(year_string$)
+    
+    latitude = STRVALDEC(config_latitude$)
+    
+    area = STRVALDEC(config_area$)
+       
+    flood_signal = STRVALDEC(config_flood$)
+
+    ' Do calculations
+    //********DIM Tmax
+    //********DIM Tmin
+    //********DIM DayOfYear
 
     DIM mm
     DIM volumeLiters
     DIM volumePrecision
-
+    
     DIM Rotations_needed
 
     mm = E_to(Tmax, Tmin, DayOfYear, latitude)

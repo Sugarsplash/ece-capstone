@@ -6,4 +6,23 @@
 
 
 ' Configuration values from phone
-DIM config$
+DIM config_area$ : config_area$ = "NONE"
+DIM config_time$ : config_time$ = "NONE"
+DIM config_date$ : config_date$ = "NONE"
+DIM config_flood$ : config_flood$ = "NONE"
+DIM config_latitude$ : config_latitude$ = "NONE"
+
+' Configuration values after conversion to integer
+DIM hours
+DIM minutes
+DIM seconds
+
+DIM month
+DIM day
+DIM year
+
+DIM flood_signal
+
+DIM area
+
+DIM latitude
