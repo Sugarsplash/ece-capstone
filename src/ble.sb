@@ -8,6 +8,9 @@
 #define UUID_AREA               0x000C
 #define UUID_FLOOD              0x000D
 #define UUID_LATITUDE           0x000E
+#define UUID_TEMP               0x001A
+#define UUID_SOIL               0x001B
+#define UUID_RAIN               0x001C
 
 ' Device Info for BLE
 #define DEVICE_NAME             "Smart Irrigation"
@@ -33,6 +36,9 @@ dim handle_time             ' Handle for time
 dim handle_area             ' Handle for area
 dim handle_flood            ' Handle for flood signal
 dim handle_latitude         ' Handle for latitude
+dim handle_temp             ' Handle for temperature sensor data
+dim handle_soil             ' Handle for soil moisture sensor data
+dim handle_rain             ' Handle for rain sensor data
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME
@@ -120,6 +126,45 @@ SUB service_create()
         print "\nError: service_create() -> BleCharCommit()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
+    
+    ' Initialize temperature sensor characteristic - Read/Write - 3 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_TEMP)), BleAttrMetaData(1,1,3,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_temp)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize soil moisture sensor characteristic - Read/Write - 4 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_SOIL)), BleAttrMetaData(1,1,4,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_soil)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize rain sensor characteristic - Read/Write - 4 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_RAIN)), BleAttrMetaData(1,1,4,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_rain)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 
     ' Commit service to the GATT table
     ble_result = BleServiceCommit(handle_service)
@@ -192,6 +237,30 @@ SUB ble_init()
     endif
 
     advert_report_create()
+ENDSUB
+
+SUB ble_update_temp(value$)
+    ble_result = BleCharValueWrite(handle_temp, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_soil(value$)
+    ble_result = BleCharValueWrite(handle_soil, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_rain(value$)
+    ble_result = BleCharValueWrite(handle_rain, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 ENDSUB
 
 FUNCTION handler_char_val(handle_char, offset, len)

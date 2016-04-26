@@ -26,3 +26,8 @@ DIM flood_signal
 DIM area
 
 DIM latitude
+
+' Sensor values
+DIM temperature : temperature = 0
+DIM soil_moisture : soil_moisture = 0
+DIM rain : rain = 0

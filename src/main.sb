@@ -58,9 +58,31 @@ ble_init()
 ' Frequency: 1/hour
 FUNCTION timer_sample()
     
-    ' ** Sample sensors
+    // Turn on sensors
+    GpioWrite(SENSORS_ENABLE, HIGH)
     
-    ' ** Write to characteristic
+    // Sample sensors
+    temperature = temp_read()
+    rain = rain_analog_read()
+    soil_moisture = soil_read()
+    
+    // Write to temperature sensor characteristic
+    DIM temperature_string$
+    SPRINT #temperature_string$, temperature
+    ble_update_temp(temperature_string$)
+    
+    // Write to rain sensor characteristic
+    DIM rain_string$
+    SPRINT #rain_string$, rain
+    ble_update_rain(rain_string$)
+    
+    // Write to soil moisture sensor characteristic
+    DIM soil_string$
+    SPRINT #soil_string$, soil_moisture
+    ble_update_soil(soil_string$)
+    
+    // Turn off sensors
+    GpioWrite(SENSORS_ENABLE, LOW)
     
     TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
     
@@ -101,26 +123,26 @@ FUNCTION timer_calculate()
     //********DIM Tmin
     //********DIM DayOfYear
 
-    DIM mm
-    DIM volumeLiters
-    DIM volumePrecision
+    //DIM mm
+    //DIM volumeLiters
+    //DIM volumePrecision
     
-    DIM Rotations_needed
+    //DIM Rotations_needed
 
-    mm = E_to(Tmax, Tmin, DayOfYear, latitude)
+    //mm = E_to(Tmax, Tmin, DayOfYear, latitude)
 
-    volumeLiters = mm * area * 1000
+    //volumeLiters = mm * area * 1000
 
-    volumePrecision = volumeLiters * 10000
+    //volumePrecision = volumeLiters * 10000
 
-    Rotations_needed = volumePrecision / LitersToRotations
+    //Rotations_needed = volumePrecision / LitersToRotations
 
     //Do not bother watering until a gallon or more of water is necessary
-    IF (Rotations_needed > 1200) THEN
-        irrigate(Rotations_needed)
-    ELSE
-        ' ** Save the Rotations_needed (Global var?)
-    ENDIF 
+    //IF (Rotations_needed > 1200) THEN
+    //    irrigate(Rotations_needed)
+    //ELSE
+    //    ' ** Save the Rotations_needed (Global var?)
+    //ENDIF 
     
     TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
