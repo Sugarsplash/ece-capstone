@@ -1,18 +1,18 @@
-' Bool
+// Bool
 #define TRUE    1
 #define FALSE   0
 
 #define LitersToRotations 25
 
 
-' Configuration values from phone
+// Configuration values from phone
 DIM config_area$ : config_area$ = "NONE"
 DIM config_time$ : config_time$ = "NONE"
 DIM config_date$ : config_date$ = "NONE"
 DIM config_flood$ : config_flood$ = "NONE"
 DIM config_latitude$ : config_latitude$ = "NONE"
 
-' Configuration values after conversion to integer
+// Configuration values after conversion to integer
 DIM hours
 DIM minutes
 DIM seconds
@@ -27,7 +27,12 @@ DIM area
 
 DIM latitude
 
-' Sensor values
+DIM Tmax
+DIM Tmin
+DIM DayOfYear
+DIM Rotations_needed
+
+// Sensor values
 DIM temperature : temperature = 0
 DIM soil_moisture : soil_moisture = 0
 DIM rain : rain = 0

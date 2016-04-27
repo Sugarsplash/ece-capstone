@@ -7,10 +7,11 @@
 #include "soil.sb"
 #include "temperature.sb"
 #include "algorithm.sb"
+#include "rtc.sb"
 
 DIM result
 
-' Configure all sensor pins as inputs
+// Configure all sensor pins as inputs
 result = GpioSetFunc(TEMP_DATA, ANALOG_IN, ADC_10BIT)
 IF result != 0 THEN
     PRINT "\nERROR: GpioSetFunc - TEMP_DATA\n"
@@ -37,7 +38,7 @@ IF result != 0 THEN
 ENDIF
 
 
-' Configure transistor-enabling pins as outputs
+// Configure transistor-enabling pins as outputs
 result = GpioSetFunc(SENSORS_ENABLE, DIGITAL_OUT, INIT_LOW)
 IF result != 0 THEN
     PRINT "\nERROR: GpioSetFunc - SENSORS_ENABLE\n"
@@ -49,13 +50,13 @@ IF result != 0 THEN
 ENDIF
 
 
-' Initialize BLE services and characteristics
+// Initialize BLE services and characteristics
 ble_init()
 
 
-' Sample sensors, update their respective variables for later ETO calculation,
-' and write to the sensor characteristic
-' Frequency: 1/hour
+// Sample sensors, update their respective variables for later ETO calculation,
+// and write to the sensor characteristic
+// Frequency: 1/hour
 FUNCTION timer_sample()
     
     // Turn on sensors
@@ -89,8 +90,8 @@ FUNCTION timer_sample()
 ENDFUNC 1
 
 
-' Calculate whether watering is needed and do so if needed
-' Frequency: 1/day
+// Calculate whether watering is needed and do so if needed
+// Frequency: 1/day
 FUNCTION timer_calculate()
     
     // Get strings from config characteristics and convert to integer
@@ -118,50 +119,43 @@ FUNCTION timer_calculate()
        
     flood_signal = STRVALDEC(config_flood$)
 
-    ' Do calculations
-    //********DIM Tmax
-    //********DIM Tmin
-    //********DIM DayOfYear
+    // Do calculations
 
-    //DIM mm
-    //DIM volumeLiters
-    //DIM volumePrecision
-    
-    //DIM Rotations_needed
+    DIM mm, volumeLiters, volumePrecision, Rotations
 
-    //mm = E_to(Tmax, Tmin, DayOfYear, latitude)
+    mm = E_to(Tmax, Tmin, DayOfYear, latitude)
 
-    //volumeLiters = mm * area * 1000
+    volumeLiters = mm * area * 1000
 
-    //volumePrecision = volumeLiters * 10000
+    volumePrecision = volumeLiters * 10000
 
-    //Rotations_needed = volumePrecision / LitersToRotations
+    Rotations = volumePrecision / LitersToRotations
 
-    //Do not bother watering until a gallon or more of water is necessary
-    //IF (Rotations_needed > 1200) THEN
-    //    irrigate(Rotations_needed)
-    //ELSE
-    //    ' ** Save the Rotations_needed (Global var?)
-    //ENDIF 
+    Rotations_needed = Rotations_needed + Rotations
+
+    Do not bother watering until a gallon or more of water is necessary
+    IF (Rotations_needed > 1200) THEN
+        irrigate(Rotations_needed)
+    ENDIF 
     
     TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
 ENDFUNC 1
 
 
-' Configure BLE interrupt handlers
+//Configure BLE interrupt handlers
 ONEVENT EVBLE_ADV_TIMEOUT   CALL handler_adv_timeout
 ONEVENT EVCHARVAL           CALL handler_char_val
 ONEVENT EVBLEMSG            CALL handler_ble_msg
 
-' Configure timer interrupt handlers
+//Configure timer interrupt handlers
 ONEVENT EVTMR0 CALL timer_sample
 ONEVENT EVTMR1 CALL timer_calculate
 
-' Begin advertising
+//Begin advertising
 ble_advertise()
 
-' Start timers
+//Start timers
 TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
 TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
