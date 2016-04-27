@@ -7,7 +7,7 @@
     <string name="string_area">Area:</string>
     <string name="string_get">GET</string>
     <string name="string_configure">Configure</string>
-    <string name="string_receive">Receive</string>
+    <string name="string_read_sensors">Read Sensors</string>
     <string name="string_device_scan">Scan</string>
     <string name="device_name">Device Name:</string>
     <string name="device_address">Device Address:</string>

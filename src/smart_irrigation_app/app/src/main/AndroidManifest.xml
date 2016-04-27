@@ -32,15 +32,6 @@
                 android:value="edu.pdx.capstone.smartirrigation.MainActivity" />
         </activity>
         <activity
-            android:name=".ReceiveActivity"
-            android:label="@string/title_activity_receive"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.pdx.capstone.smartirrigation.MainActivity" />
-        </activity>
-        <activity
             android:name=".DeviceScanActivity"
             android:label="@string/title_activity_device_scan"
             android:parentActivityName=".MainActivity"

@@ -24,11 +24,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/string_receive"
-        android:id="@+id/button_receive"
+        android:text="@string/string_read_sensors"
+        android:id="@+id/button_read_sensors"
         android:layout_below="@+id/button_configure"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickReceive" />
+        android:onClick="onClickReadSensors" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,6 +65,23 @@
         android:layout_alignBottom="@+id/text_device_address"
         android:layout_toEndOf="@+id/text_device_address"
         android:text="None" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature: "
+        android:id="@+id/sensor_temp"
+        android:layout_below="@+id/text_device_address"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/data_sensor_temp"
+        android:layout_alignBottom="@+id/sensor_temp"
+        android:layout_toEndOf="@+id/sensor_temp" />
 
 
 </RelativeLayout>
