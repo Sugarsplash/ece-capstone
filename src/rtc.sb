@@ -1,79 +1,231 @@
 //Smart Basic Magic RTC
 
-DIM Handle, slave, regadd, regval
+FUNCTION DecToBCD(BYVAL decimal AS INTEGER)
+    
+    DIM ret
+    ret = decimal/16 * 10 + decimal%10
 
-slave = B'1101000
+ENDFUNC ret
 
-DIM rc : rc=I2cOpen(100000,1,Handle)
+FUNCTION BCDtoDec(BYVAL bcd AS INTEGER)
+    DIM ret
 
-IF rc!= 0 Then
-    PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
-ELSE
-    PRINT "\nI2C open success \nHandle is: ";handle
-ENDIF
+    ret = bcd/16*10 + bcd%16
 
+ENDFUNC ret
 
-//Minutes
-regadd = 0x01 : regval = B'00111001
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+FUNCTION setRTC(BYVAL hours AS INTEGER, BYVAL minutes AS INTEGER, BYVAL seconds AS INTEGER, BYVAL month AS INTEGER, BYVAL day AS INTEGER, BYVAL year AS INTEGER)
 
-//Hours
-regadd = 0x02 : regval = B'01010110
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+    DIM Handle, slave, regadd, regval
 
-//Day
-regadd = 0x03 : regval = 0x02
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+//Error checking
+    IF seconds > 59 THEN
+        PRINT "\nInvalid seconds value"
+        EXITFUNC 0
+    ENDIF
 
-//Date
-regadd = 0x04 : regval = B'00101001
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+    IF minutes > 59 THEN
+        PRINT "\nInvalid minutes value"
+        EXITFUNC 0
+    ENDIF
 
-//Month
-regadd = 0x05 : regval = 0x11
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+    IF hours > 23 THEN
+        PRINT "\nInvalid hours value"
+        EXITFUNC 0
+    ENDIF
 
-//Year
-regadd = 0x06 : regval = 0x16
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+    IF day > 31 THEN
+        PRINT "\nInvalid day value"
+        EXITFUNC 0
+    ENDIF
 
-//Seconds
-regadd = 0x0 : regval = 0x10010000
-rc = I2cWriteReg8(slave, regadd, regval)
-IF rc!= 0 THEN
-    PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
-ELSE
-    PRINT "\n";regval;" written successfully to register "; regadd
-ENDIF
+    IF month > 12 THEN
+        PRINT "\nInvalid month value"
+        EXITFUNC 0
+    ENDIF
 
-I2cClose(Handle)
+    IF year > 99 THEN
+        PRINT "\nInvalid year value"
+        EXITFUNC 0
+    ENDIF
+
+//Begin writing to RTC
+    slave = B'1101000
+
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    IF rc!= 0 Then
+        PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
+        EXITFUNC 0
+    ENDIF
+
+    //Seconds
+    regadd = 0x0 : regval = DecToBCD(seconds)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC 0
+    ENDIF
+
+    //Minutes
+    regadd = 0x01 : regval = DecToBCD(minutes)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC 0
+    ENDIF
+
+    //Hours
+    regadd = 0x02 : regval = DecToBCD(hours)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC 0
+    ENDIF
+
+    //Date
+    regadd = 0x04 : regval = DecToBCD(day)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC 0
+    ENDIF
+
+    //Month
+    regadd = 0x05 : regval = DecToBCD(month)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC 0
+    ENDIF
+
+    //Year
+    regadd = 0x06 : regval = DecToBCD(year)
+    rc = I2cWriteReg8(slave, regadd, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to Write to slave/register: "; INTEGER.H'rc
+    ELSE
+        PRINT "\n";regval;" written successfully to register "; regadd
+    ENDIF
+
+    I2cClose(Handle)
+
+ENDFUNC 1
+
+FUNCTION getRTCseconds()
+    DIM Handle, slave, regval
+    DIM ret
+    
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    IF rc!= 0 Then
+        PRINT "\nFailed to open I2C interface with error code: "; INTEGER.H' rc
+        EXITFUNC -1
+    ENDIF
+
+    //Read
+    rc = I2cReadReg8(slave, 0x0, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
+
+FUNCTION getRTCminutes()
+    DIM Handle, slave, regval
+    DIM ret
+    
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    //Read
+    rc = I2cReadReg8(slave, 0x1, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
+
+FUNCTION getRTChours()
+    DIM Handle, slave, regval
+    DIM ret
+
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    //Read
+    rc = I2cReadReg8(slave, 0x2, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
+
+FUNCTION getRTCday()
+    DIM Handle, slave, regval
+    DIM ret
+
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    //Read
+    rc = I2cReadReg8(slave, 0x4, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
+
+FUNCTION getRTCmonth()
+    DIM Handle, slave, regval
+    DIM ret
+
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    //Read
+    rc = I2cReadReg8(slave, 0x5, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
+
+FUNCTION getRTCyear()
+    DIM Handle, slave, regval
+    DIM ret
+
+    DIM rc : rc=I2cOpen(100000,1,Handle)
+
+    //Read
+    rc = I2cReadReg8(slave, 0x6, regval)
+    IF rc!= 0 THEN
+        PRINT "\nFailed to read from slave/register: "; INTEGER.H'rc
+        I2cClose(Handle)
+        EXITFUNC -1    
+    ENDIF
+
+    ret = BCDtoDec(regval)
+
+ENDFUNC ret
