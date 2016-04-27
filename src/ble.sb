@@ -3,7 +3,14 @@
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
 #define UUID_SERVICE            0xBEEF
-#define UUID_CONFIG                0x000A
+#define UUID_DATE               0x000A
+#define UUID_TIME               0x000B
+#define UUID_AREA               0x000C
+#define UUID_FLOOD              0x000D
+#define UUID_LATITUDE           0x000E
+#define UUID_TEMP               0x001A
+#define UUID_SOIL               0x001B
+#define UUID_RAIN               0x001C
 
 ' Device Info for BLE
 #define DEVICE_NAME             "Smart Irrigation"
@@ -24,7 +31,14 @@
 dim ble_result
 dim device_name$
 dim handle_service          ' Handle for service
-dim handle_config           ' Handle for config characteristic
+dim handle_date             ' Handle for date
+dim handle_time             ' Handle for time
+dim handle_area             ' Handle for area
+dim handle_flood            ' Handle for flood signal
+dim handle_latitude         ' Handle for latitude
+dim handle_temp             ' Handle for temperature sensor data
+dim handle_soil             ' Handle for soil moisture sensor data
+dim handle_rain             ' Handle for rain sensor data
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME
@@ -48,14 +62,105 @@ SUB service_create()
         print "\nCode: 0x"; integer.h' ble_result
     endif
 
-    ' Initialize config characteristic - Read/Write - 8 bytes
-    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_CONFIG)), BleAttrMetaData(1,1,8,1,result2), 0, 0)
+    ' Initialize date characteristic - Read/Write - 6 bytes (MMDDYY)
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_DATE)), BleAttrMetaData(1,1,6,1,result2), 0, 0)
     if (ble_result != 0) || (result2 != 0) then
         print "\nError: service_create() -> BleCharNew()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 
-    ble_result = BleCharCommit(handle_service, val_init$, handle_config)
+    ble_result = BleCharCommit(handle_service, val_init$, handle_date)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize time characteristic - Read/Write - 6 bytes (HHMMSS)
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_TIME)), BleAttrMetaData(1,1,6,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_time)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize area characteristic - Read/Write - 6 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_AREA)), BleAttrMetaData(1,1,6,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_area)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize flood characteristic - Read/Write - 1 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_FLOOD)), BleAttrMetaData(1,1,1,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_flood)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize latitude characteristic - Read/Write - 2 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_LATITUDE)), BleAttrMetaData(1,1,2,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_latitude)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize temperature sensor characteristic - Read/Write - 3 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_TEMP)), BleAttrMetaData(1,1,3,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_temp)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize soil moisture sensor characteristic - Read/Write - 4 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_SOIL)), BleAttrMetaData(1,1,4,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_soil)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize rain sensor characteristic - Read/Write - 4 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_RAIN)), BleAttrMetaData(1,1,4,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_rain)
     if ble_result != 0 then
         print "\nError: service_create() -> BleCharCommit()"
         print "\nCode: 0x"; integer.h' ble_result
@@ -134,6 +239,30 @@ SUB ble_init()
     advert_report_create()
 ENDSUB
 
+SUB ble_update_temp(value$)
+    ble_result = BleCharValueWrite(handle_temp, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_soil(value$)
+    ble_result = BleCharValueWrite(handle_soil, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_rain(value$)
+    ble_result = BleCharValueWrite(handle_rain, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
 FUNCTION handler_char_val(handle_char, offset, len)
     dim val$
 
@@ -144,8 +273,16 @@ FUNCTION handler_char_val(handle_char, offset, len)
         print "\nCode: 0x"; integer.h' ble_result
     endif
 
-    if handle_char == handle_config then
-        config$ = val$
+    if (handle_char == handle_area) then
+        config_area$ = val$
+    elseif (handle_char == handle_time) then
+        config_time$ = val$
+    elseif (handle_char == handle_date) then
+        config_date$ = val$
+    elseif (handle_char == handle_flood) then
+        config_flood$ = val$
+    elseif (handle_char == handle_latitude) then
+        config_latitude$ = val$
     endif
 ENDFUNC 1
 
@@ -153,6 +290,7 @@ ENDFUNC 1
 FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
     IF id_msg == 1 then
         print "\n\n### Disconnected ###\n"
+        ble_advertise()
     elseif id_msg == 0 then
         print "\n### Connected ###"
     endif
