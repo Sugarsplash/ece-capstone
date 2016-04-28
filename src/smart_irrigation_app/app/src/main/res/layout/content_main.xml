@@ -12,16 +12,6 @@
     tools:context="edu.pdx.capstone.smartirrigation.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/string_read_sensors"
-        android:id="@+id/button_read_sensors"
-        android:onClick="onClickReadSensors"
-        android:layout_below="@+id/data_sensor_rain"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +29,15 @@
         android:id="@+id/text_device_address"
         android:layout_below="@+id/text_device_name"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_connect"
+        android:id="@+id/button_connect"
+        android:onClick="onClickConnect"
+        android:layout_below="@+id/text_device_address"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,7 +64,7 @@
         android:id="@+id/sensor_temp"
         android:layout_below="@+id/text_device_address"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:textSize="20sp" />
 
     <TextView
@@ -100,9 +99,9 @@
         android:layout_height="wrap_content"
         android:text="Rain: "
         android:id="@+id/sensor_rain"
+        android:textSize="20sp"
         android:layout_below="@+id/sensor_soil"
-        android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -113,12 +112,22 @@
         android:layout_toEndOf="@+id/sensor_rain"
         android:textSize="20sp" />
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/string_read_sensors"
+        android:id="@+id/button_read_sensors"
+        android:onClick="onClickReadSensors"
+        android:layout_below="@+id/data_sensor_rain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/string_latitude"
         android:id="@+id/text_latitude"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="90dp"
         android:layout_below="@+id/data_sensor_rain"
         android:textSize="15sp" />
 

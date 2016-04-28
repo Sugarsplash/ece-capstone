@@ -213,13 +213,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     protected void onStart()
     {
         mGoogleApiClient.connect();
@@ -229,21 +222,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-
-        if (id == R.id.device_scan)
-        {
-            Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
-            startActivity(intent_device_scan);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void onClickConfig(View view)
@@ -257,6 +235,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             mBTCharDate.setValue(mConfigDate.getText().toString());
             mBTGatt.writeCharacteristic(mBTCharDate);
         }
+    }
+
+    public void onClickConnect(View view)
+    {
+        Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
+        startActivity(intent_device_scan);
     }
 
     public void onClickReadSensors(View view)
