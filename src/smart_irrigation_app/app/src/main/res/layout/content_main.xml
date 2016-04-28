@@ -144,7 +144,7 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="@string/string_get"
         android:id="@+id/button_latitude_get"
         android:layout_alignBottom="@+id/text_latitude"
@@ -174,7 +174,7 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="@string/string_get"
         android:id="@+id/button_date_get"
         android:layout_alignBottom="@+id/text_date"
@@ -204,7 +204,7 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="@string/string_get"
         android:id="@+id/button_time_get"
         android:layout_alignBottom="@+id/text_time"
@@ -242,11 +242,22 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:text="@string/string_configure"
         android:id="@+id/button_configure"
         android:onClick="onClickConfig"
         android:layout_below="@+id/input_area"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="8dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:text="@string/string_flood"
+        android:id="@+id/button_flood"
+        android:onClick="onClickFlood"
+        android:layout_below="@+id/button_configure"
+        android:layout_centerHorizontal="true"
+        android:textSize="8dp" />
 
 </RelativeLayout>

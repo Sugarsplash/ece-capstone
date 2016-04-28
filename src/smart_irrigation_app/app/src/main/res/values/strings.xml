@@ -10,6 +10,7 @@
     <string name="string_configure">Configure</string>
     <string name="string_read_sensors">Read Sensors</string>
     <string name="string_connect">Connect</string>
+    <string name="string_flood">Flood</string>
     <string name="device_name">Device Name:</string>
     <string name="device_address">Device Address:</string>
     <string name="error_ble_not_supported">BLE not supported</string>

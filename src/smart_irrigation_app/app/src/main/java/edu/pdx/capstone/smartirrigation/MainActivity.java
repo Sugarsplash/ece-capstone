@@ -255,6 +255,19 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     }
 
+    public void onClickFlood(View view)
+    {
+        if (mBTGatt == null)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTCharFlood.setValue("1");
+            mBTGatt.writeCharacteristic(mBTCharFlood);
+        }
+    }
+
     public void onClickButtonLatitudeGet(View view)
     {
         EditText input_latitude = (EditText) findViewById(R.id.input_latitude);
