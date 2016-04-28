@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_DATE   = "30d1000a-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_TIME   = "30d1000b-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_AREA   = "30d1000c-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_FLOOD  = "30d1000c-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_FLOOD  = "30d1000d-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_LATITUDE = "30d1000e-a6ff-4f2f-8a2f-a267a2dbe320";
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mBTDevice;
@@ -62,22 +63,25 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharTemp;
     private BluetoothGattCharacteristic mBTCharSoil;
     private BluetoothGattCharacteristic mBTCharRain;
-    private BluetoothGattCharacteristic mBTCharLatitude;
     private BluetoothGattCharacteristic mBTCharDate;
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
     private BluetoothGattCharacteristic mBTCharFlood;
+    private BluetoothGattCharacteristic mBTCharLatitude;
+
     private int mBTStatus;
 
     private TextView mDataTemp;
     private TextView mDataSoil;
     private TextView mDataRain;
     private TextView mConfigDate;
+    private TextView mConfigLatitude;
+    private TextView mConfigTime;
+    private TextView mConfigArea;
 
     GoogleApiClient mGoogleApiClient = null;
     Location mLastLocation;
     final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -102,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mDataRain = (TextView) findViewById(R.id.data_sensor_rain);
 
         mConfigDate = (TextView) findViewById(R.id.input_date);
+        mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
+        mConfigTime = (TextView) findViewById(R.id.input_time);
+        mConfigArea = (TextView) findViewById(R.id.input_area);
 
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRAS_DEVICE_NAME))
@@ -247,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
         else
         {
-            mBTCharDate.setValue("test");
+            mBTCharDate.setValue(mConfigDate.getText().toString());
             mBTGatt.writeCharacteristic(mBTCharDate);
         }
     }
@@ -337,6 +344,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharSoil = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_SOIL));
                     mBTCharRain = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_RAIN));
                     mBTCharDate = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_DATE));
+                    mBTCharTime = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TIME));
+                    mBTCharArea = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_AREA));
+                    mBTCharLatitude = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_LATITUDE));
+                    mBTCharFlood = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOOD));
                 }
             }
         }
@@ -381,9 +392,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             {
                 if ( BLE_UUID_CHAR_DATE.equalsIgnoreCase(characteristic.getUuid().toString()) )
                 {
-                    String date = mConfigDate.getText().toString();
-
-                    characteristic.setValue(date);
+                    mBTCharTime.setValue(mConfigTime.getText().toString());
+                    mBTGatt.writeCharacteristic(mBTCharTime);
+                }
+                else if ( BLE_UUID_CHAR_TIME.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                {
+                    mBTCharArea.setValue(mConfigArea.getText().toString());
+                    mBTGatt.writeCharacteristic(mBTCharArea);
+                }
+                else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()))
+                {
+                    mBTCharLatitude.setValue(mConfigLatitude.getText().toString());
+                    mBTGatt.writeCharacteristic(mBTCharLatitude);
                 }
             }
         }
