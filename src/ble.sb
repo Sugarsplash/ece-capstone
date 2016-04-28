@@ -115,7 +115,7 @@ SUB service_create()
     endif
     
     ' Initialize latitude characteristic - Read/Write - 2 bytes
-    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_LATITUDE)), BleAttrMetaData(1,1,2,1,result2), 0, 0)
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_LATITUDE)), BleAttrMetaData(1,1,5,1,result2), 0, 0)
     if (ble_result != 0) || (result2 != 0) then
         print "\nError: service_create() -> BleCharNew()"
         print "\nCode: 0x"; integer.h' ble_result

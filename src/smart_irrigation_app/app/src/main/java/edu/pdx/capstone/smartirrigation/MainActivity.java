@@ -381,12 +381,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 else if ( BLE_UUID_CHAR_TIME.equalsIgnoreCase(characteristic.getUuid().toString()) )
                 {
+
                     mBTCharArea.setValue(mConfigArea.getText().toString());
                     mBTGatt.writeCharacteristic(mBTCharArea);
                 }
                 else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()))
                 {
-                    mBTCharLatitude.setValue(mConfigLatitude.getText().toString());
+                    // Latitude needs to be multiplied by 100 because BL600 cannot deal in floats
+                    float latitude = Float.parseFloat(mConfigLatitude.getText().toString());
+                    latitude *= 100;
+                    int latitude_rounded = Math.round(latitude); // Get rid of trailing decimal point
+
+                    mBTCharLatitude.setValue(String.valueOf(latitude_rounded));
                     mBTGatt.writeCharacteristic(mBTCharLatitude);
                 }
             }
