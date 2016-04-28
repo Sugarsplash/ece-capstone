@@ -9,7 +9,11 @@ SUB irrigate(water_amount)
     
     ' Turn on water
     GpioWrite(SOL_ENABLE, HIGH)
-
+    
+    // Tell phone water is flowing.
+    Dim value$ : value$ = "1"
+    ble_update_flow(value$)
+    
     ' Leave it on for specified period
     WHILE (count != 0)
         state = flow_read()
@@ -25,5 +29,9 @@ SUB irrigate(water_amount)
     
     ' Turn off water
     GpioWrite(SOL_ENABLE, LOW)
+    
+    ' Tell phone water is no longer flowing
+    value$ = "0"
+    ble_update_flow(value$)
 
 ENDSUB

@@ -12,6 +12,7 @@
 #define UUID_TEMP               0x001A
 #define UUID_SOIL               0x001B
 #define UUID_RAIN               0x001C
+#define UUID_FLOW               0x001D
 
 ' Device Info for BLE
 #define DEVICE_NAME             "Smart Irrigation"
@@ -40,6 +41,7 @@ dim handle_latitude         ' Handle for latitude
 dim handle_temp             ' Handle for temperature sensor data
 dim handle_soil             ' Handle for soil moisture sensor data
 dim handle_rain             ' Handle for rain sensor data
+dim handle_flow             ' Handle for flow signal
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME
@@ -52,7 +54,7 @@ SUB service_create()
 
     handle_service_uuid = BleHandleUuidSibling(handle_uuid_base,UUID_SERVICE)
 
-    dim val_init$ : val_init$="\00"
+    dim val_init$ : val_init$="0"
 
     dim result2, result3
 
@@ -166,6 +168,19 @@ SUB service_create()
         print "\nError: service_create() -> BleCharCommit()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
+    
+    ' Initialize flow signal characteristic - Read/Write - 1 byte
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_FLOW)), BleAttrMetaData(1,1,1,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_flow)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 
     ' Commit service to the GATT table
     ble_result = BleServiceCommit(handle_service)
@@ -258,6 +273,14 @@ ENDSUB
 
 SUB ble_update_rain(value$)
     ble_result = BleCharValueWrite(handle_rain, value$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_flow(value$)
+    ble_result = BleCharValueWrite(handle_flow, value$)
     if ble_result != 0 then
         print "\nError: handler_char_val() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
