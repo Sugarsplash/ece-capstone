@@ -116,8 +116,6 @@ FUNCTION timer_calculate()
     latitude = STRVALDEC(config_latitude$)
     
     area = STRVALDEC(config_area$)
-       
-    flood_signal = STRVALDEC(config_flood$)
 
     // Do calculations
 

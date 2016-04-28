@@ -1,4 +1,5 @@
 #include "lib/globals.sblib"
+#include "flood.sb"
 
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
@@ -280,7 +281,16 @@ FUNCTION handler_char_val(handle_char, offset, len)
     elseif (handle_char == handle_date) then
         config_date$ = val$
     elseif (handle_char == handle_flood) then
-        config_flood$ = val$
+        // Flood signal received, do the flood procedure
+        flood()
+        
+        // Return flood signal value back to 0
+        Dim value$ : value$ = "0"
+        ble_result = BleCharValueWrite(handle_flood, value$)
+        if ble_result != 0 then
+            print "\nError: handler_char_val() -> BleCharValueWrite()"
+            print "\nCode: 0x"; integer.h' ble_result
+        endif
     elseif (handle_char == handle_latitude) then
         config_latitude$ = val$
     endif
