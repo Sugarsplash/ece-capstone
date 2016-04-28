@@ -65,7 +65,7 @@
         android:layout_below="@+id/text_device_address"
         android:layout_alignParentStart="true"
         android:layout_marginTop="50dp"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
         android:id="@+id/data_sensor_temp"
         android:layout_alignBottom="@+id/sensor_temp"
         android:layout_toEndOf="@+id/sensor_temp"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         android:id="@+id/sensor_soil"
         android:layout_below="@+id/sensor_temp"
         android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -92,14 +92,14 @@
         android:id="@+id/data_sensor_soil"
         android:layout_alignBottom="@+id/sensor_soil"
         android:layout_toEndOf="@+id/sensor_soil"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rain: "
         android:id="@+id/sensor_rain"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:layout_below="@+id/sensor_soil"
         android:layout_alignParentStart="true" />
 
@@ -110,7 +110,25 @@
         android:id="@+id/data_sensor_rain"
         android:layout_alignBottom="@+id/sensor_rain"
         android:layout_toEndOf="@+id/sensor_rain"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flow: "
+        android:id="@+id/flow_signal"
+        android:textSize="15sp"
+        android:layout_below="@+id/sensor_rain"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Null"
+        android:id="@+id/data_flow_signal"
+        android:layout_alignBottom="@+id/flow_signal"
+        android:layout_toEndOf="@+id/flow_signal"
+        android:textSize="15sp" />
 
     <Button
         android:layout_width="fill_parent"
@@ -120,7 +138,7 @@
         android:onClick="onClickReadSensors"
         android:layout_below="@+id/data_sensor_rain"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_TEMP   = "30d1001a-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_SOIL   = "30d1001b-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_RAIN   = "30d1001c-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_FLOW   = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_DATE   = "30d1000a-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_TIME   = "30d1000b-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_AREA   = "30d1000c-a6ff-4f2f-8a2f-a267a2dbe320";
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharTemp;
     private BluetoothGattCharacteristic mBTCharSoil;
     private BluetoothGattCharacteristic mBTCharRain;
+    private BluetoothGattCharacteristic mBTCharFlow;
     private BluetoothGattCharacteristic mBTCharDate;
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private TextView mDataTemp;
     private TextView mDataSoil;
     private TextView mDataRain;
+    private TextView mDataFlow;
     private TextView mConfigDate;
     private TextView mConfigLatitude;
     private TextView mConfigTime;
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mDataTemp = (TextView) findViewById(R.id.data_sensor_temp);
         mDataSoil = (TextView) findViewById(R.id.data_sensor_soil);
         mDataRain = (TextView) findViewById(R.id.data_sensor_rain);
+        mDataFlow = (TextView) findViewById(R.id.data_flow_signal);
 
         mConfigDate = (TextView) findViewById(R.id.input_date);
         mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
@@ -340,6 +344,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharTemp = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TEMP));
                     mBTCharSoil = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_SOIL));
                     mBTCharRain = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_RAIN));
+                    mBTCharFlow = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOW));
                     mBTCharDate = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_DATE));
                     mBTCharTime = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TIME));
                     mBTCharArea = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_AREA));
@@ -375,8 +380,29 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         else if ( BLE_UUID_CHAR_RAIN.equalsIgnoreCase(characteristic.getUuid().toString()) )
                         {
                             mDataRain.setText(char_string);
-                        }
 
+                            mBTGatt.readCharacteristic(mBTCharFlow);
+                        }
+                        else if ( BLE_UUID_CHAR_FLOW.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            String text;
+
+                            if (char_string.equals("1"))
+                            {
+                                text = "On";
+                                mDataFlow.setText(text);
+                            }
+                            else if (char_string.equals("0"))
+                            {
+                                text = "Off";
+                                mDataFlow.setText(text);
+                            }
+                            else
+                            {
+                                text = "Error";
+                                mDataFlow.setText(text);
+                            }
+                        }
                     }
                 });
             }
