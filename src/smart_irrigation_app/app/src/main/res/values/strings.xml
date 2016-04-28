@@ -5,6 +5,7 @@
     <string name="string_latitude">Latitude:</string>
     <string name="string_date">Date:</string>
     <string name="string_area">Area:</string>
+    <string name="string_time">Time:</string>
     <string name="string_get">GET</string>
     <string name="string_configure">Configure</string>
     <string name="string_read_sensors">Read Sensors</string>
