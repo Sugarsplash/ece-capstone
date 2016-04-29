@@ -1,17 +1,16 @@
 <resources>
     <string name="app_name">Smart Irrigation</string>
-    <string name="device_scan">Scan</string>
     <string name="google_app_id">381364911561</string>
     <string name="string_latitude">Latitude:</string>
     <string name="string_date">Date:</string>
     <string name="string_area">Area:</string>
     <string name="string_time">Time:</string>
     <string name="string_get">Auto</string>
-    <string name="string_config_read">Read</string>
-    <string name="string_config_write">Write</string>
-    <string name="string_read_sensors">Refresh</string>
-    <string name="string_connect">Connect</string>
-    <string name="string_flood">Flood</string>
+    <string name="string_config_read">Read Config</string>
+    <string name="string_config_write">Write Config</string>
+    <string name="string_read_sensors">Refresh Sensors</string>
+    <string name="string_connect">Connect to Device</string>
+    <string name="string_flood">Flood Signal</string>
     <string name="device_name">Device Name:</string>
     <string name="device_address">Device Address:</string>
     <string name="error_ble_not_supported">BLE not supported</string>
