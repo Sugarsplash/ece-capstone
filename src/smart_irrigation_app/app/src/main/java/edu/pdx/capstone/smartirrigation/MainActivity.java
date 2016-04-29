@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onStop();
     }
 
-    public void onClickConfig(View view)
+    public void onClickConfigWrite(View view)
     {
         if (mBTGatt == null)
         {
@@ -238,6 +238,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         {
             mBTCharDate.setValue(mConfigDate.getText().toString());
             mBTGatt.writeCharacteristic(mBTCharDate);
+        }
+    }
+
+    public void onClickConfigRead(View view)
+    {
+        if (mBTGatt == null)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTGatt.readCharacteristic(mBTCharLatitude);
         }
     }
 
@@ -402,6 +414,36 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                                 text = "Error";
                                 mDataFlow.setText(text);
                             }
+                        }
+                        else if ( BLE_UUID_CHAR_LATITUDE.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            // Latitude value in characteristic is multiplied by 100 due to the
+                            // BL600's lack of float support, so it needs to be converted back
+                            // to a float for viewing
+                            float latitude = Float.valueOf(char_string);
+                            latitude /= 100;
+
+                            String latitude_text = String.valueOf(latitude);
+
+                            mConfigLatitude.setText(latitude_text);
+
+                            mBTGatt.readCharacteristic(mBTCharDate);
+                        }
+                        else if ( BLE_UUID_CHAR_DATE.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            mConfigDate.setText(char_string);
+
+                            mBTGatt.readCharacteristic(mBTCharTime);
+                        }
+                        else if ( BLE_UUID_CHAR_TIME.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            mConfigTime.setText(char_string);
+
+                            mBTGatt.readCharacteristic(mBTCharArea);
+                        }
+                        else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            mConfigArea.setText(char_string);
                         }
                     }
                 });
