@@ -260,34 +260,31 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:text="@string/string_config_read"
         android:id="@+id/button_config_read"
         android:onClick="onClickConfigRead"
         android:layout_below="@+id/input_area"
         android:layout_alignParentStart="true"
-        android:textSize="8dp"
         android:layout_toStartOf="@+id/info_device_address"
         android:layout_alignEnd="@+id/info_device_name" />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:text="@string/string_config_write"
         android:id="@+id/button_config_write"
         android:onClick="onClickConfigWrite"
         android:layout_alignTop="@+id/button_config_read"
-        android:layout_toEndOf="@+id/button_config_read"
-        android:textSize="8dp" />
+        android:layout_toEndOf="@+id/button_config_read" />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:text="@string/string_flood"
         android:id="@+id/button_flood"
         android:onClick="onClickFlood"
         android:layout_below="@+id/button_config_read"
-        android:layout_centerHorizontal="true"
-        android:textSize="8dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
