@@ -144,6 +144,8 @@ public class DeviceScanActivity extends ListActivity {
                 }
             }, SCAN_PERIOD);
 
+            Toast.makeText(this, "Scanning...", Toast.LENGTH_LONG).show();
+
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         }
