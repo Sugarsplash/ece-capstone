@@ -224,13 +224,16 @@ ONEVENT EVBLEMSG            CALL handler_ble_msg
 ONEVENT EVTMR0 CALL timer_sample
 ONEVENT EVTMR1 CALL timer_calculate
 
-//Begin advertising
-ble_advertise()
-
-//Start timers
-TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
-TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
+////Begin advertising
+//ble_advertise()
+//
+////Start timers
+//TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
+//TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
 WHILE TRUE
-    WAITEVENT
+    DIM temp
+    temp = temp_read()
+    PRINT "\nCelsius = ";temp;"\n"
+    SLEEP(500)
 ENDWHILE
