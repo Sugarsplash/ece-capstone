@@ -229,3 +229,13 @@ FUNCTION getRTCyear()
     ret = BCDtoDec(regval)
 
 ENDFUNC ret
+
+FUNCTION getDayOfYear()
+    DIM ret, day, month
+
+    month = getRTCmonth()
+    day = getRTCday()
+
+    ret = (month - 1) * 30 + day
+
+ENDFUNC ret
