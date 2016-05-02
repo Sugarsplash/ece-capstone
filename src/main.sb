@@ -53,12 +53,66 @@ ENDIF
 // Initialize BLE services and characteristics
 ble_init()
 
+FUNCTION resetDataArray()
+    DIM i
+    FOR i = 0  to 255
+        dataArray[i] = 0
+    NEXT
+
+    dp = 0
+
+ENDFUNC
+
+FUNCTION updateHistory(BYVAL Doy AS INTEGER, BYVAL TempMax AS INTEGER, BYVAL TempMin AS INTEGER, BYVAL smH AS INTEGER, BYVAL smL AS INTEGER, BYVAL rain AS INTEGER, BYVAL sample AS INTEGER, BYVAL Rot AS INTEGER)
+    DIM alignCheck
+    alignCheck = (dp)%8
+
+    IF alignCheck != 0 THEN
+        PRINT "\nData Alignment error"
+        resetDataArray()
+    ENDIF
+
+    IF dp > 255 THEN
+        resetDataArray()
+    ENDIF
+
+    //Begin writing data
+    dataArray[dp] = Doy
+    dp = dp + 1
+    
+    dataArray[dp] = TempMax
+    dp = dp + 1
+
+    dataArray[dp] = TempMin
+    dp = dp + 1
+
+    dataArray[dp] = smH
+    dp = dp + 1
+
+    dataArray[dp] = smL
+    dp = dp + 1
+
+    dataArray[dp] = rain
+    dp = dp + 1
+
+    dataArray[dp] = sample
+    dp = dp + 1
+
+    dataArray[dp] = Rot
+    dp = dp + 1
+ 
+ENDFUNC
 
 // Sample sensors, update their respective variables for later ETO calculation,
 // and write to the sensor characteristic
 // Frequency: 1/hour
 FUNCTION timer_sample()
     
+    // Sensor values
+    DIM temperature : temperature = 0
+    DIM soil_moisture : soil_moisture = 0
+    DIM rain : rain = 0
+
     // Turn on sensors
     GpioWrite(SENSORS_ENABLE, HIGH)
     
@@ -66,22 +120,43 @@ FUNCTION timer_sample()
     temperature = temp_read()
     rain = rain_analog_read()
     soil_moisture = soil_read()
-    
-    // Write to temperature sensor characteristic
+
+    //Log latest sample to ble characteristics
     DIM temperature_string$
     SPRINT #temperature_string$, temperature
     ble_update_temp(temperature_string$)
     
-    // Write to rain sensor characteristic
     DIM rain_string$
     SPRINT #rain_string$, rain
     ble_update_rain(rain_string$)
     
-    // Write to soil moisture sensor characteristic
     DIM soil_string$
     SPRINT #soil_string$, soil_moisture
     ble_update_soil(soil_string$)
-    
+
+    //Set max/mins, counters
+    IF temperature > Tmax THEN
+        Tmax = temperature
+    ENDIF
+
+    IF temperature < Tmin THEN
+        Tmin = temperature
+    ENDIF
+
+    IF rain > 0 THEN
+        rainNum = rainNum + 1
+    ENDIF
+
+    IF soil_moisture > soilMoistureHigh THEN
+        soilMoistureHigh = soil_moisture
+    ENDIF
+
+    IF soil_moisture < soilMoistureLow THEN
+        soilMoistureLow = soilMoistureLow
+    ENDIF
+
+    sampleNum = sampleNum + 1
+   
     // Turn off sensors
     GpioWrite(SENSORS_ENABLE, LOW)
     
@@ -94,48 +169,47 @@ ENDFUNC 1
 // Frequency: 1/day
 FUNCTION timer_calculate()
     
-    // Get strings from config characteristics and convert to integer
-    DIM hour_string$ : hour_string$ = MID$(config_time$, 0, 2)
-    hours = STRVALDEC(hour_string$)
-    
-    DIM min_string$ : min_string$ = MID$(config_time$, 2, 2)
-    minutes = STRVALDEC(min_string$)
-    
-    DIM sec_string$ : sec_string$ = MID$(config_time$, 4, 2)
-    seconds = STRVALDEC(sec_string$)
-    
-    DIM month_string$ : month_string$ = MID$(config_date$, 0, 2)
-    month = STRVALDEC(month_string$)
-    
-    DIM day_string$ : day_string$ = MID$(config_date$, 2, 2)
-    day = STRVALDEC(day_string$)
-     
-    DIM year_string$ : year_string$ = MID$(config_date$, 4, 2)
-    year = STRVALDEC(year_string$)
-    
-    latitude = STRVALDEC(config_latitude$)
-    
-    area = STRVALDEC(config_area$)
+    IF sampleNum > 20 THEN
+        // Do calculations
 
-    // Do calculations
+        DIM mm, volumeLiters, volumePrecision, Rotations, DoY
 
-    DIM mm, volumeLiters, volumePrecision, Rotations
+        DoY = getDayOfYear()
 
-    mm = E_to(Tmax, Tmin, DayOfYear, latitude)
+        mm = E_to(Tmax, Tmin, DoY, latitude)
 
-    volumeLiters = mm * area * 1000
+        volumeLiters = mm * area * 1000
 
-    volumePrecision = volumeLiters * 10000
+        volumePrecision = volumeLiters * 10000
 
-    Rotations = volumePrecision / LitersToRotations
+        Rotations = volumePrecision / LitersToRotations
 
-    Rotations_needed = Rotations_needed + Rotations
+        //Consider rain info
+        DIM rainRatio =  sampleNum - rainNum
+        IF rainRatio > 16 THEN
+            Rotations = 0
+        ENDIF
 
-    Do not bother watering until a gallon or more of water is necessary
-    IF (Rotations_needed > 1200) THEN
-        irrigate(Rotations_needed)
-    ENDIF 
-    
+        Rotations_needed = Rotations_needed + Rotations
+
+        //Do not bother watering until a gallon or more of water is necessary
+        IF (Rotations_needed > 1200) THEN
+            irrigate(Rotations_needed)
+            Rotations_needed = 0
+        ENDIF
+
+        //Write Daily 
+        updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
+        
+        //Reset max/mins, counters
+        sampleNum = 0
+        rainNum = 0 
+        Tmax = 0
+        Tmin = 100
+        soilMoistureHigh = 0
+        soilMoistureLow = 100
+
+    ENDIF
     TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
 ENDFUNC 1
