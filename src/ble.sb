@@ -297,13 +297,7 @@ FUNCTION handler_char_val(handle_char, offset, len)
         print "\nCode: 0x"; integer.h' ble_result
     endif
 
-    if (handle_char == handle_area) then
-        config_area$ = val$
-    elseif (handle_char == handle_time) then
-        config_time$ = val$
-    elseif (handle_char == handle_date) then
-        config_date$ = val$
-    elseif (handle_char == handle_flood) then
+    if (handle_char == handle_flood) then
         // Flood signal received, do the flood procedure
         flood()
         
@@ -314,6 +308,12 @@ FUNCTION handler_char_val(handle_char, offset, len)
             print "\nError: handler_char_val() -> BleCharValueWrite()"
             print "\nCode: 0x"; integer.h' ble_result
         endif
+    elseif (handle_char == handle_area) then
+        config_area$ = val$
+    elseif (handle_char == handle_time) then
+        config_time$ = val$
+    elseif (handle_char == handle_date) then
+        config_date$ = val$
     elseif (handle_char == handle_latitude) then
         config_latitude$ = val$
     endif
