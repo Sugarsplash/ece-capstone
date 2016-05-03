@@ -326,7 +326,34 @@ FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
         ble_advertise()
     elseif id_msg == 0 then
         print "\n### Connected ###"
+        globalConfig()
     endif
+ENDFUNC 1
+
+FUNCTION globalConfig()
+	// Get strings from config characteristics and convert to integer
+	DIM hour_string$ : hour_string$ = MID$(config_time$, 0, 2)
+	hours = STRVALDEC(hour_string$)
+
+	DIM min_string$ : min_string$ = MID$(config_time$, 2, 2)
+	minutes = STRVALDEC(min_string$)
+
+	DIM sec_string$ : sec_string$ = MID$(config_time$, 4, 2)
+	seconds = STRVALDEC(sec_string$)
+
+	DIM month_string$ : month_string$ = MID$(config_date$, 0, 2)
+	month = STRVALDEC(month_string$)
+
+	DIM day_string$ : day_string$ = MID$(config_date$, 2, 2)
+	day = STRVALDEC(day_string$)
+	 
+	DIM year_string$ : year_string$ = MID$(config_date$, 4, 2)
+	year = STRVALDEC(year_string$)
+
+	latitude = STRVALDEC(config_latitude$)
+	area = STRVALDEC(config_area$)
+	
+	setRTC(hours, minutes, seconds, month, day, year)
 ENDFUNC 1
 
 FUNCTION handler_adv_timeout()

@@ -4,6 +4,6 @@ FUNCTION temp_read()
 
     DIM temp_raw : temp_raw = GpioRead(TEMP_DATA)
     
-    DIM temp_celsius : temp_celsius = ((temp_raw*115) / 1000) - 50
+    DIM temp_celsius : temp_celsius = ((temp_raw - 475)*117)/1000
     
 ENDFUNC temp_celsius
