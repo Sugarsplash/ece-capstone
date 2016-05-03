@@ -8,9 +8,9 @@
     <string name="string_get">Auto</string>
     <string name="string_config_read">Read Config</string>
     <string name="string_config_write">Write Config</string>
-    <string name="string_read_sensors">Refresh Sensors</string>
+    <string name="string_read_sensors">Read Sensors</string>
     <string name="string_connect">Connect to Device</string>
-    <string name="string_flood">Flood Signal</string>
+    <string name="string_flood">Send Flood Signal</string>
     <string name="device_name">Device Name:</string>
     <string name="device_address">Device Address:</string>
     <string name="error_ble_not_supported">BLE not supported</string>
@@ -20,10 +20,8 @@
     <string name="unknown_device">Unknown Device</string>
 
     <string-array name="area_units">
-        <item>sq. cm</item>
         <item>sq. m</item>
-        <item>sq. in</item>
-        <item>sq. mi</item>
+        <item>sq. ft</item>
     </string-array>
 
     <string name="title_activity_config">Configuration</string>

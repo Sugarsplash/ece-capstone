@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.bluetooth.BluetoothAdapter;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private TextView mConfigLatitude;
     private TextView mConfigTime;
     private TextView mConfigArea;
+    private Spinner mConfigAreaUnits;
 
     GoogleApiClient mGoogleApiClient = null;
     Location mLastLocation;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
         mConfigTime = (TextView) findViewById(R.id.input_time);
         mConfigArea = (TextView) findViewById(R.id.input_area);
+        mConfigAreaUnits = (Spinner) findViewById(R.id.spinner_area);
 
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRAS_DEVICE_NAME))
@@ -441,7 +444,21 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                         }
                         else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()) )
                         {
-                            mConfigArea.setText(char_string);
+                            // Area value in characteristic is multiplied by 100 due to the
+                            // BL600's lack of float support, so it needs to be converted back
+                            // to a float for viewing
+                            float area = Float.valueOf(char_string);
+                            area /= 100;
+
+                            // Convert to feet if necessary
+                            if (mConfigAreaUnits.getSelectedItem().toString().equals("sq. ft"))
+                            {
+                                area *= 10.7639;
+                            }
+
+                            String area_text = String.valueOf(area);
+
+                            mConfigArea.setText(area_text);
                         }
                     }
                 });
@@ -460,8 +477,25 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 else if ( BLE_UUID_CHAR_TIME.equalsIgnoreCase(characteristic.getUuid().toString()) )
                 {
+                    float area = Float.valueOf(mConfigArea.getText().toString());
 
-                    mBTCharArea.setValue(mConfigArea.getText().toString());
+                    if (mConfigAreaUnits.getSelectedItem().toString().equals("sq. ft"))
+                    {
+                        area *= 0.092903;
+                    }
+
+                    // Minimum supported area is 1 square meter
+                    if (area < 1)
+                    {
+                        area = 1;
+                    }
+
+                    // Area needs to be multiplied by 100 because BL600 cannot deal in floats
+                    area *= 100;
+
+                    int area_in_meters = Math.round(area); // Get rid of trailing decimal point
+
+                    mBTCharArea.setValue(String.valueOf(area_in_meters));
                     mBTGatt.writeCharacteristic(mBTCharArea);
                 }
                 else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()))
