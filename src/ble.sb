@@ -316,6 +316,7 @@ FUNCTION handler_char_val(handle_char, offset, len)
         config_date$ = val$
     elseif (handle_char == handle_latitude) then
         config_latitude$ = val$
+        globalConfig()
     endif
 ENDFUNC 1
 
@@ -326,7 +327,6 @@ FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
         ble_advertise()
     elseif id_msg == 0 then
         print "\n### Connected ###"
-        globalConfig()
     endif
 ENDFUNC 1
 
