@@ -1,0 +1,10 @@
+BL600 advertises and connects with Android devices well
+(devices can connect and disconnect continually, only one
+device can be connected at a time).
+
+Sensors will need to be tested in the field in order to
+calibrate them and update the code to adjust calculations.
+
+Next steps: Install PCB to enclosure and set up entire
+project in a garden.
+
