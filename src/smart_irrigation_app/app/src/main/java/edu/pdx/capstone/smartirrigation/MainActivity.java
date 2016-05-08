@@ -46,29 +46,35 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static String mDeviceName;
     public static String mDeviceAddr;
 
-    public static final String BLE_UUID_SERVICE     = "30d1beef-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_TEMP   = "30d1001a-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_SOIL   = "30d1001b-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_RAIN   = "30d1001c-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_FLOW   = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_DATE   = "30d1000a-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_TIME   = "30d1000b-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_AREA   = "30d1000c-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_FLOOD  = "30d1000d-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_LATITUDE = "30d1000e-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_SERVICE             = "30d1beef-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_DATE           = "30d1000a-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_TIME           = "30d1000b-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_AREA           = "30d1000c-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_FLOOD          = "30d1000d-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_LATITUDE       = "30d1000e-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_TEMP           = "30d1001a-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_SOIL           = "30d1001b-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_RAIN           = "30d1001c-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_FLOW           = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_HISTORY_SIGNAL = "30d10020-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_HISTORY_INDEX  = "30d10021-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_HISTORY        = "30d10022-a6ff-4f2f-8a2f-a267a2dbe320";
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mBTDevice;
     private BluetoothGatt mBTGatt;
-    private BluetoothGattCharacteristic mBTCharTemp;
-    private BluetoothGattCharacteristic mBTCharSoil;
-    private BluetoothGattCharacteristic mBTCharRain;
-    private BluetoothGattCharacteristic mBTCharFlow;
     private BluetoothGattCharacteristic mBTCharDate;
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
     private BluetoothGattCharacteristic mBTCharFlood;
     private BluetoothGattCharacteristic mBTCharLatitude;
+    private BluetoothGattCharacteristic mBTCharTemp;
+    private BluetoothGattCharacteristic mBTCharSoil;
+    private BluetoothGattCharacteristic mBTCharRain;
+    private BluetoothGattCharacteristic mBTCharFlow;
+    private BluetoothGattCharacteristic mBTCharHistorySignal;
+    private BluetoothGattCharacteristic mBTCharHistoryIndex;
+    private BluetoothGattCharacteristic mBTCharHistory;
 
     private int mBTStatus;
 
@@ -304,6 +310,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     }
 
+    public void onClickDownload(View view)
+    {
+        if (mBTGatt == null)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTGatt.readCharacteristic(mBTCharHistoryIndex);
+        }
+    }
+
     public void onClickButtonDateGet(View view)
     {
         EditText input_date = (EditText) findViewById(R.id.input_date);
@@ -354,15 +372,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 else if ( (BLE_UUID_SERVICE.equalsIgnoreCase(service.getUuid().toString())))
                 {
+                    mBTCharDate = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_DATE));
+                    mBTCharTime = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TIME));
+                    mBTCharArea = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_AREA));
+                    mBTCharFlood = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOOD));
+                    mBTCharLatitude = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_LATITUDE));
                     mBTCharTemp = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TEMP));
                     mBTCharSoil = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_SOIL));
                     mBTCharRain = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_RAIN));
                     mBTCharFlow = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOW));
-                    mBTCharDate = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_DATE));
-                    mBTCharTime = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TIME));
-                    mBTCharArea = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_AREA));
-                    mBTCharLatitude = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_LATITUDE));
-                    mBTCharFlood = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOOD));
+                    mBTCharHistorySignal = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIGNAL));
+                    mBTCharHistoryIndex = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_INDEX));
+                    mBTCharHistory = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY));
                 }
             }
         }
@@ -459,6 +480,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                             String area_text = String.valueOf(area);
 
                             mConfigArea.setText(area_text);
+                        }
+                        else if (BLE_UUID_CHAR_HISTORY_INDEX.equalsIgnoreCase(characteristic.getUuid().toString()))
+                        {
+                            int index = Integer.valueOf(char_string);
                         }
                     }
                 });
