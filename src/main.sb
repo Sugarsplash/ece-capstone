@@ -117,11 +117,12 @@ ENDFUNC 1
 // Calculate whether watering is needed and do so if needed
 // Frequency: 1/day
 FUNCTION timer_calculate()
+	DIM result
     
     IF sampleNum > 20 THEN
         // Do calculations
 
-        DIM mm, volumeLiters, volumePrecision, Rotations, DoY
+        DIM mm, volumeLiters, volumePrecision, Rotations, DoY, rainRatio
 
         DoY = getDayOfYear()
 
@@ -135,6 +136,7 @@ FUNCTION timer_calculate()
 
         //Consider rain info
         DIM rainRatio : rainRatio = sampleNum - rainNum
+
         IF rainRatio > 16 THEN
             Rotations = 0
         ENDIF
@@ -148,7 +150,7 @@ FUNCTION timer_calculate()
         ENDIF
 
         //Write Daily 
-        updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
+        result = updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
         
         //Reset max/mins, counters
         sampleNum = 0
