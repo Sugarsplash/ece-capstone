@@ -7,7 +7,6 @@
 #include "soil.sb"
 #include "temperature.sb"
 #include "algorithm.sb"
-#include "rtc.sb"
 
 DIM result
 
@@ -61,19 +60,20 @@ FUNCTION resetDataArray()
 
     dp = 0
 
-ENDFUNC
+ENDFUNC 0
 
 FUNCTION updateHistory(BYVAL Doy AS INTEGER, BYVAL TempMax AS INTEGER, BYVAL TempMin AS INTEGER, BYVAL smH AS INTEGER, BYVAL smL AS INTEGER, BYVAL rain AS INTEGER, BYVAL sample AS INTEGER, BYVAL Rot AS INTEGER)
     DIM alignCheck
+	DIM result
     alignCheck = (dp)%8
 
     IF alignCheck != 0 THEN
         PRINT "\nData Alignment error"
-        resetDataArray()
+        result = resetDataArray()
     ENDIF
 
     IF dp > 255 THEN
-        resetDataArray()
+        result = resetDataArray()
     ENDIF
 
     //Begin writing data
@@ -101,7 +101,7 @@ FUNCTION updateHistory(BYVAL Doy AS INTEGER, BYVAL TempMax AS INTEGER, BYVAL Tem
     dataArray[dp] = Rot
     dp = dp + 1
  
-ENDFUNC
+ENDFUNC 0
 
 // Sample sensors, update their respective variables for later ETO calculation,
 // and write to the sensor characteristic
@@ -168,11 +168,12 @@ ENDFUNC 1
 // Calculate whether watering is needed and do so if needed
 // Frequency: 1/day
 FUNCTION timer_calculate()
+	DIM result
     
     IF sampleNum > 20 THEN
         // Do calculations
 
-        DIM mm, volumeLiters, volumePrecision, Rotations, DoY
+        DIM mm, volumeLiters, volumePrecision, Rotations, DoY, rainRatio
 
         DoY = getDayOfYear()
 
@@ -185,7 +186,7 @@ FUNCTION timer_calculate()
         Rotations = volumePrecision / LitersToRotations
 
         //Consider rain info
-        DIM rainRatio =  sampleNum - rainNum
+        rainRatio =  sampleNum - rainNum
         IF rainRatio > 16 THEN
             Rotations = 0
         ENDIF
@@ -199,7 +200,7 @@ FUNCTION timer_calculate()
         ENDIF
 
         //Write Daily 
-        updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
+        result = updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
         
         //Reset max/mins, counters
         sampleNum = 0

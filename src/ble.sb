@@ -1,5 +1,6 @@
 #include "lib/globals.sblib"
 #include "flood.sb"
+#include "rtc.sb"
 
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
@@ -287,8 +288,36 @@ SUB ble_update_flow(value$)
     endif
 ENDSUB
 
+FUNCTION globalConfig()
+	// Get strings from config characteristics and convert to integer
+	DIM hour_string$ : hour_string$ = MID$(config_time$, 0, 2)
+	hours = STRVALDEC(hour_string$)
+
+	DIM min_string$ : min_string$ = MID$(config_time$, 2, 2)
+	minutes = STRVALDEC(min_string$)
+
+	DIM sec_string$ : sec_string$ = MID$(config_time$, 4, 2)
+	seconds = STRVALDEC(sec_string$)
+
+	DIM month_string$ : month_string$ = MID$(config_date$, 0, 2)
+	month = STRVALDEC(month_string$)
+
+	DIM day_string$ : day_string$ = MID$(config_date$, 2, 2)
+	day = STRVALDEC(day_string$)
+	 
+	DIM year_string$ : year_string$ = MID$(config_date$, 4, 2)
+	year = STRVALDEC(year_string$)
+
+	latitude = STRVALDEC(config_latitude$)
+	area = STRVALDEC(config_area$)
+	
+	DIM result
+	result = setRTC(hours, minutes, seconds, month, day, year)
+ENDFUNC 1
+
 FUNCTION handler_char_val(handle_char, offset, len)
     dim val$
+	DIM result
 
     ' Get characteristic value
     ble_result = BleCharValueRead(handle_char, val$)
@@ -316,7 +345,7 @@ FUNCTION handler_char_val(handle_char, offset, len)
         config_date$ = val$
     elseif (handle_char == handle_latitude) then
         config_latitude$ = val$
-        globalConfig()
+        result = globalConfig()
     endif
 ENDFUNC 1
 
@@ -328,32 +357,6 @@ FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
     elseif id_msg == 0 then
         print "\n### Connected ###"
     endif
-ENDFUNC 1
-
-FUNCTION globalConfig()
-	// Get strings from config characteristics and convert to integer
-	DIM hour_string$ : hour_string$ = MID$(config_time$, 0, 2)
-	hours = STRVALDEC(hour_string$)
-
-	DIM min_string$ : min_string$ = MID$(config_time$, 2, 2)
-	minutes = STRVALDEC(min_string$)
-
-	DIM sec_string$ : sec_string$ = MID$(config_time$, 4, 2)
-	seconds = STRVALDEC(sec_string$)
-
-	DIM month_string$ : month_string$ = MID$(config_date$, 0, 2)
-	month = STRVALDEC(month_string$)
-
-	DIM day_string$ : day_string$ = MID$(config_date$, 2, 2)
-	day = STRVALDEC(day_string$)
-	 
-	DIM year_string$ : year_string$ = MID$(config_date$, 4, 2)
-	year = STRVALDEC(year_string$)
-
-	latitude = STRVALDEC(config_latitude$)
-	area = STRVALDEC(config_area$)
-	
-	setRTC(hours, minutes, seconds, month, day, year)
 ENDFUNC 1
 
 FUNCTION handler_adv_timeout()

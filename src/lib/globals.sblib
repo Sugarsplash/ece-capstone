@@ -30,12 +30,12 @@ DIM area
 DIM latitude
 
 //Keeps track of sample data
-DIM Tmax = 0
-DIM Tmin = 100
-DIM sampleNum = 0
-DIM rainNum = 0
-DIM soilMoistureLow = 100
-DIM soilMoistureHigh = 0
+DIM Tmax : Tmax = 0
+DIM Tmin : Tmin = 100
+DIM sampleNum : sampleNum = 0
+DIM rainNum : rainNum = 0
+DIM soilMoistureLow : soilMoistureLow = 100
+DIM soilMoistureHigh : soilMoistureHigh = 0
 
 DIM Rotations_needed
 
@@ -45,7 +45,7 @@ DIM Rotations_needed
 //These eight data items can be read by app and memory can be cleared. This array can contain 32 days worth 
 //of info. If data is not retrieved and array fills up, the array will be purged and reused. 
 DIM dataArray[256] AS INTEGER
-DIM dp = 0
+DIM dp : dp = 0
 
 
 
