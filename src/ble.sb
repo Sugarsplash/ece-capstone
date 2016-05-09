@@ -1,5 +1,7 @@
 #include "lib/globals.sblib"
 #include "flood.sb"
+#include "rtc.sb"
+#include "history.sb"
 
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
@@ -13,6 +15,9 @@
 #define UUID_SOIL               0x001B
 #define UUID_RAIN               0x001C
 #define UUID_FLOW               0x001D
+#define UUID_HIST_SIG           0x0020
+#define UUID_HIST               0x0021
+
 
 ' Device Info for BLE
 #define DEVICE_NAME             "Smart Irrigation"
@@ -42,9 +47,13 @@ dim handle_temp             ' Handle for temperature sensor data
 dim handle_soil             ' Handle for soil moisture sensor data
 dim handle_rain             ' Handle for rain sensor data
 dim handle_flow             ' Handle for flow signal
+dim handle_hist_sig         ' Handle for history signal
+dim handle_hist             ' Handle for history data
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME
+
+dim history_index
 
 
 SUB service_create()
@@ -181,6 +190,32 @@ SUB service_create()
         print "\nError: service_create() -> BleCharCommit()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
+    
+    ' Initialize history signal characteristic - Read/Write - 1 byte
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_HIST_SIG)), BleAttrMetaData(1,1,1,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_hist_sig)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+    ' Initialize history data characteristic - Read/Write - 6 byte
+    ble_result = BleCharNew(0x2A, BleHandleUuidSibling(handle_uuid_base,(UUID_HIST)), BleAttrMetaData(1,1,6,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_hist)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 
     ' Commit service to the GATT table
     ble_result = BleServiceCommit(handle_service)
@@ -258,7 +293,7 @@ ENDSUB
 SUB ble_update_temp(value$)
     ble_result = BleCharValueWrite(handle_temp, value$)
     if ble_result != 0 then
-        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nError: ble_update_temp() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB
@@ -266,7 +301,7 @@ ENDSUB
 SUB ble_update_soil(value$)
     ble_result = BleCharValueWrite(handle_soil, value$)
     if ble_result != 0 then
-        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nError: ble_update_soil() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB
@@ -274,7 +309,7 @@ ENDSUB
 SUB ble_update_rain(value$)
     ble_result = BleCharValueWrite(handle_rain, value$)
     if ble_result != 0 then
-        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nError: ble_update_rain() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB
@@ -282,53 +317,10 @@ ENDSUB
 SUB ble_update_flow(value$)
     ble_result = BleCharValueWrite(handle_flow, value$)
     if ble_result != 0 then
-        print "\nError: handler_char_val() -> BleCharValueWrite()"
+        print "\nError: ble_update_flow() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB
-
-FUNCTION handler_char_val(handle_char, offset, len)
-    dim val$
-
-    ' Get characteristic value
-    ble_result = BleCharValueRead(handle_char, val$)
-    if ble_result != 0 then
-        print "\nError: handler_char_val() -> BleCharValueRead()"
-        print "\nCode: 0x"; integer.h' ble_result
-    endif
-
-    if (handle_char == handle_flood) then
-        // Flood signal received, do the flood procedure
-        flood()
-        
-        // Return flood signal value back to 0
-        Dim value$ : value$ = "0"
-        ble_result = BleCharValueWrite(handle_flood, value$)
-        if ble_result != 0 then
-            print "\nError: handler_char_val() -> BleCharValueWrite()"
-            print "\nCode: 0x"; integer.h' ble_result
-        endif
-    elseif (handle_char == handle_area) then
-        config_area$ = val$
-    elseif (handle_char == handle_time) then
-        config_time$ = val$
-    elseif (handle_char == handle_date) then
-        config_date$ = val$
-    elseif (handle_char == handle_latitude) then
-        config_latitude$ = val$
-        globalConfig()
-    endif
-ENDFUNC 1
-
-
-FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
-    IF id_msg == 1 then
-        print "\n\n### Disconnected ###\n"
-        ble_advertise()
-    elseif id_msg == 0 then
-        print "\n### Connected ###"
-    endif
-ENDFUNC 1
 
 FUNCTION globalConfig()
 	// Get strings from config characteristics and convert to integer
@@ -353,9 +345,113 @@ FUNCTION globalConfig()
 	latitude = STRVALDEC(config_latitude$)
 	area = STRVALDEC(config_area$)
 	
-	setRTC(hours, minutes, seconds, month, day, year)
+	Dim ret : ret = setRTC(hours, minutes, seconds, month, day, year)
+ENDFUNC ret
+
+SUB historySend()
+    if (dp == 0) then
+        Print "\nhistorySend(): No history to send"
+        exitsub
+    endif
+    
+    Print "\n# of data items to send to phone: "; dp
+    
+    // Index must be offset so that it starts sending from dataArray[0]
+    history_index = dp
+    Dim i : i = dp - history_index
+    history_index = history_index - 1
+    
+    Dim data_str$
+    SPRINT #data_str$, dataArray[i]
+    
+    ble_result = BleCharValueIndicate(handle_hist, data_str$)
+    if ble_result != 0 then
+        print "\nError: historySend() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+    
+ENDSUB
+
+FUNCTION handler_char_val(handle_char, offset, len)
+    dim read_val$
+    dim write_val$
+
+    ' Get characteristic value
+    ble_result = BleCharValueRead(handle_char, read_val$)
+    if ble_result != 0 then
+        print "\nError: handler_char_val() -> BleCharValueRead()"
+        print "\nCode: 0x"; integer.h' ble_result
+        EXITFUNC ble_result
+    endif
+
+    if (handle_char == handle_flood) then
+        // Flood signal received, do the flood procedure
+        flood()
+        
+        // Return flood signal value back to 0
+        write_val$ = "0"
+        ble_result = BleCharValueWrite(handle_flood, write_val$)
+        if ble_result != 0 then
+            print "\nError: handler_char_val() -> BleCharValueWrite()"
+            print "\nCode: 0x"; integer.h' ble_result
+            EXITFUNC ble_result
+        endif
+    elseif (handle_char == handle_area) then
+        config_area$ = read_val$
+        ble_result = 1
+    elseif (handle_char == handle_time) then
+        config_time$ = read_val$
+        ble_result = 1
+    elseif (handle_char == handle_date) then
+        config_date$ = read_val$
+        ble_result = 1
+    elseif (handle_char == handle_latitude) then
+        config_latitude$ = read_val$
+        ble_result = globalConfig()
+    elseif (handle_char == handle_hist_sig) then
+        historySend()
+        
+        // Return history signal value back to 0
+        write_val$ = "0"
+        ble_result = BleCharValueWrite(handle_hist_sig, write_val$)
+        if ble_result != 0 then
+            print "\nError: handler_char_val() -> BleCharValueWrite()"
+            print "\nCode: 0x"; integer.h' ble_result
+            EXITFUNC ble_result
+        endif
+    endif
+ENDFUNC ble_result
+
+FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
+    IF id_msg == 1 then
+        print "\n\n### Disconnected ###\n"
+        ble_advertise()
+    elseif id_msg == 0 then
+        print "\n### Connected ###"
+    endif
 ENDFUNC 1
 
 FUNCTION handler_adv_timeout()
     print "\n### Advertising Timeout ###"
+ENDFUNC 1
+
+FUNCTION handler_ble_ind(ByVal handle_char)   
+    Dim i : i = dp - history_index
+    history_index = history_index - 1
+    
+    if (history_index == -1) then
+        print "\nAll data sent to phone"
+        resetDataArray()
+        EXITFUNC 1
+    endif
+    
+    Dim data_str$
+    
+    SPRINT #data_str$, dataArray[i]
+    
+    ble_result = BleCharValueIndicate(handle_hist, data_str$)
+    if ble_result != 0 then
+        print "\nError: handler_ble_ind() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 ENDFUNC 1

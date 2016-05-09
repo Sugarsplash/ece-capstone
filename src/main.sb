@@ -7,7 +7,6 @@
 #include "soil.sb"
 #include "temperature.sb"
 #include "algorithm.sb"
-#include "rtc.sb"
 
 DIM result
 
@@ -52,56 +51,6 @@ ENDIF
 
 // Initialize BLE services and characteristics
 ble_init()
-
-FUNCTION resetDataArray()
-    DIM i
-    FOR i = 0  to 255
-        dataArray[i] = 0
-    NEXT
-
-    dp = 0
-
-ENDFUNC
-
-FUNCTION updateHistory(BYVAL Doy AS INTEGER, BYVAL TempMax AS INTEGER, BYVAL TempMin AS INTEGER, BYVAL smH AS INTEGER, BYVAL smL AS INTEGER, BYVAL rain AS INTEGER, BYVAL sample AS INTEGER, BYVAL Rot AS INTEGER)
-    DIM alignCheck
-    alignCheck = (dp)%8
-
-    IF alignCheck != 0 THEN
-        PRINT "\nData Alignment error"
-        resetDataArray()
-    ENDIF
-
-    IF dp > 255 THEN
-        resetDataArray()
-    ENDIF
-
-    //Begin writing data
-    dataArray[dp] = Doy
-    dp = dp + 1
-    
-    dataArray[dp] = TempMax
-    dp = dp + 1
-
-    dataArray[dp] = TempMin
-    dp = dp + 1
-
-    dataArray[dp] = smH
-    dp = dp + 1
-
-    dataArray[dp] = smL
-    dp = dp + 1
-
-    dataArray[dp] = rain
-    dp = dp + 1
-
-    dataArray[dp] = sample
-    dp = dp + 1
-
-    dataArray[dp] = Rot
-    dp = dp + 1
- 
-ENDFUNC
 
 // Sample sensors, update their respective variables for later ETO calculation,
 // and write to the sensor characteristic
@@ -185,7 +134,7 @@ FUNCTION timer_calculate()
         Rotations = volumePrecision / LitersToRotations
 
         //Consider rain info
-        DIM rainRatio =  sampleNum - rainNum
+        DIM rainRatio : rainRatio = sampleNum - rainNum
         IF rainRatio > 16 THEN
             Rotations = 0
         ENDIF
@@ -219,6 +168,7 @@ ENDFUNC 1
 ONEVENT EVBLE_ADV_TIMEOUT   CALL handler_adv_timeout
 ONEVENT EVCHARVAL           CALL handler_char_val
 ONEVENT EVBLEMSG            CALL handler_ble_msg
+ONEVENT EVCHARHVC           CALL handler_ble_ind
 
 //Configure timer interrupt handlers
 ONEVENT EVTMR0 CALL timer_sample

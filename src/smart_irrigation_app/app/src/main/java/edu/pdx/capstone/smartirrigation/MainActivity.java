@@ -1,6 +1,7 @@
 package edu.pdx.capstone.smartirrigation;
 
 import android.Manifest;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -30,6 +32,9 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_RAIN           = "30d1001c-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_FLOW           = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY_SIGNAL = "30d10020-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_HISTORY_INDEX  = "30d10021-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_HISTORY        = "30d10022-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_HISTORY        = "30d10021-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_HISTORY_DESC   = "00002902-0000-1000-8000-00805f9b34fb";
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mBTDevice;
@@ -91,6 +96,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     GoogleApiClient mGoogleApiClient = null;
     Location mLastLocation;
     final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+
+    private File mHistoryFolder;
+    private File mHistoryFile;
+    private int mHistoryCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -318,7 +327,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
         else
         {
-            mBTGatt.readCharacteristic(mBTCharHistoryIndex);
+            // Create file for storing values with timestamped name
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat date_format = new SimpleDateFormat("MMddyykkmss", Locale.US);
+            String timestamp = date_format.format(calendar.getTime());
+
+            String filename = timestamp + ".txt";
+
+            mHistoryFolder = this.getExternalFilesDir(null);
+            mHistoryFile = new File(mHistoryFolder, filename);
+
+            mBTCharHistorySignal.setValue("1");
+            mBTGatt.writeCharacteristic(mBTCharHistorySignal);
         }
     }
 
@@ -382,8 +402,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharRain = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_RAIN));
                     mBTCharFlow = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOW));
                     mBTCharHistorySignal = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIGNAL));
-                    mBTCharHistoryIndex = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_INDEX));
                     mBTCharHistory = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY));
+
+                    mBTGatt.setCharacteristicNotification(mBTCharHistory, true);
+                    BluetoothGattDescriptor descriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_HISTORY_DESC));
+                    descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                    mBTGatt.writeDescriptor(descriptor);
                 }
             }
         }
@@ -481,10 +505,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
                             mConfigArea.setText(area_text);
                         }
-                        else if (BLE_UUID_CHAR_HISTORY_INDEX.equalsIgnoreCase(characteristic.getUuid().toString()))
-                        {
-                            int index = Integer.valueOf(char_string);
-                        }
                     }
                 });
             }
@@ -533,6 +553,33 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharLatitude.setValue(String.valueOf(latitude_rounded));
                     mBTGatt.writeCharacteristic(mBTCharLatitude);
                 }
+            }
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
+        {
+            final String char_string = characteristic.getStringValue(0);
+
+            try {
+                FileOutputStream stream = new FileOutputStream(mHistoryFile, true);
+                stream.write(char_string.getBytes());
+                ++mHistoryCount;
+
+                // After every 8 items (one day of data), write a newline, otherwise write a comma
+                if (mHistoryCount == 8)
+                {
+                    stream.write("\n".getBytes());
+                    mHistoryCount = 0;
+                }
+                else
+                {
+                    stream.write(",".getBytes());
+                }
+
+                stream.close();
+            } catch (IOException e) {
+                Log.e("Smart", "File not found");
             }
         }
     };
