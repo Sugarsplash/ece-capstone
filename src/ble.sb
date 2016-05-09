@@ -345,7 +345,6 @@ FUNCTION globalConfig()
 	latitude = STRVALDEC(config_latitude$)
 	area = STRVALDEC(config_area$)
 	
-<<<<<<< HEAD
 	Dim ret : ret = setRTC(hours, minutes, seconds, month, day, year)
 ENDFUNC ret
 
@@ -374,15 +373,10 @@ SUB historySend()
 ENDSUB
 
 FUNCTION handler_char_val(handle_char, offset, len)
-    dim read_val$
-    dim write_val$
-	DIM result
-	result = setRTC(hours, minutes, seconds, month, day, year)
-ENDFUNC 1
-
-FUNCTION handler_char_val(handle_char, offset, len)
     dim val$
 	DIM result
+	Dim read_val$
+	Dim write_val$
 
     ' Get characteristic value
     ble_result = BleCharValueRead(handle_char, read_val$)
@@ -427,9 +421,6 @@ FUNCTION handler_char_val(handle_char, offset, len)
             print "\nCode: 0x"; integer.h' ble_result
             EXITFUNC ble_result
         endif
-
-        config_latitude$ = val$
-        result = globalConfig()
     endif
 ENDFUNC ble_result
 

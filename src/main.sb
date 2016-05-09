@@ -135,7 +135,7 @@ FUNCTION timer_calculate()
         Rotations = volumePrecision / LitersToRotations
 
         //Consider rain info
-        DIM rainRatio : rainRatio = sampleNum - rainNum
+        rainRatio = sampleNum - rainNum
 
         IF rainRatio > 16 THEN
             Rotations = 0
@@ -150,7 +150,7 @@ FUNCTION timer_calculate()
         ENDIF
 
         //Write Daily 
-        result = updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
+        updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
         
         //Reset max/mins, counters
         sampleNum = 0
