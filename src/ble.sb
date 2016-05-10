@@ -1,8 +1,6 @@
-#include "lib/globals.sblib"
 #include "lib/timers.sblib"
 #include "flood.sb"
 #include "rtc.sb"
-#include "history.sb"
 
 ' UUIDs
 #define UUID_BASE               "\30\d1\00\00\a6\ff\4f\2f\8a\2f\a2\67\a2\db\e3\20"
@@ -18,6 +16,7 @@
 #define UUID_FLOW               0x001D
 #define UUID_HIST_SIG           0x0020
 #define UUID_HIST               0x0021
+#define UUID_HIST_SIZE          0x0022
 
 
 ' Device Info for BLE
@@ -50,6 +49,7 @@ dim handle_rain             ' Handle for rain sensor data
 dim handle_flow             ' Handle for flow signal
 dim handle_hist_sig         ' Handle for history signal
 dim handle_hist             ' Handle for history data
+dim handle_hist_size        ' Handle for history size
 dim handle_service_uuid     ' Service UUID
 
 device_name$ = DEVICE_NAME
@@ -217,6 +217,19 @@ SUB service_create()
         print "\nError: service_create() -> BleCharCommit()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
+    
+    ' Initialize history size characteristic - Read/Write - 2 bytes
+    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_HIST_SIZE)), BleAttrMetaData(1,1,2,1,result2), 0, 0)
+    if (ble_result != 0) || (result2 != 0) then
+        print "\nError: service_create() -> BleCharNew()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+
+    ble_result = BleCharCommit(handle_service, val_init$, handle_hist_size)
+    if ble_result != 0 then
+        print "\nError: service_create() -> BleCharCommit()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
 
     ' Commit service to the GATT table
     ble_result = BleServiceCommit(handle_service)
@@ -319,6 +332,14 @@ SUB ble_update_flow(value$)
     ble_result = BleCharValueWrite(handle_flow, value$)
     if ble_result != 0 then
         print "\nError: ble_update_flow() -> BleCharValueWrite()"
+        print "\nCode: 0x"; integer.h' ble_result
+    endif
+ENDSUB
+
+SUB ble_update_hist_size(value$)
+    ble_result = bleCharValueWrite(handle_hist_size, value$)
+    if ble_result != 0 then
+        print "\nError: ble_update_hist_size() -> BleCharValueWrite()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB

@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_FLOW           = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY_SIGNAL = "30d10020-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY        = "30d10021-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_HISTORY_DESC   = "00002902-0000-1000-8000-00805f9b34fb";
+    public static final String BLE_UUID_CHAR_HISTORY_SIZE   = "30d10022-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_NOTIFY_DESC = "00002902-0000-1000-8000-00805f9b34fb";
 
     private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mBTDevice;
@@ -78,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharRain;
     private BluetoothGattCharacteristic mBTCharFlow;
     private BluetoothGattCharacteristic mBTCharHistorySignal;
-    private BluetoothGattCharacteristic mBTCharHistoryIndex;
     private BluetoothGattCharacteristic mBTCharHistory;
+    private BluetoothGattCharacteristic mBTCharHistorySize;
 
     private int mBTStatus;
 
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private TextView mDataSoil;
     private TextView mDataRain;
     private TextView mDataFlow;
+    private TextView mHistorySize;
     private TextView mConfigDate;
     private TextView mConfigLatitude;
     private TextView mConfigTime;
@@ -124,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mDataRain = (TextView) findViewById(R.id.data_sensor_rain);
         mDataFlow = (TextView) findViewById(R.id.data_flow_signal);
 
+        mHistorySize = (TextView) findViewById(R.id.info_history_size);
+
         mConfigDate = (TextView) findViewById(R.id.input_date);
         mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
         mConfigTime = (TextView) findViewById(R.id.input_time);
@@ -151,6 +157,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
 
         mBTStatus = BluetoothProfile.STATE_DISCONNECTED;
+
+        Resources res = getResources();
+        String history_text = String.format(res.getString(R.string.string_history_size), "?");
+        mHistorySize.setText(history_text);
     }
 
     @Override
@@ -168,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return;
             }
         }
-
     }
 
     @Override
@@ -377,7 +386,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             else if (newState == BluetoothProfile.STATE_DISCONNECTED)
             {
                 mBTStatus = newState;
-
             }
         }
 
@@ -403,11 +411,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharFlow = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOW));
                     mBTCharHistorySignal = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIGNAL));
                     mBTCharHistory = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY));
+                    mBTCharHistorySize = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIZE));
 
                     mBTGatt.setCharacteristicNotification(mBTCharHistory, true);
-                    BluetoothGattDescriptor descriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_HISTORY_DESC));
-                    descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
-                    mBTGatt.writeDescriptor(descriptor);
+                    BluetoothGattDescriptor history_descriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
+                    history_descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                    mBTGatt.writeDescriptor(history_descriptor);
                 }
             }
         }
@@ -460,6 +469,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                                 text = "Error";
                                 mDataFlow.setText(text);
                             }
+
+                            mBTGatt.readCharacteristic(mBTCharHistorySize);
+                        }
+                        else if ( BLE_UUID_CHAR_HISTORY_SIZE.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                        {
+                            Resources res = getResources();
+                            String history_text = String.format(res.getString(R.string.string_history_size), char_string);
+                            mHistorySize.setText(history_text);
                         }
                         else if ( BLE_UUID_CHAR_LATITUDE.equalsIgnoreCase(characteristic.getUuid().toString()) )
                         {
@@ -560,26 +577,28 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
         {
             final String char_string = characteristic.getStringValue(0);
+            if ( BLE_UUID_CHAR_HISTORY.equalsIgnoreCase(characteristic.getUuid().toString()))
+            {
+                try {
+                    FileOutputStream stream = new FileOutputStream(mHistoryFile, true);
+                    stream.write(char_string.getBytes());
+                    ++mHistoryCount;
 
-            try {
-                FileOutputStream stream = new FileOutputStream(mHistoryFile, true);
-                stream.write(char_string.getBytes());
-                ++mHistoryCount;
+                    // After every 8 items (one day of data), write a newline, otherwise write a comma
+                    if (mHistoryCount == 8)
+                    {
+                        stream.write("\n".getBytes());
+                        mHistoryCount = 0;
+                    }
+                    else
+                    {
+                        stream.write(",".getBytes());
+                    }
 
-                // After every 8 items (one day of data), write a newline, otherwise write a comma
-                if (mHistoryCount == 8)
-                {
-                    stream.write("\n".getBytes());
-                    mHistoryCount = 0;
+                    stream.close();
+                } catch (IOException e) {
+                    Log.e("Smart", "File not found");
                 }
-                else
-                {
-                    stream.write(",".getBytes());
-                }
-
-                stream.close();
-            } catch (IOException e) {
-                Log.e("Smart", "File not found");
             }
         }
     };

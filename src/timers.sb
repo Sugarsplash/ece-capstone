@@ -104,6 +104,12 @@ FUNCTION timer_calculate()
         //Write Daily 
         updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
         
+        Dim days : days = dp/8
+        Dim dp_str$
+        SPRINT #dp_str$, days
+        
+        ble_update_hist_size(dp_str$)
+        
         //Reset max/mins, counters
         sampleNum = 0
         rainNum = 0 
