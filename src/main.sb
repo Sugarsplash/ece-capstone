@@ -1,12 +1,8 @@
 #include "lib/pin_defs.sblib"
 #include "lib/gpio.sblib"
-#include "lib/timers.sblib"
 #include "ble.sb"
-#include "irrigate.sb"
-#include "rain.sb"
-#include "soil.sb"
-#include "temperature.sb"
 #include "algorithm.sb"
+#include "timers.sb"
 
 DIM result
 
@@ -52,120 +48,6 @@ ENDIF
 // Initialize BLE services and characteristics
 ble_init()
 
-// Sample sensors, update their respective variables for later ETO calculation,
-// and write to the sensor characteristic
-// Frequency: 1/hour
-FUNCTION timer_sample()
-    
-    // Sensor values
-    DIM temperature : temperature = 0
-    DIM soil_moisture : soil_moisture = 0
-    DIM rain : rain = 0
-
-    // Turn on sensors
-    GpioWrite(SENSORS_ENABLE, HIGH)
-    
-    // Sample sensors
-    temperature = temp_read()
-    rain = rain_analog_read()
-    soil_moisture = soil_read()
-
-    //Log latest sample to ble characteristics
-    DIM temperature_string$
-    SPRINT #temperature_string$, temperature
-    ble_update_temp(temperature_string$)
-    
-    DIM rain_string$
-    SPRINT #rain_string$, rain
-    ble_update_rain(rain_string$)
-    
-    DIM soil_string$
-    SPRINT #soil_string$, soil_moisture
-    ble_update_soil(soil_string$)
-
-    //Set max/mins, counters
-    IF temperature > Tmax THEN
-        Tmax = temperature
-    ENDIF
-
-    IF temperature < Tmin THEN
-        Tmin = temperature
-    ENDIF
-
-    IF rain > 0 THEN
-        rainNum = rainNum + 1
-    ENDIF
-
-    IF soil_moisture > soilMoistureHigh THEN
-        soilMoistureHigh = soil_moisture
-    ENDIF
-
-    IF soil_moisture < soilMoistureLow THEN
-        soilMoistureLow = soilMoistureLow
-    ENDIF
-
-    sampleNum = sampleNum + 1
-   
-    // Turn off sensors
-    GpioWrite(SENSORS_ENABLE, LOW)
-    
-    TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
-    
-ENDFUNC 1
-
-
-// Calculate whether watering is needed and do so if needed
-// Frequency: 1/day
-FUNCTION timer_calculate()
-	DIM result
-    
-    IF sampleNum > 20 THEN
-        // Do calculations
-
-        DIM mm, volumeLiters, volumePrecision, Rotations, DoY, rainRatio
-
-        DoY = getDayOfYear()
-
-        mm = E_to(Tmax, Tmin, DoY, latitude)
-
-        volumeLiters = mm * area * 1000
-
-        volumePrecision = volumeLiters * 10000
-
-        Rotations = volumePrecision / LitersToRotations
-
-        //Consider rain info
-        rainRatio = sampleNum - rainNum
-
-        IF rainRatio > 16 THEN
-            Rotations = 0
-        ENDIF
-
-        Rotations_needed = Rotations_needed + Rotations
-
-        //Do not bother watering until a gallon or more of water is necessary
-        IF (Rotations_needed > 1200) THEN
-            irrigate(Rotations_needed)
-            Rotations_needed = 0
-        ENDIF
-
-        //Write Daily 
-        updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
-        
-        //Reset max/mins, counters
-        sampleNum = 0
-        rainNum = 0 
-        Tmax = 0
-        Tmin = 100
-        soilMoistureHigh = 0
-        soilMoistureLow = 100
-
-    ENDIF
-    TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
-
-ENDFUNC 1
-
-
 //Configure BLE interrupt handlers
 ONEVENT EVBLE_ADV_TIMEOUT   CALL handler_adv_timeout
 ONEVENT EVCHARVAL           CALL handler_char_val
@@ -178,10 +60,6 @@ ONEVENT EVTMR1 CALL timer_calculate
 
 //Begin advertising
 ble_advertise()
-
-//Start timers
-TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
-TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 
 WHILE TRUE
     WAITEVENT

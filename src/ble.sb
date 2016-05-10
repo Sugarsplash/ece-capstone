@@ -1,4 +1,5 @@
 #include "lib/globals.sblib"
+#include "lib/timers.sblib"
 #include "flood.sb"
 #include "rtc.sb"
 #include "history.sb"
@@ -346,6 +347,10 @@ FUNCTION globalConfig()
 	area = STRVALDEC(config_area$)
 	
 	Dim ret : ret = setRTC(hours, minutes, seconds, month, day, year)
+	
+    //Start timers
+    TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
+    TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
 ENDFUNC ret
 
 SUB historySend()
