@@ -195,7 +195,7 @@
         android:id="@+id/button_latitude_get"
         android:layout_alignBottom="@+id/text_latitude"
         android:layout_toEndOf="@+id/input_latitude"
-        android:onClick="onClickButtonLatitudeGet"
+        android:onClick="onClickGetLatitude"
         android:typeface="monospace"
         android:textSize="12dp" />
 
@@ -227,7 +227,7 @@
         android:id="@+id/button_date_get"
         android:layout_alignBottom="@+id/text_date"
         android:layout_toEndOf="@+id/input_date"
-        android:onClick="onClickButtonDateGet"
+        android:onClick="onClickGetDate"
         android:typeface="monospace"
         android:textSize="12dp" />
 
@@ -259,7 +259,7 @@
         android:id="@+id/button_time_get"
         android:layout_alignBottom="@+id/text_time"
         android:layout_toEndOf="@+id/input_time"
-        android:onClick="onClickButtonTimeGet"
+        android:onClick="onClickGetTime"
         android:typeface="monospace"
         android:textSize="12dp" />
 
@@ -332,7 +332,7 @@
         android:layout_height="35dp"
         android:text="@string/string_download"
         android:id="@+id/button_download"
-        android:onClick="onClickDownload"
+        android:onClick="onClickDownloadHistory"
         android:layout_below="@+id/button_flood"
         android:layout_centerHorizontal="true"
         android:typeface="monospace"

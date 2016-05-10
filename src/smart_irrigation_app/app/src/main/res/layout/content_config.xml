@@ -39,7 +39,7 @@
         android:id="@+id/button_latitude_get"
         android:layout_alignBottom="@+id/text_latitude"
         android:layout_toEndOf="@+id/input_latitude"
-        android:onClick="onClickButtonLatitudeGet" />
+        android:onClick="onClickGetLatitude" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
         android:id="@+id/button_date_get"
         android:layout_alignBottom="@+id/text_date"
         android:layout_toEndOf="@+id/input_date"
-        android:onClick="onClickButtonDateGet" />
+        android:onClick="onClickGetDate" />
 
     <TextView
         android:layout_width="wrap_content"

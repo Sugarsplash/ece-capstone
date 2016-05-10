@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharHistorySize;
 
     private int mBTStatus;
+    private boolean mBTReady;
 
     private TextView mDataTemp;
     private TextView mDataSoil;
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public void onConnected(Bundle connectionHint)
     {
         /* New permissions model for API 23 and beyond only */
+        /* Need location permissions for getting latitude */
         int api_version = android.os.Build.VERSION.SDK_INT;
         if (api_version >= Build.VERSION_CODES.M)
         {
@@ -244,133 +246,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     protected void onStart()
     {
-        mGoogleApiClient.connect();
+        mGoogleApiClient.connect();     // For latitude
         super.onStart();
     }
 
     protected void onStop() {
-        mGoogleApiClient.disconnect();
+        mGoogleApiClient.disconnect();  // For latitude
         super.onStop();
-    }
-
-    public void onClickConfigWrite(View view)
-    {
-        if (mBTGatt == null)
-        {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            mBTCharDate.setValue(mConfigDate.getText().toString());
-            mBTGatt.writeCharacteristic(mBTCharDate);
-        }
-    }
-
-    public void onClickConfigRead(View view)
-    {
-        if (mBTGatt == null)
-        {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            mBTGatt.readCharacteristic(mBTCharLatitude);
-        }
-    }
-
-    public void onClickConnect(View view)
-    {
-        Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
-        startActivity(intent_device_scan);
-    }
-
-    public void onClickReadSensors(View view)
-    {
-        if (mBTGatt == null)
-        {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            mBTGatt.readCharacteristic(mBTCharTemp);
-        }
-    }
-
-    public void onClickFlood(View view)
-    {
-        if (mBTGatt == null)
-        {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            mBTCharFlood.setValue("1");
-            mBTGatt.writeCharacteristic(mBTCharFlood);
-        }
-    }
-
-    public void onClickButtonLatitudeGet(View view)
-    {
-        EditText input_latitude = (EditText) findViewById(R.id.input_latitude);
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null)
-        {
-            double latitude = mLastLocation.getLatitude();
-            DecimalFormat decimal_format = new DecimalFormat("#.##");
-            latitude = Double.valueOf(decimal_format.format(latitude));
-
-            input_latitude.setText(String.valueOf(latitude));
-        }
-        else
-        {
-            input_latitude.setText(0);
-        }
-    }
-
-    public void onClickDownload(View view)
-    {
-        if (mBTGatt == null)
-        {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            // Create file for storing values with timestamped name
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat date_format = new SimpleDateFormat("MMddyykkmss", Locale.US);
-            String timestamp = date_format.format(calendar.getTime());
-
-            String filename = timestamp + ".txt";
-
-            mHistoryFolder = this.getExternalFilesDir(null);
-            mHistoryFile = new File(mHistoryFolder, filename);
-
-            mBTCharHistorySignal.setValue("1");
-            mBTGatt.writeCharacteristic(mBTCharHistorySignal);
-        }
-    }
-
-    public void onClickButtonDateGet(View view)
-    {
-        EditText input_date = (EditText) findViewById(R.id.input_date);
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat date_format = new SimpleDateFormat("MMddyy", Locale.US);
-        String date = date_format.format(calendar.getTime());
-
-        input_date.setText(date);
-    }
-
-    public void onClickButtonTimeGet(View view)
-    {
-        EditText input_time = (EditText) findViewById(R.id.input_time);
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat time_format = new SimpleDateFormat("kkmmss", Locale.US);
-        String time = time_format.format(calendar.getTime());
-
-        input_time.setText(time);
     }
 
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback()
@@ -378,14 +260,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState)
         {
-            if (newState == BluetoothProfile.STATE_CONNECTED)
+            mBTStatus = newState;
+            if (mBTStatus == BluetoothProfile.STATE_CONNECTED)
             {
-                mBTStatus = newState;
                 mBTGatt.discoverServices();
             }
-            else if (newState == BluetoothProfile.STATE_DISCONNECTED)
+            else if (mBTStatus == BluetoothProfile.STATE_DISCONNECTED)
             {
-                mBTStatus = newState;
+                mBTReady = false;
             }
         }
 
@@ -417,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     BluetoothGattDescriptor history_descriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
                     history_descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
                     mBTGatt.writeDescriptor(history_descriptor);
+
+                    mBTReady = true;
                 }
             }
         }
@@ -602,6 +486,126 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             }
         }
     };
+
+    public void onClickConfigWrite(View view)
+    {
+        if (!mBTReady)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTCharDate.setValue(mConfigDate.getText().toString());
+            mBTGatt.writeCharacteristic(mBTCharDate);
+        }
+    }
+
+    public void onClickConfigRead(View view)
+    {
+        if (!mBTReady)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTGatt.readCharacteristic(mBTCharLatitude);
+        }
+    }
+
+    public void onClickConnect(View view)
+    {
+        Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
+        startActivity(intent_device_scan);
+    }
+
+    public void onClickReadSensors(View view)
+    {
+        if (!mBTReady)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTGatt.readCharacteristic(mBTCharTemp);
+        }
+    }
+
+    public void onClickFlood(View view)
+    {
+        if (!mBTReady)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mBTCharFlood.setValue("1");
+            mBTGatt.writeCharacteristic(mBTCharFlood);
+        }
+    }
+
+    public void onClickGetLatitude(View view)
+    {
+        EditText input_latitude = (EditText) findViewById(R.id.input_latitude);
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null)
+        {
+            double latitude = mLastLocation.getLatitude();
+            DecimalFormat decimal_format = new DecimalFormat("#.##");
+            latitude = Double.valueOf(decimal_format.format(latitude));
+
+            input_latitude.setText(String.valueOf(latitude));
+        }
+        else
+        {
+            input_latitude.setText(0);
+        }
+    }
+
+    public void onClickDownloadHistory(View view)
+    {
+        if (!mBTReady)
+        {
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            // Create file for storing values with timestamped name
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat date_format = new SimpleDateFormat("MMddyykkmss", Locale.US);
+            String timestamp = date_format.format(calendar.getTime());
+
+            String filename = timestamp + ".txt";
+
+            mHistoryFolder = this.getExternalFilesDir(null);
+            mHistoryFile = new File(mHistoryFolder, filename);
+
+            mBTCharHistorySignal.setValue("1");
+            mBTGatt.writeCharacteristic(mBTCharHistorySignal);
+        }
+    }
+
+    public void onClickGetDate(View view)
+    {
+        EditText input_date = (EditText) findViewById(R.id.input_date);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat date_format = new SimpleDateFormat("MMddyy", Locale.US);
+        String date = date_format.format(calendar.getTime());
+
+        input_date.setText(date);
+    }
+
+    public void onClickGetTime(View view)
+    {
+        EditText input_time = (EditText) findViewById(R.id.input_time);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat time_format = new SimpleDateFormat("kkmmss", Locale.US);
+        String time = time_format.format(calendar.getTime());
+
+        input_time.setText(time);
+    }
 
 
 }
