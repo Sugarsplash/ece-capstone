@@ -219,7 +219,7 @@ SUB service_create()
     endif
     
     ' Initialize history size characteristic - Read/Write - 2 bytes
-    ble_result = BleCharNew(0x0A, BleHandleUuidSibling(handle_uuid_base,(UUID_HIST_SIZE)), BleAttrMetaData(1,1,2,1,result2), 0, 0)
+    ble_result = BleCharNew(0x1A, BleHandleUuidSibling(handle_uuid_base,(UUID_HIST_SIZE)), BleAttrMetaData(1,1,2,1,result2), 0, 0)
     if (ble_result != 0) || (result2 != 0) then
         print "\nError: service_create() -> BleCharNew()"
         print "\nCode: 0x"; integer.h' ble_result
@@ -337,9 +337,9 @@ SUB ble_update_flow(value$)
 ENDSUB
 
 SUB ble_update_hist_size(value$)
-    ble_result = bleCharValueWrite(handle_hist_size, value$)
+    ble_result = bleCharValueNotify(handle_hist_size, value$)
     if ble_result != 0 then
-        print "\nError: ble_update_hist_size() -> BleCharValueWrite()"
+        print "\nError: ble_update_hist_size() -> BleCharValueNotify()"
         print "\nCode: 0x"; integer.h' ble_result
     endif
 ENDSUB

@@ -11,11 +11,9 @@
     <string name="string_read_sensors">Read Sensors</string>
     <string name="string_connect">Connect to Device</string>
     <string name="string_flood">Send Flood Signal</string>
-    <string name="string_download">Download History</string>
+    <string name="string_download">Download History [%1$s days]</string>
     <string name="device_name">Device Name: </string>
     <string name="device_address">Device Address: </string>
-    <string name="string_history">History: </string>
-    <string name="string_history_size">"%1$s days"</string>
     <string name="error_ble_not_supported">BLE not supported</string>
     <string name="error_bluetooth_not_supported">Bluetooth not supported</string>
     <string name="error_bluetooth_disabled">Bluetooth must be enabled!</string>

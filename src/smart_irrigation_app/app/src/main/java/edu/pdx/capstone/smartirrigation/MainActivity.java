@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharHistorySignal;
     private BluetoothGattCharacteristic mBTCharHistory;
     private BluetoothGattCharacteristic mBTCharHistorySize;
+    BluetoothGattDescriptor mHistoryDescriptor;
 
     private int mBTStatus;
     private boolean mBTReady;
@@ -129,13 +130,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         mDataRain = (TextView) findViewById(R.id.data_sensor_rain);
         mDataFlow = (TextView) findViewById(R.id.data_flow_signal);
 
-        mHistorySize = (TextView) findViewById(R.id.info_history_size);
-
         mConfigDate = (TextView) findViewById(R.id.input_date);
         mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
         mConfigTime = (TextView) findViewById(R.id.input_time);
         mConfigArea = (TextView) findViewById(R.id.input_area);
         mConfigAreaUnits = (Spinner) findViewById(R.id.spinner_area);
+
+        mHistorySize = (Button) findViewById(R.id.button_download);
+
+        Resources res = getResources();
+        String history_text = String.format(res.getString(R.string.string_download), "?");
+        mHistorySize.setText(history_text);
 
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRAS_DEVICE_NAME))
@@ -158,10 +163,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
 
         mBTStatus = BluetoothProfile.STATE_DISCONNECTED;
-
-        Resources res = getResources();
-        String history_text = String.format(res.getString(R.string.string_history_size), "?");
-        mHistorySize.setText(history_text);
     }
 
     @Override
@@ -296,12 +297,24 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharHistorySize = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIZE));
 
                     mBTGatt.setCharacteristicNotification(mBTCharHistory, true);
-                    BluetoothGattDescriptor history_descriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
-                    history_descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
-                    mBTGatt.writeDescriptor(history_descriptor);
+                    mHistoryDescriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
+                    mHistoryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                    mBTGatt.writeDescriptor(mHistoryDescriptor);
 
                     mBTReady = true;
                 }
+            }
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status)
+        {
+            if (descriptor == mHistoryDescriptor)
+            {
+                mBTGatt.setCharacteristicNotification(mBTCharHistorySize, true);
+                BluetoothGattDescriptor history_size_descriptor = mBTCharHistorySize.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
+                history_size_descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                mBTGatt.writeDescriptor(history_size_descriptor);
             }
         }
 
@@ -353,14 +366,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                                 text = "Error";
                                 mDataFlow.setText(text);
                             }
-
-                            mBTGatt.readCharacteristic(mBTCharHistorySize);
-                        }
-                        else if ( BLE_UUID_CHAR_HISTORY_SIZE.equalsIgnoreCase(characteristic.getUuid().toString()) )
-                        {
-                            Resources res = getResources();
-                            String history_text = String.format(res.getString(R.string.string_history_size), char_string);
-                            mHistorySize.setText(history_text);
                         }
                         else if ( BLE_UUID_CHAR_LATITUDE.equalsIgnoreCase(characteristic.getUuid().toString()) )
                         {
@@ -483,6 +488,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 } catch (IOException e) {
                     Log.e("Smart", "File not found");
                 }
+            }
+            else if ( BLE_UUID_CHAR_HISTORY_SIZE.equalsIgnoreCase(characteristic.getUuid().toString()))
+            {
+                Resources res = getResources();
+                String history_text = String.format(res.getString(R.string.string_download), char_string);
+                mHistorySize.setText(history_text);
             }
         }
     };
