@@ -1,0 +1,18 @@
+Meeting with Sandeep: Monday at 5pm or Tuesday at 10am
+Could be next week so that we're in a more stable state on
+tests and the addition on another device for the face-to-face
+
+The app is fully functional. It can send data to and receive
+data from the device. Data from the device can be downloaded
+for analysis.
+
+Testing comments:
+
+*Device essentially requires a shaded location to produce
+accurate ambient temperature data. Might need to redesign
+enclosure to provide adequate shade to device
+*Soil moisture sensor is only showing extremes, as small
+amounts of water to the soil causes readings to skyrocket.
+Might need to introduce some scaling factor to ADC
+*Need to add a delay for app reading data. At the moment, the
+reading cycle is too fast to fully transfer data
