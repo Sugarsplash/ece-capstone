@@ -46,12 +46,17 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener
 {
+    // Extras used to pass device information from the scanning activity back
     public static final String EXTRAS_DEVICE_NAME       = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS    = "DEVICE_ADDRESS";
     public static final String EXTRAS_DEVICE            = "DEVICE";
 
+    // Strings to hold the device name and address retrieved from the extras
     public static String mDeviceName;
     public static String mDeviceAddr;
+
+    private static final double SQ_METER_TO_SQ_FT = 10.7639;
+    private static final double SQ_FT_TO_SQ_METER = 1/SQ_METER_TO_SQ_FT;
 
     public static final String BLE_UUID_SERVICE             = "30d1beef-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_DATE           = "30d1000a-a6ff-4f2f-8a2f-a267a2dbe320";
@@ -68,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_HISTORY_SIZE   = "30d10022-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_NOTIFY_DESC = "00002902-0000-1000-8000-00805f9b34fb";
 
-    private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mBTDevice;
     private BluetoothGatt mBTGatt;
+    private BluetoothGattDescriptor mHistoryDescriptor;
     private BluetoothGattCharacteristic mBTCharDate;
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
@@ -81,9 +86,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharRain;
     private BluetoothGattCharacteristic mBTCharFlow;
     private BluetoothGattCharacteristic mBTCharHistorySignal;
-    private BluetoothGattCharacteristic mBTCharHistory;
     private BluetoothGattCharacteristic mBTCharHistorySize;
-    BluetoothGattDescriptor mHistoryDescriptor;
 
     private int mBTStatus;
     private boolean mBTReady;
@@ -103,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     Location mLastLocation;
     final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
-    private File mHistoryFolder;
     private File mHistoryFile;
     private int mHistoryCount = 0;
 
@@ -125,19 +127,23 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     .build();
         }
 
+        // Text views for displaying sensor values
         mDataTemp = (TextView) findViewById(R.id.data_sensor_temp);
         mDataSoil = (TextView) findViewById(R.id.data_sensor_soil);
         mDataRain = (TextView) findViewById(R.id.data_sensor_rain);
         mDataFlow = (TextView) findViewById(R.id.data_flow_signal);
 
+        // Text views for setting and displaying configuration values
         mConfigDate = (TextView) findViewById(R.id.input_date);
         mConfigLatitude = (TextView) findViewById(R.id.input_latitude);
         mConfigTime = (TextView) findViewById(R.id.input_time);
         mConfigArea = (TextView) findViewById(R.id.input_area);
         mConfigAreaUnits = (Spinner) findViewById(R.id.spinner_area);
 
+        // "Download History" button contains number of days field and must be editable
         mHistorySize = (Button) findViewById(R.id.button_download);
 
+        // Number of days of history is initially unknown and is displayed as "?"
         Resources res = getResources();
         String history_text = String.format(res.getString(R.string.string_download), "?");
         mHistorySize.setText(history_text);
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRAS_DEVICE_NAME))
         {
+            // Retrieve connected device's name from scanning activity
             mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
             TextView info_device_name = (TextView) findViewById(R.id.info_device_name);
             info_device_name.setText(mDeviceName);
@@ -152,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         if (intent.hasExtra(EXTRAS_DEVICE_ADDRESS))
         {
+            // Retrieve connected device's address from scanning activity
             mDeviceAddr = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
             TextView info_device_name = (TextView) findViewById(R.id.info_device_address);
             info_device_name.setText(mDeviceAddr);
@@ -159,9 +167,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         if (intent.hasExtra(EXTRAS_DEVICE))
         {
+            // Retrieve device structure itself from scanning activity
             mBTDevice = intent.getParcelableExtra(EXTRAS_DEVICE);
         }
 
+        // Initially disconnected
         mBTStatus = BluetoothProfile.STATE_DISCONNECTED;
     }
 
@@ -184,18 +194,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     @Override
-    public void onConnectionSuspended(int param)
-    {
-        // Stub
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result)
-    {
-        // Stub
-    }
-
-    @Override
     protected void onResume()
     {
         super.onResume();
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 
-        mBTAdapter = bluetoothManager.getAdapter();
+        BluetoothAdapter mBTAdapter = bluetoothManager.getAdapter();
 
         if (mBTAdapter == null)
         {
@@ -247,13 +245,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     protected void onStart()
     {
-        mGoogleApiClient.connect();     // For latitude
         super.onStart();
+        mGoogleApiClient.connect();     // For retrieving latitude
     }
 
-    protected void onStop() {
-        mGoogleApiClient.disconnect();  // For latitude
+    protected void onStop()
+    {
         super.onStop();
+        mGoogleApiClient.disconnect();
     }
 
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback()
@@ -293,12 +292,17 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharRain = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_RAIN));
                     mBTCharFlow = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOW));
                     mBTCharHistorySignal = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIGNAL));
-                    mBTCharHistory = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY));
                     mBTCharHistorySize = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY_SIZE));
 
+                    // History characteristic needs the indication property so that it knows when
+                    // a new history packet is available for downloading
+                    BluetoothGattCharacteristic mBTCharHistory = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_HISTORY));
                     mBTGatt.setCharacteristicNotification(mBTCharHistory, true);
                     mHistoryDescriptor = mBTCharHistory.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
                     mHistoryDescriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+
+                    // Only one descriptor may be written to at a time; any others written will be
+                    // lost, so History's descriptor is written first
                     mBTGatt.writeDescriptor(mHistoryDescriptor);
 
                     mBTReady = true;
@@ -311,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         {
             if (descriptor == mHistoryDescriptor)
             {
+                // History's descriptor has been written and now HistorySize's descriptor can be
                 mBTGatt.setCharacteristicNotification(mBTCharHistorySize, true);
                 BluetoothGattDescriptor history_size_descriptor = mBTCharHistorySize.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
                 history_size_descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
@@ -329,6 +334,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 {
                     public void run()
                     {
+
+                        // Once read, each characteristic calls a read of the next characteristic in
+                        // its sequence and the return of that read calls the next and so on, a
+                        // result of how Android handles reading and writing of characteristics
+                        // Sensors: Temp -> Soil -> Rain -> Flow
+                        // Config: Latitude -> Date -> Time -> Area
                         if ( BLE_UUID_CHAR_TEMP.equalsIgnoreCase(characteristic.getUuid().toString()) )
                         {
                             mDataTemp.setText(char_string);
@@ -376,7 +387,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                             latitude /= 100;
 
                             String latitude_text = String.valueOf(latitude);
-
                             mConfigLatitude.setText(latitude_text);
 
                             mBTGatt.readCharacteristic(mBTCharDate);
@@ -404,11 +414,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                             // Convert to feet if necessary
                             if (mConfigAreaUnits.getSelectedItem().toString().equals("sq. ft"))
                             {
-                                area *= 10.7639;
+                                area *= SQ_METER_TO_SQ_FT;
                             }
 
                             String area_text = String.valueOf(area);
-
                             mConfigArea.setText(area_text);
                         }
                     }
@@ -421,7 +430,16 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         {
             if (status == BluetoothGatt.GATT_SUCCESS)
             {
-                if ( BLE_UUID_CHAR_DATE.equalsIgnoreCase(characteristic.getUuid().toString()) )
+                // Once written, each characteristic calls a write of the next characteristic in
+                // its sequence and the return of that write calls the next and so on, a
+                // result of how Android handles reading and writing of characteristics
+                // Latitude -> Date -> Time -> Area
+                if ( BLE_UUID_CHAR_LATITUDE.equalsIgnoreCase(characteristic.getUuid().toString()))
+                {
+                    mBTCharDate.setValue(mConfigDate.getText().toString());
+                    mBTGatt.writeCharacteristic(mBTCharDate);
+                }
+                else if ( BLE_UUID_CHAR_DATE.equalsIgnoreCase(characteristic.getUuid().toString()) )
                 {
                     mBTCharTime.setValue(mConfigTime.getText().toString());
                     mBTGatt.writeCharacteristic(mBTCharTime);
@@ -430,9 +448,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 {
                     float area = Float.valueOf(mConfigArea.getText().toString());
 
+                    // BL600 expects meters
                     if (mConfigAreaUnits.getSelectedItem().toString().equals("sq. ft"))
                     {
-                        area *= 0.092903;
+                        area *= SQ_FT_TO_SQ_METER;
                     }
 
                     // Minimum supported area is 1 square meter
@@ -445,19 +464,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     area *= 100;
 
                     int area_in_meters = Math.round(area); // Get rid of trailing decimal point
-
                     mBTCharArea.setValue(String.valueOf(area_in_meters));
-                    mBTGatt.writeCharacteristic(mBTCharArea);
-                }
-                else if ( BLE_UUID_CHAR_AREA.equalsIgnoreCase(characteristic.getUuid().toString()))
-                {
-                    // Latitude needs to be multiplied by 100 because BL600 cannot deal in floats
-                    float latitude = Float.parseFloat(mConfigLatitude.getText().toString());
-                    latitude *= 100;
-                    int latitude_rounded = Math.round(latitude); // Get rid of trailing decimal point
 
-                    mBTCharLatitude.setValue(String.valueOf(latitude_rounded));
-                    mBTGatt.writeCharacteristic(mBTCharLatitude);
+                    mBTGatt.writeCharacteristic(mBTCharArea);
                 }
             }
         }
@@ -466,6 +475,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
         {
             final String char_string = characteristic.getStringValue(0);
+
+            // A value has been written to the History characteristic and must be downloaded
             if ( BLE_UUID_CHAR_HISTORY.equalsIgnoreCase(characteristic.getUuid().toString()))
             {
                 try {
@@ -489,6 +500,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     Log.e("Smart", "File not found");
                 }
             }
+
+            // A new day of history is available for download so the button must be updated
             else if ( BLE_UUID_CHAR_HISTORY_SIZE.equalsIgnoreCase(characteristic.getUuid().toString()))
             {
                 Resources res = getResources();
@@ -498,16 +511,29 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
     };
 
+    public void onClickConnect(View view)
+    {
+        Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
+        startActivity(intent_device_scan);
+    }
+
     public void onClickConfigWrite(View view)
     {
         if (!mBTReady)
         {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            mBTCharDate.setValue(mConfigDate.getText().toString());
-            mBTGatt.writeCharacteristic(mBTCharDate);
+            // Latitude needs to be multiplied by 100 because BL600 cannot deal in floats
+            float latitude = Float.parseFloat(mConfigLatitude.getText().toString());
+            latitude *= 100;
+
+            int latitude_rounded = Math.round(latitude); // Get rid of trailing decimal point
+            mBTCharLatitude.setValue(String.valueOf(latitude_rounded));
+
+            // Start chain of config characteristic writes
+            mBTGatt.writeCharacteristic(mBTCharLatitude);
         }
     }
 
@@ -515,28 +541,24 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     {
         if (!mBTReady)
         {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_SHORT).show();
         }
         else
         {
+            // Start chain of config characteristic reads
             mBTGatt.readCharacteristic(mBTCharLatitude);
         }
-    }
-
-    public void onClickConnect(View view)
-    {
-        Intent intent_device_scan = new Intent(this, DeviceScanActivity.class);
-        startActivity(intent_device_scan);
     }
 
     public void onClickReadSensors(View view)
     {
         if (!mBTReady)
         {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_SHORT).show();
         }
         else
         {
+            // Start chain of sensor characteristic reads
             mBTGatt.readCharacteristic(mBTCharTemp);
         }
     }
@@ -545,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     {
         if (!mBTReady)
         {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -559,7 +581,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         EditText input_latitude = (EditText) findViewById(R.id.input_latitude);
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null)
+        if (mLastLocation == null)
+        {
+            Toast.makeText(this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
+        }
+        else
         {
             double latitude = mLastLocation.getLatitude();
             DecimalFormat decimal_format = new DecimalFormat("#.##");
@@ -567,17 +593,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
             input_latitude.setText(String.valueOf(latitude));
         }
-        else
-        {
-            input_latitude.setText(0);
-        }
     }
 
     public void onClickDownloadHistory(View view)
     {
         if (!mBTReady)
         {
-            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to a device", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -586,9 +608,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             SimpleDateFormat date_format = new SimpleDateFormat("MMddyykkmss", Locale.US);
             String timestamp = date_format.format(calendar.getTime());
 
-            String filename = timestamp + ".txt";
+            String filename = timestamp + ".csv";
 
-            mHistoryFolder = this.getExternalFilesDir(null);
+            File mHistoryFolder = this.getExternalFilesDir(null);
             mHistoryFile = new File(mHistoryFolder, filename);
 
             mBTCharHistorySignal.setValue("1");
@@ -618,5 +640,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         input_time.setText(time);
     }
 
+    @Override
+    public void onConnectionSuspended(int param)
+    {
+        // Stub, required but unused
+    }
 
+    @Override
+    public void onConnectionFailed(ConnectionResult result)
+    {
+        // Stub, required but unused
+    }
 }
