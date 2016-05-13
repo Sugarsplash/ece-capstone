@@ -76,7 +76,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Null"
         android:id="@+id/data_sensor_temp"
         android:layout_alignBottom="@+id/sensor_temp"
         android:layout_toEndOf="@+id/sensor_temp"
@@ -94,7 +93,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Null"
         android:id="@+id/data_sensor_soil"
         android:layout_alignBottom="@+id/sensor_soil"
         android:layout_toEndOf="@+id/sensor_soil"
@@ -112,7 +110,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Null"
         android:id="@+id/data_sensor_rain"
         android:layout_alignBottom="@+id/sensor_rain"
         android:layout_toEndOf="@+id/sensor_rain"
@@ -130,7 +127,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Null"
         android:id="@+id/data_flow_signal"
         android:layout_alignBottom="@+id/flow_signal"
         android:layout_toEndOf="@+id/flow_signal"

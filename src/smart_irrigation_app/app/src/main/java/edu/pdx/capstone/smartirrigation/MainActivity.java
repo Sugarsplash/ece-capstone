@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothDevice mBTDevice;
     private BluetoothGatt mBTGatt;
     private BluetoothGattDescriptor mHistoryDescriptor;
+    private BluetoothGattDescriptor mHistorySizeDescriptor;
     private BluetoothGattCharacteristic mBTCharDate;
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
@@ -304,8 +305,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     // Only one descriptor may be written to at a time; any others written will be
                     // lost, so History's descriptor is written first
                     mBTGatt.writeDescriptor(mHistoryDescriptor);
-
-                    mBTReady = true;
                 }
             }
         }
@@ -317,9 +316,16 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             {
                 // History's descriptor has been written and now HistorySize's descriptor can be
                 mBTGatt.setCharacteristicNotification(mBTCharHistorySize, true);
-                BluetoothGattDescriptor history_size_descriptor = mBTCharHistorySize.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
-                history_size_descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                mBTGatt.writeDescriptor(history_size_descriptor);
+                mHistorySizeDescriptor = mBTCharHistorySize.getDescriptor(UUID.fromString(BLE_UUID_CHAR_NOTIFY_DESC));
+                mHistorySizeDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                mBTGatt.writeDescriptor(mHistorySizeDescriptor);
+            }
+            else if (descriptor == mHistorySizeDescriptor)
+            {
+                // Bluetooth fully set up, read the last sampled sensor values immediately
+                mBTGatt.readCharacteristic(mBTCharTemp);
+
+                mBTReady = true;
             }
         }
 
