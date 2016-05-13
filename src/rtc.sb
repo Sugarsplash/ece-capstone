@@ -1,5 +1,7 @@
 //Smart Basic Magic RTC
 
+DIM slave : slave = B'1101000
+
 FUNCTION DecToBCD(BYVAL decimal AS INTEGER)
     
     DIM ret
@@ -16,7 +18,7 @@ ENDFUNC ret
 
 FUNCTION setRTC(BYVAL hours AS INTEGER, BYVAL minutes AS INTEGER, BYVAL seconds AS INTEGER, BYVAL month AS INTEGER, BYVAL day AS INTEGER, BYVAL year AS INTEGER)
 
-    DIM Handle, slave, regadd, regval
+    DIM Handle, regadd, regval
 
 //Error checking
     IF seconds > 59 THEN
@@ -50,8 +52,6 @@ FUNCTION setRTC(BYVAL hours AS INTEGER, BYVAL minutes AS INTEGER, BYVAL seconds 
     ENDIF
 
 //Begin writing to RTC
-    slave = B'1101000
-
     DIM rc : rc=I2cOpen(100000,1,Handle)
 
     IF rc!= 0 Then
@@ -118,7 +118,7 @@ FUNCTION setRTC(BYVAL hours AS INTEGER, BYVAL minutes AS INTEGER, BYVAL seconds 
 ENDFUNC 1
 
 FUNCTION getRTCseconds()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
     
     DIM rc : rc=I2cOpen(100000,1,Handle)
@@ -141,7 +141,7 @@ FUNCTION getRTCseconds()
 ENDFUNC ret
 
 FUNCTION getRTCminutes()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
     
     DIM rc : rc=I2cOpen(100000,1,Handle)
@@ -159,7 +159,7 @@ FUNCTION getRTCminutes()
 ENDFUNC ret
 
 FUNCTION getRTChours()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
 
     DIM rc : rc=I2cOpen(100000,1,Handle)
@@ -177,7 +177,7 @@ FUNCTION getRTChours()
 ENDFUNC ret
 
 FUNCTION getRTCday()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
 
     DIM rc : rc=I2cOpen(100000,1,Handle)
@@ -195,7 +195,7 @@ FUNCTION getRTCday()
 ENDFUNC ret
 
 FUNCTION getRTCmonth()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
 
     DIM rc : rc=I2cOpen(100000,1,Handle)
@@ -209,11 +209,10 @@ FUNCTION getRTCmonth()
     ENDIF
 
     ret = BCDtoDec(regval)
-
 ENDFUNC ret
 
 FUNCTION getRTCyear()
-    DIM Handle, slave, regval
+    DIM Handle, regval
     DIM ret
 
     DIM rc : rc=I2cOpen(100000,1,Handle)
