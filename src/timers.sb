@@ -16,7 +16,13 @@ FUNCTION timer_sample()
 
     // Turn on sensors
     GpioWrite(SENSORS_ENABLE, HIGH)
-    
+
+    //wait for sensors to stabilize
+    DIM x : x = 10000
+    WHILE x > 0
+        x = x - 1
+    ENDWHILE
+
     // Sample sensors
     temperature = temp_read()
     rain = rain_analog_read()
@@ -44,7 +50,7 @@ FUNCTION timer_sample()
         Tmin = temperature
     ENDIF
 
-    IF rain > 0 THEN
+    IF rain < 600 THEN
         rainNum = rainNum + 1
     ENDIF
 
@@ -55,12 +61,12 @@ FUNCTION timer_sample()
     IF soil_moisture < soilMoistureLow THEN
         soilMoistureLow = soilMoistureLow
     ENDIF
-
-    sampleNum = sampleNum + 1
    
     // Turn off sensors
     GpioWrite(SENSORS_ENABLE, LOW)
     
+    sampleNum = sampleNum + 1
+
     TimerStart(TIMER_SAMPLE, ONE_HOUR, ONESHOT)
     
 ENDFUNC 1
@@ -70,26 +76,32 @@ ENDFUNC 1
 // Frequency: 1/day
 FUNCTION timer_calculate()
 	DIM result
-    
+    PRINT "\nENTER TIMER_CALCULATE"
     IF sampleNum > 20 THEN
         // Do calculations
 
-        DIM mm, volumeLiters, volumePrecision, Rotations, DoY, rainRatio
+        DIM mm, Rotations, DoY
 
         DoY = getDayOfYear()
 
+        PRINT "\nCALLING ETO WITH DOY:"
+        PRINT "\t"; DoY
+        PRINT " TMAX:"
+        PRINT "\t"; Tmax
+        PRINT " TMIN:"
+        PRINT "\t"; Tmin
+        PRINT " LAT:"
+        PRINT "\t"; latitude
         mm = E_to(Tmax, Tmin, DoY, latitude)
+        PRINT "\nETO: "; mm
+        Rotations = mm * area / 25
 
-        volumeLiters = mm * area * 1000
 
-        volumePrecision = volumeLiters * 10000
 
-        Rotations = volumePrecision / LitersToRotations
-
+        PRINT "\nROTATIONS: "; Rotations
+        PRINT "\nRAINNUM: "; RainNum
         //Consider rain info
-        rainRatio = sampleNum - rainNum
-
-        IF rainRatio > 16 THEN
+        IF rainNum > 16 THEN
             Rotations = 0
         ENDIF
 
@@ -97,10 +109,12 @@ FUNCTION timer_calculate()
 
         //Do not bother watering until a gallon or more of water is necessary
         IF (Rotations_needed > 1200) THEN
-            irrigate(Rotations_needed)
+            PRINT "\nCALLING IRRIGATE"
+            //irrigate(Rotations_needed)
             Rotations_needed = 0
         ENDIF
 
+        PRINT "\nCALLING UPDATEHISTORY"
         //Write Daily 
         updateHistory(DoY, Tmax, Tmin, soilMoistureHigh, soilMoistureLow, rainNum, sampleNum, Rotations)
         
@@ -120,5 +134,5 @@ FUNCTION timer_calculate()
 
     ENDIF
     TimerStart(TIMER_CALCULATE, ONE_DAY, ONESHOT)
-
+    PRINT "\nEXIT TIMER_CALCULATE"
 ENDFUNC 1

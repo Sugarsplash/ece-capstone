@@ -317,16 +317,21 @@ ENDFUNC ret
 
 //***************************************
 
-FUNCTION E_to(BYVAL T_max AS INTEGER, BYVAL T_min AS INTEGER, BYVAL D_y AS INTEGER, BYVAL j AS INTEGER)
+FUNCTION E_to(BYVAL T_max AS INTEGER, BYVAL T_min AS INTEGER, BYVAL D_y AS INTEGER, BYVAL lat AS INTEGER)
     DIM ret
     DIM pow
     DIM temp
+    DIM j
+
+    j = lat/100
 
     pow = cel[(T_max - T_min)]
 
     temp = (((T_max + T_min) / 2) + HT)
 
     ret = (R_a(D_y, j) * HC / 10000) * (pow * temp) / 10000
+
+    ret =  ret / 100
 
 ENDFUNC ret
 
@@ -341,7 +346,7 @@ ENDFUNC ret
 //DIM T_min
 //
 //D_y = 349
-//j = 45
+//lat = 4548
 //T_max = 7
 //T_min = 2
 //
