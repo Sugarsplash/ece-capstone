@@ -1,8 +1,5 @@
 #include "lib/timers.sblib"
 #include "irrigate.sb"
-#include "rain.sb"
-#include "soil.sb"
-#include "temperature.sb"
 
 // Sample sensors, update their respective variables for later ETO calculation,
 // and write to the sensor characteristic

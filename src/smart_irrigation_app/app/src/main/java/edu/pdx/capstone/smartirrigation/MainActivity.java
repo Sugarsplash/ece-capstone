@@ -68,10 +68,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static final String BLE_UUID_CHAR_SOIL           = "30d1001b-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_RAIN           = "30d1001c-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_FLOW           = "30d1001d-a6ff-4f2f-8a2f-a267a2dbe320";
+    public static final String BLE_UUID_CHAR_SENSOR_SIGNAL  = "30d1001e-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY_SIGNAL = "30d10020-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY        = "30d10021-a6ff-4f2f-8a2f-a267a2dbe320";
     public static final String BLE_UUID_CHAR_HISTORY_SIZE   = "30d10022-a6ff-4f2f-8a2f-a267a2dbe320";
-    public static final String BLE_UUID_CHAR_NOTIFY_DESC = "00002902-0000-1000-8000-00805f9b34fb";
+    public static final String BLE_UUID_CHAR_NOTIFY_DESC    = "00002902-0000-1000-8000-00805f9b34fb";
 
     private BluetoothDevice mBTDevice;
     private BluetoothGatt mBTGatt;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private BluetoothGattCharacteristic mBTCharTime;
     private BluetoothGattCharacteristic mBTCharArea;
     private BluetoothGattCharacteristic mBTCharFlood;
+    private BluetoothGattCharacteristic mBTCharSensorSignal;
     private BluetoothGattCharacteristic mBTCharLatitude;
     private BluetoothGattCharacteristic mBTCharTemp;
     private BluetoothGattCharacteristic mBTCharSoil;
@@ -287,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     mBTCharTime = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TIME));
                     mBTCharArea = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_AREA));
                     mBTCharFlood = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_FLOOD));
+                    mBTCharSensorSignal = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_SENSOR_SIGNAL));
                     mBTCharLatitude = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_LATITUDE));
                     mBTCharTemp = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_TEMP));
                     mBTCharSoil = service.getCharacteristic(UUID.fromString(BLE_UUID_CHAR_SOIL));
@@ -474,6 +477,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
                     mBTGatt.writeCharacteristic(mBTCharArea);
                 }
+
+                // Device has been told to update all of its sensor values, now read them by
+                // initiating first in chain of sensor reads
+                else if (BLE_UUID_CHAR_SENSOR_SIGNAL.equalsIgnoreCase(characteristic.getUuid().toString()))
+                {
+                    mBTGatt.readCharacteristic(mBTCharTemp);
+                }
             }
         }
 
@@ -564,8 +574,9 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         }
         else
         {
-            // Start chain of sensor characteristic reads
-            mBTGatt.readCharacteristic(mBTCharTemp);
+            // Tell device we want immediate sensor values
+            mBTCharSensorSignal.setValue("1");
+            mBTGatt.writeCharacteristic(mBTCharSensorSignal);
         }
     }
 
