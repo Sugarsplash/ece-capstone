@@ -397,6 +397,9 @@ SUB sampleSensors()
     DIM soil_string$
     SPRINT #soil_string$, soil_moisture
     ble_update_soil(soil_string$)
+
+    // Turn off sensors
+    GpioWrite(SENSORS_ENABLE, LOW)
    
 ENDSUB
 
