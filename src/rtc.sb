@@ -137,6 +137,8 @@ FUNCTION getRTCseconds()
     ENDIF
 
     ret = BCDtoDec(regval)
+    
+    I2cClose(Handle)
 
 ENDFUNC ret
 
@@ -156,6 +158,8 @@ FUNCTION getRTCminutes()
 
     ret = BCDtoDec(regval)
 
+    I2cClose(Handle)
+
 ENDFUNC ret
 
 FUNCTION getRTChours()
@@ -173,6 +177,8 @@ FUNCTION getRTChours()
     ENDIF
 
     ret = BCDtoDec(regval)
+
+    I2cClose(Handle)
 
 ENDFUNC ret
 
@@ -192,6 +198,8 @@ FUNCTION getRTCday()
 
     ret = BCDtoDec(regval)
 
+    I2cClose(Handle)
+
 ENDFUNC ret
 
 FUNCTION getRTCmonth()
@@ -209,6 +217,8 @@ FUNCTION getRTCmonth()
     ENDIF
 
     ret = BCDtoDec(regval)
+    I2cClose(Handle)
+
 ENDFUNC ret
 
 FUNCTION getRTCyear()
@@ -226,6 +236,8 @@ FUNCTION getRTCyear()
     ENDIF
 
     ret = BCDtoDec(regval)
+
+    I2cClose(Handle)
 
 ENDFUNC ret
 
