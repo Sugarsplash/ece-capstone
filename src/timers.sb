@@ -25,18 +25,20 @@ FUNCTION timer_sample()
     rain = rain_analog_read()
     soil_moisture = soil_read()
 
-    //Log latest sample to ble characteristics
-    DIM temperature_string$
-    SPRINT #temperature_string$, temperature
-    ble_update_temp(temperature_string$)
-    
-    DIM rain_string$
-    SPRINT #rain_string$, rain
-    ble_update_rain(rain_string$)
-    
-    DIM soil_string$
-    SPRINT #soil_string$, soil_moisture
-    ble_update_soil(soil_string$)
+//The app now can query temperature directly. 
+//ble.sb sample function now updates these strings.
+//    //Log latest sample to ble characteristics
+//    DIM temperature_string$
+//    SPRINT #temperature_string$, temperature
+//    ble_update_temp(temperature_string$)
+    //
+//    DIM rain_string$
+//    SPRINT #rain_string$, rain
+//    ble_update_rain(rain_string$)
+    //
+//    DIM soil_string$
+//    SPRINT #soil_string$, soil_moisture
+//    ble_update_soil(soil_string$)
 
     //Set max/mins, counters
     IF temperature > Tmax THEN
@@ -107,7 +109,7 @@ FUNCTION timer_calculate()
         //Do not bother watering until a gallon or more of water is necessary
         IF (Rotations_needed > 1200) THEN
             PRINT "\nCALLING IRRIGATE"
-            //irrigate(Rotations_needed)
+            irrigate(Rotations_needed)
             Rotations_needed = 0
         ENDIF
 
