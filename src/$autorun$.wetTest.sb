@@ -92,5 +92,5 @@ SUB irrigate(water_amount)
 ENDSUB
 
     PRINT "IRRIGATING: 500\n"
-    irrigate(500)
+    irrigate(2500)
     PRINT "\nFIN\n"
