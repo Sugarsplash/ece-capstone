@@ -1,0 +1,35 @@
+Comments, Feedback, Points of Interest:
+
+*Device has a nice appearence
+*Device enclosure could be smaller
+*No battery is being used (needed 9V for solenoid)
+*Main shortcoming: not enough test data (only 20 days)
+*Soil moisture sensor only testing extreme values (any rain
+will cause sensor values to be max). Could use homemade
+sensors to replace current component
+*Live data isn't being published for evapotranspiration
+values (Only historical values)
+*Should test device in varying locations
+*Difficult to measure without being crop specific
+*Scaling factor is there when using different crops
+*Solar radiation is calculated using latitude and the
+calander day
+*Water is measured via flow sensor to determine how much
+water is irrigated
+*An initial known state (based on a clay bed) is used to
+flood the system when the device is calibrated. Recalibrate
+with a flood signal
+*Another system uses a total budget for plants that gradually
+saves water, but requires more configuration
+*The system can record 32 days of data
+
+What's missing?
+
+*Needs more testing
+
+Business:
+
+*Send code (C, SmartBASIC, Android App)
+*Take pictures
+*A prototype would be nice
+*Report (Github documents/wiki, PCB, etc.)
