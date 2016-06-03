@@ -3,6 +3,7 @@
 #include "history.sb"
 #include "algorithm.sb"
 #include "timers.sb"
+#include "led.sb"
 
 DIM result
 
@@ -58,8 +59,16 @@ ONEVENT EVCHARHVC           CALL handler_ble_ind
 ONEVENT EVTMR0 CALL timer_sample
 ONEVENT EVTMR1 CALL timer_calculate
 
+//LED Timer
+ONEVENT EVTMR2 CALL led_set
+ONEVENT EVTMR3 CALL led_red
+
 //Begin advertising
 ble_advertise()
+
+//Turn on LEDs
+result = led_set()
+TimerStart(TIMER_LED, LED_TIME, ONESHOT)
 
 WHILE TRUE
     WAITEVENT

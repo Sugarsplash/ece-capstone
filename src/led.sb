@@ -1,0 +1,40 @@
+FUNCTION led_set()
+	DIM handle
+	DIM r
+	DIM start$
+	DIM a: a = 0
+	
+	IF Up == TRUE THEN
+		BrightInt = BrightInt + 1
+	ELSE
+		BrightInt = BrightInt - 1
+	ENDIF
+		
+	IF BrightInt == 15 THEN
+		Up = FALSE
+	ELSEIF BrightInt == 0 THEN
+		Up = TRUE
+	ENDIF
+		
+	start$ = "\00\00\00\00"
+
+	r = SpiOpen(0,125000,0,handle)
+	r=SpiWrite(start$)
+	
+	DO
+		a = a+1
+		r=SpiWrite(fuckSmartBasic[BrightInt])
+		r=SpiWrite(blue$)
+		r=SpiWrite(green$)
+		r=SpiWrite(red$)
+	UNTIL a==10
+	SpiClose(handle)
+	
+	TimerStart(TIMER_LED, LED_TIME, ONESHOT)
+	
+ENDFUNC 1
+
+FUNCTION led_red()
+	red$ = "\00"
+	green$ = "\7F"
+ENDFUNC 1

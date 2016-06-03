@@ -4,6 +4,32 @@
 
 #define LitersToRotations 25
 
+// LED Brightness
+DIM red$ : red$ = "\00"
+DIM green$ : green$ = "\7F"
+DIM blue$ : blue$ = "\00"
+
+DIM BrightInt : BrightInt = 0
+DIM Up: Up = TRUE
+DIM fuckSmartBasic[16] AS STRING
+
+fuckSmartBasic[0] = "\E0"
+fuckSmartBasic[1] = "\E1"
+fuckSmartBasic[2] = "\E2"
+fuckSmartBasic[3] = "\E3"
+fuckSmartBasic[4] = "\E4"
+fuckSmartBasic[5] = "\E5"
+fuckSmartBasic[6] = "\E6"
+fuckSmartBasic[7] = "\E7"
+fuckSmartBasic[8] = "\E8"
+fuckSmartBasic[9] = "\E9"
+fuckSmartBasic[10] = "\EA"
+fuckSmartBasic[11] = "\EB"
+fuckSmartBasic[12] = "\EC"
+fuckSmartBasic[13] = "\ED"
+fuckSmartBasic[14] = "\EE"
+fuckSmartBasic[15] = "\EF"
+
 
 // Configuration values from phone
 DIM config_area$ : config_area$ = "NONE"

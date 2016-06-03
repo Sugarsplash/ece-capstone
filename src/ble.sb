@@ -524,9 +524,12 @@ ENDFUNC ble_result
 FUNCTION handler_ble_msg(ByVal id_msg, ByVal handle_connection)
     IF id_msg == 1 then
         print "\n\n### Disconnected ###\n"
+		green$ = "\00" : blue$ = "\00" : red$ = "\7F"
+		TimerStart(TIMER_RED, LED_RED, ONESHOT)
         ble_advertise()
     elseif id_msg == 0 then
         print "\n### Connected ###"
+		green$ = "\00" : blue$ = "\7F"
     endif
 ENDFUNC 1
 

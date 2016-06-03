@@ -1,10 +1,14 @@
 ' Timer numbers
 #define TIMER_SAMPLE	0
 #define TIMER_CALCULATE	1
+#define TIMER_LED		2
+#define TIMER_RED		3
 
 ' Timers are configured in terms of milliseconds
 #define ONE_HOUR	3600000
 #define ONE_DAY     86400000
+#define LED_TIME	100
+#define LED_RED		1500
 
 ' Timer modes
 #define ONESHOT	0
