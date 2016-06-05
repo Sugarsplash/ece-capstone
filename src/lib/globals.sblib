@@ -11,24 +11,24 @@ DIM blue$ : blue$ = "\00"
 
 DIM BrightInt : BrightInt = 0
 DIM Up: Up = TRUE
-DIM fuckSmartBasic[16] AS STRING
+DIM brightArray[16] AS STRING
 
-fuckSmartBasic[0] = "\E0"
-fuckSmartBasic[1] = "\E1"
-fuckSmartBasic[2] = "\E2"
-fuckSmartBasic[3] = "\E3"
-fuckSmartBasic[4] = "\E4"
-fuckSmartBasic[5] = "\E5"
-fuckSmartBasic[6] = "\E6"
-fuckSmartBasic[7] = "\E7"
-fuckSmartBasic[8] = "\E8"
-fuckSmartBasic[9] = "\E9"
-fuckSmartBasic[10] = "\EA"
-fuckSmartBasic[11] = "\EB"
-fuckSmartBasic[12] = "\EC"
-fuckSmartBasic[13] = "\ED"
-fuckSmartBasic[14] = "\EE"
-fuckSmartBasic[15] = "\EF"
+brightArray[0] = "\E0"
+brightArray[1] = "\E1"
+brightArray[2] = "\E2"
+brightArray[3] = "\E3"
+brightArray[4] = "\E4"
+brightArray[5] = "\E5"
+brightArray[6] = "\E6"
+brightArray[7] = "\E7"
+brightArray[8] = "\E8"
+brightArray[9] = "\E9"
+brightArray[10] = "\EA"
+brightArray[11] = "\EB"
+brightArray[12] = "\EC"
+brightArray[13] = "\ED"
+brightArray[14] = "\EE"
+brightArray[15] = "\EF"
 
 
 // Configuration values from phone

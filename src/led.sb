@@ -23,7 +23,7 @@ FUNCTION led_set()
 	
 	DO
 		a = a+1
-		r=SpiWrite(fuckSmartBasic[BrightInt])
+		r=SpiWrite(brightArray[BrightInt])
 		r=SpiWrite(blue$)
 		r=SpiWrite(green$)
 		r=SpiWrite(red$)
